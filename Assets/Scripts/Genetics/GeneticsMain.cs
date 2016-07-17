@@ -105,7 +105,7 @@ public class GeneticsMain : MonoBehaviour
 		                                 (float) Random.Range(min_limb_scale.z,max_limb_scale.z)
 		                                );
 
-					Vector3 position = Utility.RandomPointInsideCube(rootScale);
+					Vector3 position = Utility.RandomPointOnCubeSurface(rootScale);
 
 					ArrayList limb = new ArrayList();
 					limb.Add  (position);

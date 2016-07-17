@@ -24,7 +24,7 @@ Turn it on, do something else, come back in ~30 minutes to see the results of ev
 Watch evolution unfold in real time. Have you ever caught yourself staring at a fish tank for hours? It's kind of like that.
 Use it as a screensaver.
 
-Movement is currently fake in that their are no forces aplied by the joints and movement of the articulated arme. There is just a single forcen that moves the body toawrd its current goal. This will be fixed.
+Need to improve emergend movement behavior.
 
 ### Settings:
 

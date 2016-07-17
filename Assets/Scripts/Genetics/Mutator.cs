@@ -176,10 +176,14 @@ public class Mutator
             c_branches = c1_branches;
             other_crt_branches = c2_branches;
         }
-        else
+        else if (select == 1)
         {
             c_branches = c2_branches;
             other_crt_branches = c1_branches;
+        }
+        else
+        {
+            throw new System.InvalidOperationException("invalid select");
         }
 
         select = Random.Range(0, 2);
@@ -273,6 +277,6 @@ public class Mutator
         float variation = factor * range;
         float minValue = Mathf.Max(0, originalValue - variation);
         float maxValue = Mathf.Min(max, originalValue + variation);
-        return minValue + (float)RND.NextDouble() * (maxValue - minValue);
+        return Random.Range(minValue, maxValue); // minValue + (float)RND.NextDouble() * (maxValue - minValue);
     }
 }
