@@ -63,9 +63,9 @@ public class CollisionMediator : MonoBehaviour {
 			decimal a_energy = a_script.getEnergy();
 			decimal b_energy = b_script.getEnergy();
 
-			Chromosome newChromosome;
-			newChromosome = Mutator.crossover(a_script.chromosome, b_script.chromosome, crossover_rate);
-			newChromosome = Mutator.mutate(newChromosome, mutation_rate, mutation_factor);
+			
+            Mutator mutator = new global::Mutator(a_script.chromosome);
+            Chromosome newChromosome = mutator.doMutating(b_script.chromosome, crossover_rate, mutation_rate, mutation_factor);
 
             decimal a_energy_to_child = (a_energy * energy_scale);
             decimal b_energy_to_child = (b_energy * energy_scale);

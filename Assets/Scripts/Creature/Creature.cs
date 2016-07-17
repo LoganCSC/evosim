@@ -249,7 +249,12 @@ public class Creature : MonoBehaviour
 
 	void updateState() {
 		if(state != Creature.State.mating) {
-			if (energy < chromosome.hunger_threshold) {
+            if (chromosome == null)
+            {
+                throw new System.InvalidOperationException("Chromosome is null");
+            }
+            
+            if (energy < chromosome.hunger_threshold) {
                 ChangeState((eye_script.targetFbit != null) ? State.persuing_food : State.searching_for_food);
 			}
 			if (energy >= chromosome.hunger_threshold && age > age_sexual_maturity) {

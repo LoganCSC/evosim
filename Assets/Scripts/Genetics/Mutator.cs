@@ -4,24 +4,38 @@ using System.Collections.Generic;
 
 /*
  *		Author: 	Craig Lomax
- *		Date: 		26.07.2013
+ *		Author:     Barry Becker
  *		URL:		clomax.me.uk
  *		email:		craig@clomax.me.uk
- *
  */
-
-
 public class Mutator
 {
-
-	static double rand;
 	static System.Random rnd = new System.Random();
-	
-	public static Chromosome mutate (Chromosome c, double rate, float factor)
+
+    private  Chromosome chromo;
+
+    /** Constructor that takes teh chomosome to mutate */
+    public Mutator(Chromosome chromosome)
+    {
+        chromo = chromosome;
+    }
+
+    /** Do crossover and mutation with another chromosome (the mate) */
+    public Chromosome doMutating(Chromosome otherChromosome, double crossover_rate, double mutation_rate, float mutation_factor)
+    {
+        Chromosome newChromosome;
+        newChromosome = crossover(otherChromosome, crossover_rate);
+        newChromosome = mutate(newChromosome, mutation_rate, mutation_factor);
+        return newChromosome;
+    }
+
+    private Chromosome mutate(Chromosome newChromo, double rate, float factor)
     {
 		// Mutate colour
 		float[] cs = new float[3];
-		Color cc = c.getColour();
+		Color cc = newChromo.getColour();
+        double rand;
+
 		cs[0] = cc.r;
 		cs[1] = cc.g;
 		cs[2] = cc.b;
@@ -31,10 +45,10 @@ public class Mutator
 			if (rand < rate)
 				cs[i] += randomiseGene(factor);
 		}
-		c.setColour(cs[0], cs[1], cs[2]);
+		newChromo.setColour(cs[0], cs[1], cs[2]);
 		
 		// Mutate root scale
-		Vector3 rc = c.getRootScale();
+		Vector3 rc = newChromo.getRootScale();
 
 		if (rc.x > 1F && rc.y > 1F && rc.z > 1F)
         {
@@ -49,11 +63,11 @@ public class Mutator
 					rs[i] += randomiseGene(factor);
 			}
 			Vector3 rootScale = new Vector3 (rs[0], rs[1], rs[2]);
-			c.setRootScale(rootScale);
+			newChromo.setRootScale(rootScale);
 		}
 		
 		// mutate limbs
-		cc = c.getLimbColour();
+		cc = newChromo.getLimbColour();
 		cs[0] = cc.r;
 		cs[1] = cc.g;
 		cs[2] = cc.b;
@@ -63,9 +77,9 @@ public class Mutator
 			if (rand < rate)
 				cs[i] += randomiseGene(factor);
 		}
-		c.setLimbColour(cs[0], cs[1], cs[2]);
+		newChromo.setLimbColour(cs[0], cs[1], cs[2]);
 
-		ArrayList branches = c.branches;
+		ArrayList branches = newChromo.branches;
 		for (int b=0; b<branches.Count; b++)
         {
 			ArrayList limbs = (ArrayList) branches[b];
@@ -87,44 +101,45 @@ public class Mutator
 		rand = rnd.NextDouble();
 		if(rand < rate)
         {
-			c.base_joint_amplitude += randomiseGene(factor);
+			newChromo.base_joint_amplitude += randomiseGene(factor);
 		}
 
 		rand = rnd.NextDouble();
 		if(rand < rate)
         {
-			c.base_joint_frequency += randomiseGene(factor);
+			newChromo.base_joint_frequency += randomiseGene(factor);
 		}
 
 		rand = rnd.NextDouble();
 		if(rand < rate)
         {
-			c.base_joint_phase += randomiseGene(factor);
+			newChromo.base_joint_phase += randomiseGene(factor);
 		}
 
 		rand = rnd.NextDouble();
 		if(rand < rate)
         {
-			c.hunger_threshold += (decimal)randomiseGene(factor);
+			newChromo.hunger_threshold += (decimal)randomiseGene(factor);
 		}
 
-		c.setBranches(branches);
-		return c;
+		newChromo.setBranches(branches);
+		return newChromo;
 	}
 	
-	public static Chromosome crossover (Chromosome c1, Chromosome c2, double rate)
+	private Chromosome crossover (Chromosome c2, double rate)
     {
 		Chromosome c = new Chromosome();
+        double rand;
 		
 		// Crossover colour
-		Color c1_col = c1.getColour();
+		Color c1_col = chromo.getColour();
 		Color c2_col = c2.getColour();
 		float r = (.5F * c1_col.r) + (.5F * c2_col.r);
 		float g = (.5F * c1_col.g) + (.5F * c2_col.g);
 		float b = (.5F * c1_col.b) + (.5F * c2_col.b);
 		c.setColour(r,g,b);
 
-		Color c1_limb_col = c1.getLimbColour();
+		Color c1_limb_col = chromo.getLimbColour();
 		Color c2_limb_col = c2.getLimbColour();
 		r = (.5F * c1_limb_col.r) + (.5F * c2_limb_col.r);
 		g = (.5F * c1_limb_col.g) + (.5F * c2_limb_col.g);
@@ -132,7 +147,7 @@ public class Mutator
 		c.setLimbColour(r,g,b);
 
 		// Crossover limbs
-		ArrayList c1_branches = c1.branches;
+		ArrayList c1_branches = chromo.branches;
 		ArrayList c2_branches = c2.branches;
 		ArrayList c_branches;
 
@@ -153,7 +168,7 @@ public class Mutator
 		select = Random.Range(0,2);
 		if (select == 0)
         {
-			c.setRootScale(c1.getRootScale());
+			c.setRootScale(chromo.getRootScale());
 		}
         else
         {
@@ -211,9 +226,9 @@ public class Mutator
 		}
 
 		// Crossover frequency and amplitude
-		c.base_joint_amplitude = c1.base_joint_amplitude;
-		c.base_joint_frequency = c1.base_joint_frequency;
-		c.base_joint_phase	   = c1.base_joint_phase;
+		c.base_joint_amplitude = chromo.base_joint_amplitude;
+		c.base_joint_frequency = chromo.base_joint_frequency;
+		c.base_joint_phase	   = chromo.base_joint_phase;
 
 		rand = rnd.NextDouble();
 		if (rand < 0.5f)
@@ -240,7 +255,7 @@ public class Mutator
 		}
 		else
         {
-			c.hunger_threshold = c1.hunger_threshold;
+			c.hunger_threshold = chromo.hunger_threshold;
 		}
 
 		c.setBranches(c_branches);
