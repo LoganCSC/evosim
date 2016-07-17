@@ -13,11 +13,9 @@ using System.Collections;
 
 public class Catch : MonoBehaviour {
 	
-	Ether eth;
 	Creature crt;
 	
 	void OnTriggerEnter (Collider col) {
-		eth = GameObject.Find("Ether").GetComponent<Ether>();
 		if (col.gameObject.name == "root") {
 			crt = col.transform.parent.gameObject.GetComponent<Creature>();
 			crt.kill();

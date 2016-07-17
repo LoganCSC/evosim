@@ -4,12 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-/*
+/**
  *		Author: 	Craig Lomax
- *		Date: 		06.09.2011
- *		URL:		clomax.me.uk
- *		email:		craig@clomax.me.uk
- *
  */
 
 public class Creature : MonoBehaviour
@@ -33,7 +29,7 @@ public class Creature : MonoBehaviour
 
 	public double age;
 	public float energy;
-    public float low_energy_threshold;
+	public float low_energy_threshold;
 
 	public Chromosome chromosome;
 
@@ -45,30 +41,30 @@ public class Creature : MonoBehaviour
 	public int food_eaten;
 
 	ArrayList limbs;
-    ArrayList all_limbs;
+	ArrayList all_limbs;
 
-    float joint_frequency;
-    float joint_amplitude;
-    float joint_phase;
+	float joint_frequency;
+	float joint_amplitude;
+	float joint_phase;
 
-    float force_scalar = 1F;
+	float force_scalar = 1F;
 
-    public delegate void CreatureState(Creature c);
-    public static event CreatureState CreatureDead;
+	public delegate void CreatureState(Creature c);
+	public static event CreatureState CreatureDead;
 
-    // TODO: Fix this shit "state machine"
-    public enum State {
+	// TODO: Fix this shit "state machine"
+	public enum State {
 						persuing_food,
 						persuing_mate,
 						searching_for_mate,
 						mating,
 						eating,
 						searching_for_food,
-                        dead,
+						dead,
 						neutral
 					  };
 	public State state;
-    private bool state_lock = false;
+	private bool state_lock = false;
 
 	public Eye eye_script;
 	public Vector3 target_direction;
@@ -76,89 +72,89 @@ public class Creature : MonoBehaviour
 	private float sine;
 	private Vector3 direction;
 
-    private bool low_energy_lock = false;
-    MeshRenderer[] ms;
+	private bool low_energy_lock = false;
+	MeshRenderer[] ms;
 
-    void Start()
-    {
-        _t = transform;
-        name = "creature" + gameObject.GetInstanceID();
+	void Start()
+	{
+		_t = transform;
+		name = "creature" + gameObject.GetInstanceID();
 
-        eth = Ether.getInstance();
-        settings = Settings.getInstance();
+		eth = Ether.getInstance();
+		settings = Settings.getInstance();
 
-        max_root_scale = new Vector3();
-        max_root_scale.x = float.Parse(settings.contents["creature"]["root"]["max_root_scale"]["x"].ToString());
-        max_root_scale.y = float.Parse(settings.contents["creature"]["root"]["max_root_scale"]["y"].ToString());
-        max_root_scale.z = float.Parse(settings.contents["creature"]["root"]["max_root_scale"]["z"].ToString());
+		max_root_scale = new Vector3();
+		max_root_scale.x = float.Parse(settings.contents["creature"]["root"]["max_root_scale"]["x"].ToString());
+		max_root_scale.y = float.Parse(settings.contents["creature"]["root"]["max_root_scale"]["y"].ToString());
+		max_root_scale.z = float.Parse(settings.contents["creature"]["root"]["max_root_scale"]["z"].ToString());
 
-        min_root_scale = new Vector3();
-        min_root_scale.x = float.Parse(settings.contents["creature"]["root"]["min_root_scale"]["x"].ToString());
-        min_root_scale.y = float.Parse(settings.contents["creature"]["root"]["min_root_scale"]["y"].ToString());
-        min_root_scale.z = float.Parse(settings.contents["creature"]["root"]["min_root_scale"]["z"].ToString());
+		min_root_scale = new Vector3();
+		min_root_scale.x = float.Parse(settings.contents["creature"]["root"]["min_root_scale"]["x"].ToString());
+		min_root_scale.y = float.Parse(settings.contents["creature"]["root"]["min_root_scale"]["y"].ToString());
+		min_root_scale.z = float.Parse(settings.contents["creature"]["root"]["min_root_scale"]["z"].ToString());
 
-        joint_frequency = chromosome.base_joint_frequency;
-        joint_amplitude = chromosome.base_joint_amplitude;
-        joint_phase = chromosome.base_joint_phase;
+		joint_frequency = chromosome.base_joint_frequency;
+		joint_amplitude = chromosome.base_joint_amplitude;
+		joint_phase = chromosome.base_joint_phase;
 
-        root = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        root.name = "root";
-        root.transform.parent = _t;
-        root.transform.position = _t.position;
-        root.transform.eulerAngles = _t.eulerAngles;
-        root.AddComponent<Rigidbody>();
-        root_script = root.AddComponent<Root>();
-        root_script.setColour(chromosome.getColour());
-        root_script.setScale(chromosome.getRootScale());
-        //root.rigidbody.mass = 15F;
-        root.GetComponent<Rigidbody>().angularDrag = float.Parse(settings.contents["creature"]["angular_drag"].ToString());
-        root.GetComponent<Rigidbody>().drag = float.Parse(settings.contents["creature"]["drag"].ToString());
-        eye = new GameObject();
-        eye.name = "Eye";
-        eye.transform.parent = root.transform;
-        eye.transform.eulerAngles = root.transform.eulerAngles;
-        eye.transform.position = root.transform.position;
-        eye_script = eye.AddComponent<Eye>();
+		root = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		root.name = "root";
+		root.transform.parent = _t;
+		root.transform.position = _t.position;
+		root.transform.eulerAngles = _t.eulerAngles;
+		root.AddComponent<Rigidbody>();
+		root_script = root.AddComponent<Root>();
+		root_script.setColour(chromosome.getColour());
+		root_script.setScale(chromosome.getRootScale());
+		//root.rigidbody.mass = 15F;
+		root.GetComponent<Rigidbody>().angularDrag = float.Parse(settings.contents["creature"]["angular_drag"].ToString());
+		root.GetComponent<Rigidbody>().drag = float.Parse(settings.contents["creature"]["drag"].ToString());
+		eye = new GameObject();
+		eye.name = "Eye";
+		eye.transform.parent = root.transform;
+		eye.transform.eulerAngles = root.transform.eulerAngles;
+		eye.transform.position = root.transform.position;
+		eye_script = eye.AddComponent<Eye>();
 
-        mouth = new GameObject();
-        mouth.name = "Mouth";
-        mouth.transform.parent = root.transform;
-        mouth.transform.eulerAngles = root.transform.eulerAngles;
-        mouth.transform.localPosition = new Vector3(0, 0, .5F);
-        mouth.AddComponent<Mouth>();
+		mouth = new GameObject();
+		mouth.name = "Mouth";
+		mouth.transform.parent = root.transform;
+		mouth.transform.eulerAngles = root.transform.eulerAngles;
+		mouth.transform.localPosition = new Vector3(0, 0, .5F);
+		mouth.AddComponent<Mouth>();
 
-        genital = new GameObject();
-        genital.name = "Genital";
-        genital.transform.parent = root.transform;
-        genital.transform.eulerAngles = root.transform.eulerAngles;
-        genital.transform.localPosition = new Vector3(0, 0, -.5F);
-        genital.AddComponent<Genitalia>();
+		genital = new GameObject();
+		genital.name = "Genital";
+		genital.transform.parent = root.transform;
+		genital.transform.eulerAngles = root.transform.eulerAngles;
+		genital.transform.localPosition = new Vector3(0, 0, -.5F);
+		genital.AddComponent<Genitalia>();
 
-        line_of_sight = (double)settings.contents["creature"]["line_of_sight"];
-        metabolic_rate = float.Parse(settings.contents["creature"]["metabolic_rate"].ToString());
-        age_sexual_maturity = (int)settings.contents["creature"]["age_sexual_maturity"];
+		line_of_sight = (double)settings.contents["creature"]["line_of_sight"];
+		metabolic_rate = float.Parse(settings.contents["creature"]["metabolic_rate"].ToString());
+		age_sexual_maturity = (int)settings.contents["creature"]["age_sexual_maturity"];
 
-        all_limbs = new ArrayList();
-        setupLimbs();
+		all_limbs = new ArrayList();
+		setupLimbs();
 
-        age = 0.0;
-        ChangeState(State.neutral);
-        food_eaten = 0;
-        offspring = 0;
-        low_energy_threshold = float.Parse(settings.contents["creature"]["low_energy_threshold"].ToString());
+		age = 0.0;
+		ChangeState(State.neutral);
+		food_eaten = 0;
+		offspring = 0;
+		low_energy_threshold = float.Parse(settings.contents["creature"]["low_energy_threshold"].ToString());
 
-        InvokeRepeating("updateState", 0, 0.1f);
-        InvokeRepeating("RandomDirection", 1F, 5F);
+		InvokeRepeating("updateState", 0, 0.1f);
+		InvokeRepeating("RandomDirection", 1F, 5F);
 
-        root.GetComponent<Rigidbody>().SetDensity(4F);
+		root.GetComponent<Rigidbody>().SetDensity(4F);
 
-        ms = GetComponentsInChildren<MeshRenderer>();
-    }
+		ms = GetComponentsInChildren<MeshRenderer>();
+	}
 
 
-    // TODO: Find a better way of controlling the joints with wave functions
-    //				the current way needs some sort of magic scalar
-    void FixedUpdate () {
+	// TODO: Find a better way of controlling the joints with wave functions
+	//				the current way needs some sort of magic scalar
+	void FixedUpdate () {
 		sine = Sine(joint_frequency, joint_amplitude, joint_phase);
 		for (int i=0; i<joints.Count; i++) {
 			joints[i].targetRotation = Quaternion.Euler (sine * new Vector3(5F,0F,0F));
@@ -187,53 +183,53 @@ public class Creature : MonoBehaviour
 		return Mathf.Sin((float)age * freq + phase_shift) * amplitude;
 	}
 
-    float metabolise_timer = 1F;
-    void Update()
-    {
-        age += Time.deltaTime;
+	float metabolise_timer = 1F;
+	void Update()
+	{
+		age += Time.deltaTime;
 
-        metabolise_timer -= Time.deltaTime;
-        if(metabolise_timer <= 0 && state != State.dead)
-        {
-            metabolise();
-            metabolise_timer = 1F;
-        }
+		metabolise_timer -= Time.deltaTime;
+		if(metabolise_timer <= 0 && state != State.dead)
+		{
+			metabolise();
+			metabolise_timer = 1F;
+		}
 
-        if (energy <= low_energy_threshold && !low_energy_lock)
-        {
-            low_energy_lock = true;
-            StartCoroutine(SlowDown());
-            StartCoroutine(Darken());
-        }
+		if (energy <= low_energy_threshold && !low_energy_lock)
+		{
+			low_energy_lock = true;
+			StartCoroutine(SlowDown());
+			StartCoroutine(Darken());
+		}
 
-        if (energy > low_energy_threshold)
-        {
-            state_lock = false;
-            low_energy_lock = false;
-            StopCoroutine(SlowDown());
-            StopCoroutine(Darken());
-            Lighten();
-            ResetSpeed();
-        }
+		if (energy > low_energy_threshold)
+		{
+			state_lock = false;
+			low_energy_lock = false;
+			StopCoroutine(SlowDown());
+			StopCoroutine(Darken());
+			Lighten();
+			ResetSpeed();
+		}
 
-        float _force = force_scalar;
-        float _joint_frequency = joint_frequency;
-        if (state == State.mating)
-        {
-            joint_frequency = 0F;
-            force_scalar = 0F;
-        }
-        else
-        {
-            joint_frequency = _joint_frequency;
-            force_scalar = _force;
-        }
+		float _force = force_scalar;
+		float _joint_frequency = joint_frequency;
+		if (state == State.mating)
+		{
+			joint_frequency = 0F;
+			force_scalar = 0F;
+		}
+		else
+		{
+			joint_frequency = _joint_frequency;
+			force_scalar = _force;
+		}
 
-        if (state == State.dead)
-        {
-            kill();
-        }
-    }
+		if (state == State.dead)
+		{
+			kill();
+		}
+	}
 
 	private void RandomDirection () {
 		target_direction = new Vector3 (
@@ -249,16 +245,16 @@ public class Creature : MonoBehaviour
 
 	void updateState() {
 		if (state != Creature.State.mating) {
-            if (chromosome == null)
-            {
-                throw new System.InvalidOperationException("Chromosome is null");
-            }
-            
-            if (energy < chromosome.hunger_threshold) {
-                ChangeState((eye_script.targetFbit != null) ? State.persuing_food : State.searching_for_food);
+			if (chromosome == null)
+			{
+				throw new System.InvalidOperationException("Chromosome is null");
+			}
+			
+			if (energy < chromosome.hunger_threshold) {
+				ChangeState((eye_script.targetFbit != null) ? State.persuing_food : State.searching_for_food);
 			}
 			if (energy >= chromosome.hunger_threshold && age > age_sexual_maturity) {
-                ChangeState((eye_script.targetCrt != null) ? State.persuing_mate : State.searching_for_mate);
+				ChangeState((eye_script.targetCrt != null) ? State.persuing_mate : State.searching_for_mate);
 			}
 		}
 	}
@@ -267,13 +263,13 @@ public class Creature : MonoBehaviour
 		this.chromosome = gs;
 	}
 
-    public void ChangeState(State s)
-    {
-        if (!state_lock)
-        {
-            state = s;
-        }
-    }
+	public void ChangeState(State s)
+	{
+		if (!state_lock)
+		{
+			state = s;
+		}
+	}
 
 
 	/*
@@ -286,28 +282,28 @@ public class Creature : MonoBehaviour
 	/*
 	 * Remove a specified amount of energy from the creature,
 	 * kill it if the creature's energy reaches zero.
-     *
-     * Return: true if energy is now below zero
+	 *
+	 * Return: true if energy is now below zero
 	 */
 	public bool subtractEnergy(float n)
-    {
-        bool equal_or_below_zero = false;
-        
-        energy -= n;
-        if (energy <= 0.0)
-        {
-            eth.addEnergy(energy + n);
-            energy = 0;
-            equal_or_below_zero = true;
-            state = State.dead;
-            state_lock = true;
-        }
-        else
-        {
-            eth.addEnergy(n);
-        }
+	{
+		bool equal_or_below_zero = false;
+		
+		energy -= n;
+		if (energy <= 0.0)
+		{
+			eth.addEnergy(energy + n);
+			energy = 0;
+			equal_or_below_zero = true;
+			state = State.dead;
+			state_lock = true;
+		}
+		else
+		{
+			eth.addEnergy(n);
+		}
 
-        return (equal_or_below_zero);
+		return (equal_or_below_zero);
 	}
 
 	/*
@@ -315,7 +311,7 @@ public class Creature : MonoBehaviour
 	 * return it to the ether.
 	 */
 	private void metabolise () {
-        subtractEnergy(metabolic_rate);
+		subtractEnergy(metabolic_rate);
 	}
 
 	/*
@@ -323,23 +319,23 @@ public class Creature : MonoBehaviour
 	 * the creature's energy.
 	 */
 	public void kill () {
-        subtractEnergy(energy);
-        CreatureDead(this);
-        Destroy(gameObject);
-    }
+		subtractEnergy(energy);
+		CreatureDead(this);
+		Destroy(gameObject);
+	}
 
-    // TODO: Limbs should be made into a better tree structure, not this
-    // 				list of lists rubbish
+	// TODO: Limbs should be made into a better tree structure, not this
+	// 				list of lists rubbish
 	private void setupLimbs () {
-        int num_branches = chromosome.getBranchCount();
-        chromosome.setNumBranches(num_branches);
+		int num_branches = chromosome.getBranchCount();
+		chromosome.setNumBranches(num_branches);
 
-        for (int i=0; i<num_branches; i++)
-        {
+		for (int i=0; i<num_branches; i++)
+		{
 			limbs = chromosome.getLimbs(i);
 			List<GameObject> actual_limbs = new List<GameObject>();
 
-            for (int j=0; j<limbs.Count; j++) {
+			for (int j=0; j<limbs.Count; j++) {
 				GameObject limb = GameObject.CreatePrimitive(PrimitiveType.Cube);
 				limb.layer = LayerMask.NameToLayer("Creature");
 				limb.name = "limb_"+i+"_"+j;
@@ -385,7 +381,7 @@ public class Creature : MonoBehaviour
 				joint.angularZMotion = ConfigurableJointMotion.Free;
 
 				JointDrive angXDrive = new JointDrive();
-				angXDrive.mode = JointDriveMode.Position;
+				//angXDrive.mode = JointDriveMode.Position;
 				angXDrive.positionSpring = 7F;
 				angXDrive.maximumForce = 1000000F;
 				joint.angularXDrive = angXDrive;
@@ -393,55 +389,55 @@ public class Creature : MonoBehaviour
 
 				limb.GetComponent<Rigidbody>().SetDensity(1F);
 
-                all_limbs.Add(limb_script);
+				all_limbs.Add(limb_script);
 			}
 		}
 	}
 
-    float d_col = 0.01F;
-    private IEnumerator Darken ()
-    {
-        float col = 1F;
-        while (col > 0.15F && energy < low_energy_threshold)
-        {
-            foreach (var m in ms)
-            {
-                m.material.color -= new Color(d_col, d_col, d_col);
-            }
-            col -= d_col;
-            yield return new WaitForSeconds(0.025F);
-        }
-    }
+	float d_col = 0.01F;
+	private IEnumerator Darken ()
+	{
+		float col = 1F;
+		while (col > 0.15F && energy < low_energy_threshold)
+		{
+			foreach (var m in ms)
+			{
+				m.material.color -= new Color(d_col, d_col, d_col);
+			}
+			col -= d_col;
+			yield return new WaitForSeconds(0.025F);
+		}
+	}
 
-    float d_freq = 0.01F;
-    float d_force = 0.01F;
+	float d_freq = 0.01F;
+	float d_force = 0.01F;
 
 
-    private IEnumerator SlowDown ()
-    {
-        float freq = joint_frequency;
-        while (freq > 0.15F && energy < low_energy_threshold)
-        {
-            freq -= d_freq;
-            joint_frequency = freq;
-            if(force_scalar > 0F)
-                force_scalar -= d_force;
-            yield return new WaitForSeconds(0.025F);
-        }
-    }
+	private IEnumerator SlowDown ()
+	{
+		float freq = joint_frequency;
+		while (freq > 0.15F && energy < low_energy_threshold)
+		{
+			freq -= d_freq;
+			joint_frequency = freq;
+			if(force_scalar > 0F)
+				force_scalar -= d_force;
+			yield return new WaitForSeconds(0.025F);
+		}
+	}
 
-    private void Lighten ()
-    {
-        root.GetComponent<MeshRenderer>().material.color = root_script.original_colour;
-        foreach (Limb l in all_limbs)
-        {
-            l.GetComponent<MeshRenderer>().material.color = l.original_colour;
-        }
-    }
+	private void Lighten ()
+	{
+		root.GetComponent<MeshRenderer>().material.color = root_script.original_colour;
+		foreach (Limb l in all_limbs)
+		{
+			l.GetComponent<MeshRenderer>().material.color = l.original_colour;
+		}
+	}
 
-    private void ResetSpeed ()
-    {
-        joint_frequency = chromosome.base_joint_frequency;
-        force_scalar = 1F;
-    }
+	private void ResetSpeed ()
+	{
+		joint_frequency = chromosome.base_joint_frequency;
+		force_scalar = 1F;
+	}
 }

@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 /**
- * Author: 	Craig Lomax
+ * Author:	Craig Lomax
+ * Author:	Barry Becker
  */
 public class Utility
 {
-	static System.Random rnd = new System.Random();
 	
 	// generate random float in the vicinity of n
 	public static float RandomApprox(float n, float r)

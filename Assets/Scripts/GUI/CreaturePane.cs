@@ -19,7 +19,6 @@ public class CreaturePane : MonoBehaviour
     private UIElement ui_element;
 
     private Button[] buttons;
-    private bool crt_dead;
     public Creature crt;
 
     void OnEnable ()
@@ -36,7 +35,6 @@ public class CreaturePane : MonoBehaviour
 
     void OnSelected (Creature c)
     {
-        crt_dead = false;
         if (!c)
         {
             crt = null;
@@ -56,7 +54,6 @@ public class CreaturePane : MonoBehaviour
         if (c == crt)
         {
             set_data(c);
-            crt_dead = true;
             foreach (var b in buttons)
             {
                 b.interactable = false;

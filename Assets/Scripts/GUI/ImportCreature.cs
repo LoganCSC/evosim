@@ -19,7 +19,7 @@ public class ImportCreature : MonoBehaviour
 
     private UIElement ui_element;
     public Transform button_ui_parent;
-    List<GameObject> selections;
+    //List<GameObject> selections;
 
     GameObject s;
 
@@ -28,7 +28,7 @@ public class ImportCreature : MonoBehaviour
         creature_info = CreatureInfoContainer.getInstance();
         creatures_folder = Application.dataPath + "/data/saved_creatures";
         ui_element = GetComponent<UIElement>();
-        selections = new List<GameObject>();
+        //selections = new List<GameObject>();
     }
 
     public void OnVisible()

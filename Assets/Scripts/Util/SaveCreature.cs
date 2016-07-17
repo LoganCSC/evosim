@@ -9,13 +9,13 @@ public class SaveCreature : MonoBehaviour
 
     public CreaturePane cp;
 
-    string json_creature;
+    private string json_creature;
 
-    CreatureInfoContainer creature_info;
+    //CreatureInfoContainer creature_info;
 
     void Start ()
     {
-        creature_info = CreatureInfoContainer.getInstance();
+        //creature_info = CreatureInfoContainer.getInstance();
     }
 
     public void save ()
