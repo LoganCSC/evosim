@@ -12,7 +12,7 @@ public class Mutator
 {
 	static System.Random rnd = new System.Random();
 
-    private  Chromosome chromo;
+    private Chromosome chromo;
 
     /** Constructor that takes teh chomosome to mutate */
     public Mutator(Chromosome chromosome)
@@ -45,7 +45,7 @@ public class Mutator
 			if (rand < rate)
 				cs[i] += randomiseGene(factor);
 		}
-		newChromo.setColour(cs[0], cs[1], cs[2]);
+		newChromo.setColour(new Color(cs[0], cs[1], cs[2]));
 		
 		// Mutate root scale
 		Vector3 rc = newChromo.getRootScale();
@@ -77,7 +77,7 @@ public class Mutator
 			if (rand < rate)
 				cs[i] += randomiseGene(factor);
 		}
-		newChromo.setLimbColour(cs[0], cs[1], cs[2]);
+		newChromo.setLimbColour(new Color(cs[0], cs[1], cs[2]));
 
 		ArrayList branches = newChromo.branches;
 		for (int b=0; b<branches.Count; b++)
@@ -125,143 +125,128 @@ public class Mutator
 		newChromo.setBranches(branches);
 		return newChromo;
 	}
-	
-	private Chromosome crossover (Chromosome c2, double rate)
+
+    private Color getMutatedColor(Color c1, Color c2)
     {
-		Chromosome c = new Chromosome();
-        double rand;
+        float r = (.5F * c1.r) + (.5F * c2.r);
+        float g = (.5F * c1.g) + (.5F * c2.g);
+        float b = (.5F * c1.b) + (.5F * c2.b);
+        return new Color(r, g, b);
+    }
+	
+	private Chromosome crossover(Chromosome c2, double rate)
+    {
+		Chromosome newChromo = new Chromosome();
 		
-		// Crossover colour
-		Color c1_col = chromo.getColour();
-		Color c2_col = c2.getColour();
-		float r = (.5F * c1_col.r) + (.5F * c2_col.r);
-		float g = (.5F * c1_col.g) + (.5F * c2_col.g);
-		float b = (.5F * c1_col.b) + (.5F * c2_col.b);
-		c.setColour(r,g,b);
+		// Crossover colours
+		newChromo.setColour(getMutatedColor(chromo.getColour(), c2.getColour()));
+        newChromo.setLimbColour(getMutatedColor(chromo.getLimbColour(), c2.getLimbColour()));
 
-		Color c1_limb_col = chromo.getLimbColour();
-		Color c2_limb_col = c2.getLimbColour();
-		r = (.5F * c1_limb_col.r) + (.5F * c2_limb_col.r);
-		g = (.5F * c1_limb_col.g) + (.5F * c2_limb_col.g);
-		b = (.5F * c1_limb_col.b) + (.5F * c2_limb_col.b);
-		c.setLimbColour(r,g,b);
+        crossoverLimbs(c2, newChromo, rate);
 
-		// Crossover limbs
-		ArrayList c1_branches = chromo.branches;
-		ArrayList c2_branches = c2.branches;
-		ArrayList c_branches;
+        crossoverSine(c2, newChromo);
 
-		// Randomly select the parent from which the child will derive its limb structure
-		int select = Random.Range(0,2);
-		ArrayList other_crt_branches;
-		if (select == 0)
+        return (newChromo);
+	}
+
+    private void crossoverLimbs(Chromosome c2, Chromosome newChromo, double rate)
+    {
+        ArrayList c1_branches = chromo.branches;
+        ArrayList c2_branches = c2.branches;
+        ArrayList c_branches;
+
+        // Randomly select the parent from which the child will derive its limb structure
+        int select = Random.Range(0, 2);
+        ArrayList other_crt_branches;
+        if (select == 0)
         {
-			c_branches = c1_branches;
-			other_crt_branches = c2_branches;
-		}
+            c_branches = c1_branches;
+            other_crt_branches = c2_branches;
+        }
         else
         {
-			c_branches = c2_branches;
-			other_crt_branches = c1_branches;
-		}
+            c_branches = c2_branches;
+            other_crt_branches = c1_branches;
+        }
 
-		select = Random.Range(0,2);
-		if (select == 0)
+        select = Random.Range(0, 2);
+        if (select == 0)
         {
-			c.setRootScale(chromo.getRootScale());
-		}
+            newChromo.setRootScale(chromo.getRootScale());
+        }
         else
         {
-			c.setRootScale(c2.getRootScale());
-		}
+            newChromo.setRootScale(c2.getRootScale());
+        }
 
         // Randomly select attributes from the selected creature's limbs to
         //	assign to child creature's limbs
 
-        c.num_recurrences = new int[c_branches.Count];
-		for (int i=0; i<c_branches.Count; i++)
+        newChromo.num_recurrences = new int[c_branches.Count];
+        for (int i = 0; i < c_branches.Count; i++)
         {
-			ArrayList c_limbs = (ArrayList) c_branches[i];
-            c.num_recurrences[i] = c_limbs.Count;
+            ArrayList c_limbs = (ArrayList)c_branches[i];
+            newChromo.num_recurrences[i] = c_limbs.Count;
 
             int index;
-            for (int j=1; j<c_limbs.Count; j++)
+            for (int j = 1; j < c_limbs.Count; j++)
             {
-				ArrayList c_attributes = (ArrayList) c_limbs[j];
+                ArrayList c_attributes = (ArrayList)c_limbs[j];
 
                 //select random limb segment from other creature
                 index = Random.Range(0, other_crt_branches.Count);
-                ArrayList other_crt_limbs = (ArrayList) other_crt_branches[index];
+                ArrayList other_crt_limbs = (ArrayList)other_crt_branches[index];
 
                 index = Random.Range(0, other_crt_limbs.Count);
                 ArrayList other_crt_attributes = (ArrayList)other_crt_limbs[index];
 
-				Vector3 c_scale = (Vector3) c_attributes[1];
-				Vector3 other_crt_scale = (Vector3) other_crt_attributes[1];
-				for (int s=0; s<3; s++)
+                Vector3 c_scale = (Vector3)c_attributes[1];
+                Vector3 other_crt_scale = (Vector3)other_crt_attributes[1];
+                for (int s = 0; s < 3; s++)
                 {
-					rand = rnd.NextDouble();
-					if (rand < rate) {
-						c_scale[s] = other_crt_scale[s];
-					}
-				}
-
-				//select random limb segment from other creature
-				other_crt_limbs = (ArrayList) other_crt_branches[Random.Range (0,other_crt_branches.Count)];
-				other_crt_attributes = (ArrayList) other_crt_limbs[Random.Range(0,other_crt_limbs.Count)];
-
-				Vector3 c_pos = (Vector3) c_attributes[0];
-				Vector3 other_crt_pos = (Vector3) other_crt_attributes[0];
-				for (int p=0; p<3; p++)
-                {
-					rand = rnd.NextDouble();
-					if (rand < rate)
+                    double rand = rnd.NextDouble();
+                    if (rand < rate)
                     {
-						c_pos[p] = other_crt_pos[p];
-					}
-				}
-			}
-			c_branches[i] = c_limbs;
-            c.num_branches = c_branches.Count;
-		}
+                        c_scale[s] = other_crt_scale[s];
+                    }
+                }
 
-		// Crossover frequency and amplitude
-		c.base_joint_amplitude = chromo.base_joint_amplitude;
-		c.base_joint_frequency = chromo.base_joint_frequency;
-		c.base_joint_phase	   = chromo.base_joint_phase;
+                //select random limb segment from other creature
+                other_crt_limbs = (ArrayList)other_crt_branches[Random.Range(0, other_crt_branches.Count)];
+                other_crt_attributes = (ArrayList)other_crt_limbs[Random.Range(0, other_crt_limbs.Count)];
 
-		rand = rnd.NextDouble();
-		if (rand < 0.5f)
-        {
-			c.base_joint_amplitude = c2.base_joint_amplitude;
-		}
+                Vector3 c_pos = (Vector3)c_attributes[0];
+                Vector3 other_crt_pos = (Vector3)other_crt_attributes[0];
+                for (int p = 0; p < 3; p++)
+                {
+                    double rand = rnd.NextDouble();
+                    if (rand < rate)
+                    {
+                        c_pos[p] = other_crt_pos[p];
+                    }
+                }
+            }
+            c_branches[i] = c_limbs;
+            newChromo.num_branches = c_branches.Count;
+        }
+        newChromo.setBranches(c_branches);
+    }
 
-		rand = rnd.NextDouble();
-		if (rand < 0.5f)
-        {
-			c.base_joint_frequency = c2.base_joint_frequency;
-		}
+    private void crossoverSine(Chromosome c2, Chromosome newChromo)
+    {
+        // Crossover frequency and amplitude
+        double rand = rnd.NextDouble();
+        newChromo.base_joint_amplitude = rand < 0.5f ? chromo.base_joint_amplitude : c2.base_joint_amplitude;
 
-		rand = rnd.NextDouble();
-		if (rand < 0.5f)
-        { 
-			c.base_joint_phase = c2.base_joint_phase;
-		}
+        rand = rnd.NextDouble();
+        newChromo.base_joint_frequency = rand < 0.5f ? chromo.base_joint_frequency : c2.base_joint_frequency;
 
-		rand = rnd.NextDouble();
-		if (rand < 0.5f)
-        {
-			c.hunger_threshold = c2.hunger_threshold;
-		}
-		else
-        {
-			c.hunger_threshold = chromo.hunger_threshold;
-		}
+        rand = rnd.NextDouble();
+        newChromo.base_joint_phase = rand < 0.5f ? chromo.base_joint_phase : c2.base_joint_phase;
 
-		c.setBranches(c_branches);
-
-        return (c);
-	}
+        rand = rnd.NextDouble();
+        newChromo.hunger_threshold = rand < 0.5f ? chromo.hunger_threshold : c2.hunger_threshold;
+    }
 
 	public static float similar_colour (Chromosome c1, Chromosome c2)
     {

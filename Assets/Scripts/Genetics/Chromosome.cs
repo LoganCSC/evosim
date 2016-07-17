@@ -66,12 +66,12 @@ public class Chromosome
 		branches = bs;
 	}
 
-	public void setColour (float r, float g, float b) {
-		colour = new Color(r,g,b);
+	public void setColour (Color c) {
+		colour = c;
 	}
 
-	public void setLimbColour (float r, float g, float b) {
-		limb_colour = new Color(r,g,b);
+	public void setLimbColour (Color c) {
+		limb_colour = c;
 	}
 
 	public void setRootScale (Vector3 rs) {
