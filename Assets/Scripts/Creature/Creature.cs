@@ -83,16 +83,6 @@ public class Creature : MonoBehaviour
 		eth = Ether.getInstance();
 		settings = Settings.getInstance();
 
-		max_root_scale = new Vector3();
-		max_root_scale.x = float.Parse(settings.contents["creature"]["root"]["max_root_scale"]["x"].ToString());
-		max_root_scale.y = float.Parse(settings.contents["creature"]["root"]["max_root_scale"]["y"].ToString());
-		max_root_scale.z = float.Parse(settings.contents["creature"]["root"]["max_root_scale"]["z"].ToString());
-
-		min_root_scale = new Vector3();
-		min_root_scale.x = float.Parse(settings.contents["creature"]["root"]["min_root_scale"]["x"].ToString());
-		min_root_scale.y = float.Parse(settings.contents["creature"]["root"]["min_root_scale"]["y"].ToString());
-		min_root_scale.z = float.Parse(settings.contents["creature"]["root"]["min_root_scale"]["z"].ToString());
-
 		joint_frequency = chromosome.base_joint_frequency;
 		joint_amplitude = chromosome.base_joint_amplitude;
 		joint_phase = chromosome.base_joint_phase;
@@ -107,8 +97,8 @@ public class Creature : MonoBehaviour
 		root_script.setColour(chromosome.getColour());
 		root_script.setScale(chromosome.getRootScale());
 		//root.rigidbody.mass = 15F;
-		root.GetComponent<Rigidbody>().angularDrag = float.Parse(settings.contents["creature"]["angular_drag"].ToString());
-		root.GetComponent<Rigidbody>().drag = float.Parse(settings.contents["creature"]["drag"].ToString());
+		root.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
+		root.GetComponent<Rigidbody>().drag = settings.drag;
 		eye = new GameObject();
 		eye.name = "Eye";
 		eye.transform.parent = root.transform;
@@ -130,9 +120,9 @@ public class Creature : MonoBehaviour
 		genital.transform.localPosition = new Vector3(0, 0, -.5F);
 		genital.AddComponent<Genitalia>();
 
-		line_of_sight = (double)settings.contents["creature"]["line_of_sight"];
-		metabolic_rate = float.Parse(settings.contents["creature"]["metabolic_rate"].ToString());
-		age_sexual_maturity = (int)settings.contents["creature"]["age_sexual_maturity"];
+		line_of_sight = settings.line_of_sight;
+		metabolic_rate = settings.metabolic_rate;
+		age_sexual_maturity = settings.age_sexual_maturity;
 
 		all_limbs = new ArrayList();
 		setupLimbs();
@@ -141,7 +131,7 @@ public class Creature : MonoBehaviour
 		ChangeState(State.neutral);
 		food_eaten = 0;
 		offspring = 0;
-		low_energy_threshold = float.Parse(settings.contents["creature"]["low_energy_threshold"].ToString());
+		low_energy_threshold = settings.low_energy_threshold;
 
 		InvokeRepeating("updateState", 0, 0.1f);
 		InvokeRepeating("RandomDirection", 1F, 5F);
