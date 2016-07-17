@@ -21,8 +21,8 @@ public class Logger : MonoBehaviour {
     public static Data data_instance;
 
 	Settings settings;
-	CreatureCount cc;
-	FoodbitCount fc;
+	//CreatureCount cc;
+	//FoodbitCount fc;
 
 	int log_pop_data;
 	int log_fbit_data;
@@ -56,8 +56,8 @@ public class Logger : MonoBehaviour {
     void Start () {
         data_instance = Data.getInstance();
 		settings = Settings.getInstance();
-		cc = GameObject.Find("CreatureCount").GetComponent<CreatureCount>();
-		fc = GameObject.Find("FoodbitCount").GetComponent<FoodbitCount>();
+		//cc = GameObject.Find("CreatureCount").GetComponent<CreatureCount>();
+		//fc = GameObject.Find("FoodbitCount").GetComponent<FoodbitCount>();
 
 		log_pop_data = (int) settings.contents["config"]["population_logging"];
         log_fbit_data = (int)settings.contents["config"]["foodbit_logging"];
