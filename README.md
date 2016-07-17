@@ -10,7 +10,8 @@ It is recommended to make sure that you have checked out to the `develop` branch
 
 Clone this repository and open the directory as an existing project in Unity3D, open the scene named 'Main' and make sure that the script named 'Main' is attached to the GameObject named 'Main' in the hierarchy.
 
-#### Licence
+#### License
 Evosim by Craig Lomax is licensed under a [Creative Commons
 Attribution-NonCommercial-ShareAlike 4.0 International
 License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+Modifications and extensions by Barry Becker
