@@ -76,8 +76,8 @@ public class GeneticsMain : MonoBehaviour
 								   (float)Random.Range(0.0F,1.0F),
 								   (float)Random.Range(0.0F,1.0F)
 								 );
-			chromosome.setColour(col.r, col.g, col.b);
-			chromosome.setLimbColour(col.r, col.g, col.b);
+			chromosome.setColour(new Color(col.r, col.g, col.b));
+			chromosome.setLimbColour(new Color(col.r, col.g, col.b));
 
 			chromosome.hunger_threshold = decimal.Parse(settings.contents["creature"]["hunger_threshold"].ToString());
 

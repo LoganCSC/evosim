@@ -14,7 +14,7 @@ public class Mutator
 
     private Chromosome chromo;
 
-    /** Constructor that takes teh chomosome to mutate */
+    /** Constructor that takes the chomosome to mutate */
     public Mutator(Chromosome chromosome)
     {
         chromo = chromosome;
@@ -31,100 +31,114 @@ public class Mutator
 
     private Chromosome mutate(Chromosome newChromo, double rate, float factor)
     {
-		// Mutate colour
-		float[] cs = new float[3];
-		Color cc = newChromo.getColour();
-        double rand;
-
-		cs[0] = cc.r;
-		cs[1] = cc.g;
-		cs[2] = cc.b;
-		for (int i=0; i<3; i++)
-        {
-			rand = rnd.NextDouble();
-			if (rand < rate)
-				cs[i] += randomiseGene(factor);
-		}
-		newChromo.setColour(new Color(cs[0], cs[1], cs[2]));
+        mutateColor(newChromo, rate, factor);
+        mutateRootScale(newChromo, rate, factor);
+        mutateLimbs(newChromo, rate, factor);
+        mutateSine(newChromo, rate, factor);
 		
-		// Mutate root scale
-		Vector3 rc = newChromo.getRootScale();
-
-		if (rc.x > 1F && rc.y > 1F && rc.z > 1F)
-        {
-			float[] rs = new float[3];
-			rs[0] = rc.x;
-			rs[1] = rc.y;
-			rs[2] = rc.z;
-			for (int i=0; i<3; i++)
-            {
-				rand = rnd.NextDouble();
-				if (rand < rate)
-					rs[i] += randomiseGene(factor);
-			}
-			Vector3 rootScale = new Vector3 (rs[0], rs[1], rs[2]);
-			newChromo.setRootScale(rootScale);
-		}
-		
-		// mutate limbs
-		cc = newChromo.getLimbColour();
-		cs[0] = cc.r;
-		cs[1] = cc.g;
-		cs[2] = cc.b;
-		for (int i=0; i<3; i++)
-        {
-			rand = rnd.NextDouble();
-			if (rand < rate)
-				cs[i] += randomiseGene(factor);
-		}
-		newChromo.setLimbColour(new Color(cs[0], cs[1], cs[2]));
-
-		ArrayList branches = newChromo.branches;
-		for (int b=0; b<branches.Count; b++)
-        {
-			ArrayList limbs = (ArrayList) branches[b];
-			for (int i=0; i<limbs.Count; i++)
-            {
-				ArrayList limb = (ArrayList) limbs[i];
-				Vector3 v = (Vector3) limb[1];
-				for (int k=0; k<3; k++)
-                {
-					rand = rnd.NextDouble();
-					if(rand < rate)
-						v[k] += randomiseGene(factor);
-					}
-
-			}
-		}
-
-		// mutate base frequency and amplitude
-		rand = rnd.NextDouble();
-		if(rand < rate)
-        {
-			newChromo.base_joint_amplitude += randomiseGene(factor);
-		}
-
-		rand = rnd.NextDouble();
-		if(rand < rate)
-        {
-			newChromo.base_joint_frequency += randomiseGene(factor);
-		}
-
-		rand = rnd.NextDouble();
-		if(rand < rate)
-        {
-			newChromo.base_joint_phase += randomiseGene(factor);
-		}
-
-		rand = rnd.NextDouble();
-		if(rand < rate)
-        {
-			newChromo.hunger_threshold += (decimal)randomiseGene(factor);
-		}
-
-		newChromo.setBranches(branches);
 		return newChromo;
 	}
+
+    private void mutateColor(Chromosome newChromo, double rate, float factor)
+    {
+        float[] cs = new float[3];
+        Color cc = newChromo.getColour();
+
+        cs[0] = cc.r;
+        cs[1] = cc.g;
+        cs[2] = cc.b;
+        for (int i = 0; i < 3; i++)
+        {
+            double rand = rnd.NextDouble();
+            if (rand < rate)
+                cs[i] += randomiseGene(factor);
+        }
+        newChromo.setColour(new Color(cs[0], cs[1], cs[2]));
+    }
+
+    private void mutateRootScale(Chromosome newChromo, double rate, float factor)
+    {
+        Vector3 rc = newChromo.getRootScale();
+
+        if (rc.x > 1F && rc.y > 1F && rc.z > 1F)
+        {
+            float[] rs = new float[3];
+            rs[0] = rc.x;
+            rs[1] = rc.y;
+            rs[2] = rc.z;
+            for (int i = 0; i < 3; i++)
+            {
+                double rand = rnd.NextDouble();
+                if (rand < rate)
+                    rs[i] += randomiseGene(factor);
+            }
+            Vector3 rootScale = new Vector3(rs[0], rs[1], rs[2]);
+            newChromo.setRootScale(rootScale);
+        }
+    }
+
+    private void mutateLimbs(Chromosome newChromo, double rate, float factor)
+    {
+        Color cc = newChromo.getLimbColour();
+        float[] cs = new float[3];
+        cs[0] = cc.r;
+        cs[1] = cc.g;
+        cs[2] = cc.b;
+        for (int i = 0; i < 3; i++)
+        {
+            double rand = rnd.NextDouble();
+            if (rand < rate)
+                cs[i] += randomiseGene(factor);
+        }
+        newChromo.setLimbColour(new Color(cs[0], cs[1], cs[2]));
+
+        ArrayList branches = newChromo.branches;
+        for (int b = 0; b < branches.Count; b++)
+        {
+            ArrayList limbs = (ArrayList)branches[b];
+            for (int i = 0; i < limbs.Count; i++)
+            {
+                ArrayList limb = (ArrayList)limbs[i];
+                Vector3 v = (Vector3)limb[1];
+                for (int k = 0; k < 3; k++)
+                {
+                    double rand = rnd.NextDouble();
+                    if (rand < rate)
+                        v[k] += randomiseGene(factor);
+                }
+
+            }
+        }
+        newChromo.setBranches(branches);
+    }
+
+    private void mutateSine(Chromosome newChromo, double rate, float factor)
+    {
+        // mutate base frequency and amplitude
+        double rand = rnd.NextDouble();
+        if (rand < rate)
+        {
+            newChromo.base_joint_amplitude += randomiseGene(factor);
+        }
+
+        rand = rnd.NextDouble();
+        if (rand < rate)
+        {
+            newChromo.base_joint_frequency += randomiseGene(factor);
+        }
+
+        rand = rnd.NextDouble();
+        if (rand < rate)
+        {
+            newChromo.base_joint_phase += randomiseGene(factor);
+        }
+
+        rand = rnd.NextDouble();
+        if (rand < rate)
+        {
+            newChromo.hunger_threshold += (decimal)randomiseGene(factor);
+        }
+    }
 
     private Color getMutatedColor(Color c1, Color c2)
     {
@@ -248,14 +262,6 @@ public class Mutator
         newChromo.hunger_threshold = rand < 0.5f ? chromo.hunger_threshold : c2.hunger_threshold;
     }
 
-	public static float similar_colour (Chromosome c1, Chromosome c2)
-    {
-		Color colour1 = c1.getColour();
-		Color colour2 = c2.getColour();
-
-        //return Mathf.Abs((colour1.r * colour2.r) - (colour1.g * colour2.g) - (colour1.b * colour2.b)); // this seems wrong
-        return Mathf.Abs(Mathf.Abs(colour1.r - colour2.r) + Mathf.Abs(colour1.g - colour2.g) + Mathf.Abs(colour1.b - colour2.b));
-    }
 	
 	private static float randomiseGene(float factor)
     {

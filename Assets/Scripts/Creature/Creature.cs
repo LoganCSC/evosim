@@ -387,7 +387,7 @@ public class Creature : MonoBehaviour
 				JointDrive angXDrive = new JointDrive();
 				angXDrive.mode = JointDriveMode.Position;
 				angXDrive.positionSpring = 7F;
-				angXDrive.maximumForce = 100000000F;
+				angXDrive.maximumForce = 1000000F;
 				joint.angularXDrive = angXDrive;
 				joint.angularYZDrive = angXDrive;
 
