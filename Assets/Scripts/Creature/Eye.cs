@@ -85,7 +85,7 @@ public class Eye : MonoBehaviour
 			if (c && c.gameObject.name == "root" && c != crt.root.gameObject)
             {
 				other_crt = c.transform.parent.GetComponent<Creature>();
-				curr_similarity = GeneticsUtils.similar_colour (crt.chromosome, other_crt.chromosome);
+				curr_similarity = Mutator.similar_colour (crt.chromosome, other_crt.chromosome);
 
 				if (curr_similarity < similarity)
                 {
