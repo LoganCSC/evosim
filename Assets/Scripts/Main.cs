@@ -2,19 +2,15 @@ using UnityEngine;
 using System.Collections;
 using System.IO;
 
-/*
+/**
+ * Entry point for evosim.
  *		Author: 	Craig Lomax
- *		Date: 		06.09.2011
- *		URL:		clomax.me.uk
- *		email:		craig@clomax.me.uk
- *
  */
-
 public class Main : MonoBehaviour
 {
 
 #pragma warning disable 0414
-     Data d;
+	 Data d;
 	 Logger lg;
 	 Settings settings;
 	 Selection selectionManager;
@@ -26,40 +22,40 @@ public class Main : MonoBehaviour
 	 Ether ether;
 #pragma warning restore 0414
 
-	void Start ()
-    {
-        createFolders();
-        d = Data.getInstance();
-        lg = Logger.getInstance();
+	void Start()
+	{
+		createFolders();
+		d = Data.getInstance();
+		lg = Logger.getInstance();
 		settings = Settings.getInstance();
 		selectionManager = Selection.getInstance();
 		aperatus = (GameObject)Instantiate(Resources.Load("Prefabs/Aperatus"));
 		cam = GameObject.Find("Main Camera");
-        cam.AddComponent<CameraCtl>();
-        ether = Ether.getInstance();
+		cam.AddComponent<CameraCtl>();
+		ether = Ether.getInstance();
 		gm = GeneticsMain.getInstance();
 		co = CollisionMediator.getInstance();
-    }
+	}
 
-    void Update ()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-            #else
-            Application.Quit();
-            #endif
-        }
-    }
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			#if UNITY_EDITOR
+			UnityEditor.EditorApplication.isPlaying = false;
+			#else
+			Application.Quit();
+			#endif
+		}
+	}
 
-    private void createFolders()
-    {
-        if (!Directory.Exists(Application.dataPath + "/data"))
-            Directory.CreateDirectory(Application.dataPath + "/data");
+	private void createFolders()
+	{
+		if (!Directory.Exists(Application.dataPath + "/data"))
+			Directory.CreateDirectory(Application.dataPath + "/data");
 
-        if (!Directory.Exists(Application.dataPath + "/data/saved_creatures"))
-            Directory.CreateDirectory(Application.dataPath + "/data/saved_creatures");
-    }
+		if (!Directory.Exists(Application.dataPath + "/data/saved_creatures"))
+			Directory.CreateDirectory(Application.dataPath + "/data/saved_creatures");
+	}
 	
 }

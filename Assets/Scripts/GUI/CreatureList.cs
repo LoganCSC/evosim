@@ -42,7 +42,7 @@ public class CreatureList : MonoBehaviour
             lc.parent = GetComponentInParent<UIElement>();
             lc.c = chromosome;
 
-            Button b = button.GetComponent<Button>();
+            //Button b = button.GetComponent<Button>();
             Text t = button.GetComponentInChildren<Text>();
             t.text = name;
 

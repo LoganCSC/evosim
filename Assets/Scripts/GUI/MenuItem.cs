@@ -1,11 +1,12 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class MenuItem : MonoBehaviour {
 
-	 void OnMouseEnter () {
-        GetComponent<Renderer>().material.color = Color.green;
-    }
+	void OnMouseEnter () {
+		GetComponent<Renderer>().material.color = Color.green;
+	}
 	
 	void OnMouseExit () {
 		GetComponent<Renderer>().material.color = Color.white;
@@ -14,7 +15,7 @@ public class MenuItem : MonoBehaviour {
 	void OnMouseUp () {
 		switch (gameObject.name) {
 			case "Quit":  Application.Quit(); break;
-			case "Start": Application.LoadLevel(1); break;
+			case "Start": SceneManager.LoadScene(1); break;
 		}
 	}
 	
