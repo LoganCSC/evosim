@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
+/**
+ * Spawns new creatures when they are needed.
+ */
 public class Spawner : MonoBehaviour
-{	
+{
 #pragma warning disable 0414
 	public static Spawner instance;
 	Logger lg;
@@ -17,7 +20,7 @@ public class Spawner : MonoBehaviour
 	public delegate void Crt(Creature c);
 	public static event Crt CreatureSpawned;
 	
-	void Start ()
+	void Start()
 	{
 		lg = Logger.getInstance();
 		d = Data.getInstance();
@@ -25,9 +28,9 @@ public class Spawner : MonoBehaviour
 		eth = Ether.getInstance();
 	}
 	
-	public static Spawner getInstance ()
+	public static Spawner getInstance()
 	{
-		if(!instance)
+		if (!instance)
 		{
 			container = new GameObject();
 			container.name = "Spawner";
@@ -36,7 +39,8 @@ public class Spawner : MonoBehaviour
 		return instance;
 	}
 	
-	public void spawn (Vector3 pos, Vector3 rot, float energy, Chromosome chromosome)
+	// sparn a new creature based on the attributes specified.
+	public void spawn(Vector3 pos, Vector3 rot, float energy, Chromosome chromosome)
 	{
 		GameObject child = new GameObject();
 		child.transform.localPosition = pos;
