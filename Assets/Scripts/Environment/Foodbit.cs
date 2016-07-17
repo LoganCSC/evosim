@@ -17,7 +17,7 @@ public class Foodbit : MonoBehaviour
 	Ether eth;
     MeshRenderer mr;
 
-    public decimal energy;
+    public float energy;
 	float decay_amount;
 	float destroy_at;
 	float decay_time;

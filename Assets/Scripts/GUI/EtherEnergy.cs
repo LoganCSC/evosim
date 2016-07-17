@@ -29,7 +29,7 @@ public class EtherEnergy : MonoBehaviour
         Ether.EnergyUpdated -= OnUpdated;
     }
 
-    void OnUpdated (decimal n)
+    void OnUpdated (float n)
     {
 		text.text = "Ether energy: " + n.ToString("0.0");
 	}

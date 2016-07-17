@@ -1,17 +1,16 @@
 using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 
-/*
+/**
+ * Mutates a specified chromosome and does crossover with another.
  *		Author: 	Craig Lomax
  *		Author:     Barry Becker
- *		URL:		clomax.me.uk
- *		email:		craig@clomax.me.uk
  */
 public class Mutator
 {
-	static System.Random rnd = new System.Random();
+	private static System.Random RND = new System.Random();
 
+    /** The chomosome to mutate */
     private Chromosome chromo;
 
     /** Constructor that takes the chomosome to mutate */
@@ -49,9 +48,9 @@ public class Mutator
         cs[2] = cc.b;
         for (int i = 0; i < 3; i++)
         {
-            double rand = rnd.NextDouble();
+            double rand = RND.NextDouble();
             if (rand < rate)
-                cs[i] += randomiseGene(factor);
+                cs[i] = randomizeGene(cs[i], factor, 0, 1);
         }
         newChromo.setColour(new Color(cs[0], cs[1], cs[2]));
     }
@@ -68,9 +67,9 @@ public class Mutator
             rs[2] = rc.z;
             for (int i = 0; i < 3; i++)
             {
-                double rand = rnd.NextDouble();
+                double rand = RND.NextDouble();
                 if (rand < rate)
-                    rs[i] += randomiseGene(factor);
+                    rs[i] = randomizeGene(rs[i], factor, 0, 1);
             }
             Vector3 rootScale = new Vector3(rs[0], rs[1], rs[2]);
             newChromo.setRootScale(rootScale);
@@ -86,9 +85,9 @@ public class Mutator
         cs[2] = cc.b;
         for (int i = 0; i < 3; i++)
         {
-            double rand = rnd.NextDouble();
+            double rand = RND.NextDouble();
             if (rand < rate)
-                cs[i] += randomiseGene(factor);
+                cs[i] = randomizeGene(cs[i], factor, 0, 1);
         }
         newChromo.setLimbColour(new Color(cs[0], cs[1], cs[2]));
 
@@ -102,9 +101,9 @@ public class Mutator
                 Vector3 v = (Vector3)limb[1];
                 for (int k = 0; k < 3; k++)
                 {
-                    double rand = rnd.NextDouble();
+                    double rand = RND.NextDouble();
                     if (rand < rate)
-                        v[k] += randomiseGene(factor);
+                        v[k] = randomizeGene(v[k], factor, 0, 1);    // What is range?
                 }
 
             }
@@ -115,28 +114,28 @@ public class Mutator
     private void mutateSine(Chromosome newChromo, double rate, float factor)
     {
         // mutate base frequency and amplitude
-        double rand = rnd.NextDouble();
+        double rand = RND.NextDouble();
         if (rand < rate)
         {
-            newChromo.base_joint_amplitude += randomiseGene(factor);
+            newChromo.base_joint_amplitude = randomizeGene(newChromo.base_joint_amplitude, factor);
         }
 
-        rand = rnd.NextDouble();
+        rand = RND.NextDouble();
         if (rand < rate)
         {
-            newChromo.base_joint_frequency += randomiseGene(factor);
+            newChromo.base_joint_frequency = randomizeGene(newChromo.base_joint_frequency, factor);
         }
 
-        rand = rnd.NextDouble();
+        rand = RND.NextDouble();
         if (rand < rate)
         {
-            newChromo.base_joint_phase += randomiseGene(factor);
+            newChromo.base_joint_phase = randomizeGene(newChromo.base_joint_phase, factor);
         }
 
-        rand = rnd.NextDouble();
+        rand = RND.NextDouble();
         if (rand < rate)
         {
-            newChromo.hunger_threshold += (decimal)randomiseGene(factor);
+            newChromo.hunger_threshold = randomizeGene(newChromo.hunger_threshold, factor);
         }
     }
 
@@ -218,7 +217,7 @@ public class Mutator
                 Vector3 other_crt_scale = (Vector3)other_crt_attributes[1];
                 for (int s = 0; s < 3; s++)
                 {
-                    double rand = rnd.NextDouble();
+                    double rand = RND.NextDouble();
                     if (rand < rate)
                     {
                         c_scale[s] = other_crt_scale[s];
@@ -233,7 +232,7 @@ public class Mutator
                 Vector3 other_crt_pos = (Vector3)other_crt_attributes[0];
                 for (int p = 0; p < 3; p++)
                 {
-                    double rand = rnd.NextDouble();
+                    double rand = RND.NextDouble();
                     if (rand < rate)
                     {
                         c_pos[p] = other_crt_pos[p];
@@ -249,23 +248,31 @@ public class Mutator
     private void crossoverSine(Chromosome c2, Chromosome newChromo)
     {
         // Crossover frequency and amplitude
-        double rand = rnd.NextDouble();
+        double rand = RND.NextDouble();
         newChromo.base_joint_amplitude = rand < 0.5f ? chromo.base_joint_amplitude : c2.base_joint_amplitude;
 
-        rand = rnd.NextDouble();
+        rand = RND.NextDouble();
         newChromo.base_joint_frequency = rand < 0.5f ? chromo.base_joint_frequency : c2.base_joint_frequency;
 
-        rand = rnd.NextDouble();
+        rand = RND.NextDouble();
         newChromo.base_joint_phase = rand < 0.5f ? chromo.base_joint_phase : c2.base_joint_phase;
 
-        rand = rnd.NextDouble();
+        rand = RND.NextDouble();
         newChromo.hunger_threshold = rand < 0.5f ? chromo.hunger_threshold : c2.hunger_threshold;
     }
 
 	
-	private static float randomiseGene(float factor)
+	private static float randomizeGene(float originalValue, float factor)
     {
-		return (float) rnd.NextDouble() * ( Mathf.Abs(factor-(-factor)) ) + (-factor);
+		return originalValue + originalValue * ((float) RND.NextDouble() * 2 * factor - factor);
 	}
-	
+
+    private static float randomizeGene(float originalValue, float factor, float min, float max)
+    {
+        float range = max - min;
+        float variation = factor * range;
+        float minValue = Mathf.Max(0, originalValue - variation);
+        float maxValue = Mathf.Min(max, originalValue + variation);
+        return minValue + (float)RND.NextDouble() * (maxValue - minValue);
+    }
 }

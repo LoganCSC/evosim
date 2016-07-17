@@ -3,14 +3,10 @@ using LitJson;
 using System.Collections;
 using System.Collections.Generic;
 
-/*
+/**
  *		Author: 	Craig Lomax
  *		Date: 		07.09.2013
- *		URL:		clomax.me.uk
- *		email:		craig@clomax.me.uk
- *
  */
-
 public class Chromosome
 {
 	public Color colour;
@@ -19,7 +15,7 @@ public class Chromosome
 	public float base_joint_frequency;
 	public float base_joint_amplitude;
 	public float base_joint_phase;
-	public decimal hunger_threshold;
+	public float hunger_threshold;
 
     public int num_branches;
     public int[] num_recurrences;
@@ -46,39 +42,39 @@ public class Chromosome
 		return (ArrayList) branches[index];
 	}
 
-	public Color getColour () {
+	public Color getColour() {
 		return colour;
 	}
 
-	public Color getLimbColour () {
+	public Color getLimbColour() {
 		return limb_colour;
 	}
 
-	public Vector3 getRootScale () {
+	public Vector3 getRootScale() {
 		return root_scale;
 	}
 
-	public ArrayList getBranches () {
+	public ArrayList getBranches() {
 		return branches;
 	}
 
-	public void setBranches (ArrayList bs) {
+	public void setBranches(ArrayList bs) {
 		branches = bs;
 	}
 
-	public void setColour (Color c) {
+	public void setColour(Color c) {
 		colour = c;
 	}
 
-	public void setLimbColour (Color c) {
+	public void setLimbColour(Color c) {
 		limb_colour = c;
 	}
 
-	public void setRootScale (Vector3 rs) {
+	public void setRootScale(Vector3 rs) {
 		root_scale = rs;
 	}
 
-	public void setBaseFequency (float freq) {
+	public void setBaseFequency(float freq) {
 		base_joint_frequency = freq;
 	}
 

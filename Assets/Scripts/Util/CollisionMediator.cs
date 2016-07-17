@@ -24,7 +24,7 @@ public class CollisionMediator : MonoBehaviour {
 
 	Settings settings;
 
-	decimal energy_scale;
+	float energy_scale;
 	double crossover_rate;
 	double mutation_rate;
 	float mutation_factor;
@@ -33,7 +33,7 @@ public class CollisionMediator : MonoBehaviour {
 		collision_events = new ArrayList();
 		ether = Ether.getInstance();
 		settings = Settings.getInstance();
-		energy_scale 		= decimal.Parse(	settings.contents["creature"]["energy_to_offspring"].ToString());
+		energy_scale 		= float.Parse(	settings.contents["creature"]["energy_to_offspring"].ToString());
 		crossover_rate 		= (double) 			settings.contents["genetics"]["crossover_rate"];
 		mutation_rate		= (double)			settings.contents["genetics"]["mutation_rate"];
 		mutation_factor		= float.Parse(	    settings.contents["genetics"]["mutation_factor"].ToString() );
@@ -60,16 +60,16 @@ public class CollisionMediator : MonoBehaviour {
 			Creature a_script = a.transform.parent.parent.GetComponent<Creature>();
 			Creature b_script = b.transform.parent.parent.GetComponent<Creature>();
 
-			decimal a_energy = a_script.getEnergy();
-			decimal b_energy = b_script.getEnergy();
+			float a_energy = a_script.getEnergy();
+			float b_energy = b_script.getEnergy();
 
 			
             Mutator mutator = new global::Mutator(a_script.chromosome);
             Chromosome newChromosome = mutator.doMutating(b_script.chromosome, crossover_rate, mutation_rate, mutation_factor);
 
-            decimal a_energy_to_child = (a_energy * energy_scale);
-            decimal b_energy_to_child = (b_energy * energy_scale);
-            decimal new_crt_energy = (a_energy_to_child + b_energy_to_child);
+            float a_energy_to_child = (a_energy * energy_scale);
+            float b_energy_to_child = (b_energy * energy_scale);
+            float new_crt_energy = (a_energy_to_child + b_energy_to_child);
 
 			ether.spawner.spawn(
                       pos,Vector3.zero,

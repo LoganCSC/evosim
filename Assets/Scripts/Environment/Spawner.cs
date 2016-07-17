@@ -36,7 +36,7 @@ public class Spawner : MonoBehaviour
 		return instance;
 	}
 	
-	public void spawn (Vector3 pos, Vector3 rot, decimal energy, Chromosome chromosome)
+	public void spawn (Vector3 pos, Vector3 rot, float energy, Chromosome chromosome)
     {
 		GameObject child = new GameObject();
 		child.transform.localPosition = pos;

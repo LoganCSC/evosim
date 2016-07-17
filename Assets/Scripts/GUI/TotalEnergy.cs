@@ -21,7 +21,7 @@ public class TotalEnergy : MonoBehaviour
         Ether.EnergyInitialised -= OnStarted;
     }
 
-    void OnStarted(decimal n)
+    void OnStarted(float n)
     {
         text.text = "Total energy: " + n.ToString("0");
     }

@@ -62,9 +62,9 @@ public class Data : MonoBehaviour
         DataUpdated();
     }
 
-    public decimal TotalCreatureEnergy()
+    public float TotalCreatureEnergy()
     {
-        decimal result = 0m;
+        float result = 0;
         foreach(Creature c in eth.creatures)
         {
             result += c.energy;
@@ -72,9 +72,9 @@ public class Data : MonoBehaviour
         return (result);
     }
 
-    internal decimal TotalFoodbitEnergy()
+    internal float TotalFoodbitEnergy()
     {
-        decimal result = 0m;
+        float result = 0;
         foreach (GameObject f in eth.foodbits)
         {
             result += f.GetComponent<Foodbit>().energy;

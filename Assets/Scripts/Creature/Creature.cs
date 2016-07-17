@@ -32,14 +32,14 @@ public class Creature : MonoBehaviour
 	List<ConfigurableJoint> joints = new List<ConfigurableJoint>();
 
 	public double age;
-	public decimal energy;
-    public decimal low_energy_threshold;
+	public float energy;
+    public float low_energy_threshold;
 
 	public Chromosome chromosome;
 
-	public double 	line_of_sight;
-	decimal 			metabolic_rate;
-	int 			age_sexual_maturity;
+	public double line_of_sight;
+	float metabolic_rate;
+	int age_sexual_maturity;
 
 	public int offspring;
 	public int food_eaten;
@@ -135,7 +135,7 @@ public class Creature : MonoBehaviour
         genital.AddComponent<Genitalia>();
 
         line_of_sight = (double)settings.contents["creature"]["line_of_sight"];
-        metabolic_rate = decimal.Parse(settings.contents["creature"]["metabolic_rate"].ToString());
+        metabolic_rate = float.Parse(settings.contents["creature"]["metabolic_rate"].ToString());
         age_sexual_maturity = (int)settings.contents["creature"]["age_sexual_maturity"];
 
         all_limbs = new ArrayList();
@@ -145,7 +145,7 @@ public class Creature : MonoBehaviour
         ChangeState(State.neutral);
         food_eaten = 0;
         offspring = 0;
-        low_energy_threshold = decimal.Parse(settings.contents["creature"]["low_energy_threshold"].ToString());
+        low_energy_threshold = float.Parse(settings.contents["creature"]["low_energy_threshold"].ToString());
 
         InvokeRepeating("updateState", 0, 0.1f);
         InvokeRepeating("RandomDirection", 1F, 5F);
@@ -243,12 +243,12 @@ public class Creature : MonoBehaviour
 		);
 	}
 
-	public void setEnergy(decimal n) {
+	public void setEnergy(float n) {
 		energy = n;
 	}
 
 	void updateState() {
-		if(state != Creature.State.mating) {
+		if (state != Creature.State.mating) {
             if (chromosome == null)
             {
                 throw new System.InvalidOperationException("Chromosome is null");
@@ -279,7 +279,7 @@ public class Creature : MonoBehaviour
 	/*
 	 * Return the current energy value for the creature
 	 */
-	public decimal getEnergy () {
+	public float getEnergy () {
 		return energy;
 	}
 
@@ -289,12 +289,12 @@ public class Creature : MonoBehaviour
      *
      * Return: true if energy is now below zero
 	 */
-	public bool subtractEnergy (decimal n)
+	public bool subtractEnergy(float n)
     {
         bool equal_or_below_zero = false;
         
         energy -= n;
-        if (energy <= 0.0m)
+        if (energy <= 0.0)
         {
             eth.addEnergy(energy + n);
             energy = 0;
@@ -328,8 +328,8 @@ public class Creature : MonoBehaviour
         Destroy(gameObject);
     }
 
-// TODO: Limbs should be made into a better tree structure, not this
-// 				list of lists rubbish
+    // TODO: Limbs should be made into a better tree structure, not this
+    // 				list of lists rubbish
 	private void setupLimbs () {
         int num_branches = chromosome.getBranchCount();
         chromosome.setNumBranches(num_branches);

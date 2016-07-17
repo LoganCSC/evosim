@@ -3,15 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 
-/*
+/**
  *		Author: 	Craig Lomax
  *		Date: 		06.09.2011
- *		URL:		clomax.me.uk
- *		email:		craig@clomax.me.uk
- *
  */
-
-
 public class Ether : MonoBehaviour
 {	
 	public static GameObject container;
@@ -24,9 +19,9 @@ public class Ether : MonoBehaviour
     Data data;
     public Spawner spawner;
 	
-	public decimal total_energy;
-	public decimal energy;
-	decimal foodbit_energy;
+	public float total_energy;
+	public float energy;
+	float foodbit_energy;
     float init_energy_min;
     float init_energy_max;
     float init_scale_min;
@@ -42,7 +37,7 @@ public class Ether : MonoBehaviour
     public ArrayList creatures;
 	public ArrayList foodbits;
 
-    public delegate void EtherInfo(decimal energy);
+    public delegate void EtherInfo(float energy);
     public static event EtherInfo EnergyUpdated;
     public static event EtherInfo EnergyInitialised;
 
@@ -70,7 +65,7 @@ public class Ether : MonoBehaviour
         data = Data.getInstance();
         spawner = Spawner.getInstance();
 		
-		total_energy = 			decimal.Parse(settings.contents[name]	["total_energy"].ToString());
+		total_energy = 			float.Parse(settings.contents[name]	["total_energy"].ToString());
 		start_number_foodbits = (int)	 	settings.contents[name]	["start_number_foodbits"];
 		spore_range = 			(int)	 	settings.contents["foodbit"]["spore_range"];
 		wide_spread = 			float.Parse(settings.contents["foodbit"]["wide_spread"].ToString() );
@@ -113,7 +108,7 @@ public class Ether : MonoBehaviour
 	
 	public void newFoodbit (Vector3 pos)
     {
-        foodbit_energy = (decimal)Random.Range(init_energy_min, init_energy_max);
+        foodbit_energy = (float)Random.Range(init_energy_min, init_energy_max);
         if (enoughEnergy(foodbit_energy))
         {
 			GameObject fb = (GameObject)Instantiate(foodbit, pos, Quaternion.identity);
@@ -178,37 +173,37 @@ public class Ether : MonoBehaviour
 		return instance;
 	}
 	
-	public decimal getEnergy()
+	public float getEnergy()
     {
 		return energy;
 	}
 
-    public void addEnergy (decimal n)
+    public void addEnergy (float n)
     {
         energy += n;
         EnergyUpdated(energy);
     }
 	
-	public void subtractEnergy (decimal n)
+	public void subtractEnergy (float n)
     {
         energy -= n;
         EnergyUpdated(energy);
 	}
 
-	public bool enoughEnergy(decimal n)
+	public bool enoughEnergy(float n)
     {
 		return energy >= n;
 	}
 	
     private void FixEnergyLeak ()
     {
-        decimal total_crt = data.TotalCreatureEnergy();
-        decimal total_fb = data.TotalFoodbitEnergy();
-        decimal total = energy + total_crt + total_fb;
+        float total_crt = data.TotalCreatureEnergy();
+        float total_fb = data.TotalFoodbitEnergy();
+        float total = energy + total_crt + total_fb;
         print("crt: " + total_crt + "     fb: " + total_fb + "     ether: " + energy + "        total: " + total);
         if (total != total_energy)
         {
-            decimal fix = total - total_energy;
+            float fix = total - total_energy;
             print("Fixing energy leak... "+fix);
             subtractEnergy(fix);
         }
