@@ -1,17 +1,16 @@
 using UnityEngine;
 using LitJson;
 using System.Collections;
-using System.Collections.Generic;
 
 /**
  *		Author: 	Craig Lomax
- *		Date: 		07.09.2013
  */
 public class Chromosome
 {
-	public Color colour;
-	public Color limb_colour;
-	public Vector3 root_scale;
+	private Color colour;
+	private Color limb_colour;
+	private Vector3 root_scale;
+
 	public float base_joint_frequency;
 	public float base_joint_amplitude;
 	public float base_joint_phase;
