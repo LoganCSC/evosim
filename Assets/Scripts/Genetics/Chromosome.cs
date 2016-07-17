@@ -17,22 +17,22 @@ public class Chromosome
 	public float base_joint_phase;
 	public float hunger_threshold;
 
-    public int num_branches;
-    public int[] num_recurrences;
+	public int num_branches;
+	public int[] num_recurrences;
 
 	public ArrayList branches;
 
-    public void setNumBranches(int n)
-    {
-        num_branches = n;
-        if (num_recurrences == null)
-            initNumRecurrences(n);
-    }
+	public void setNumBranches(int n)
+	{
+		num_branches = n;
+		if (num_recurrences == null)
+			initNumRecurrences(n);
+	}
 
-    void initNumRecurrences(int n)
-    {
-        num_recurrences = new int[n];
-    }
+	void initNumRecurrences(int n)
+	{
+		num_recurrences = new int[n];
+	}
 
 	public int getBranchCount() {
 		return branches.Count;

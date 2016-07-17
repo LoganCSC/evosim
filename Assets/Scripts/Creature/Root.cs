@@ -13,7 +13,7 @@ public class Root : MonoBehaviour {
 	public MeshRenderer mr;
 	public Material mt;
 
-    public Color original_colour;
+	public Color original_colour;
 	
 	void Start () {
 		_t = transform;
@@ -25,13 +25,13 @@ public class Root : MonoBehaviour {
 		mouth = crt.mouth;
 		genital = crt.genital;
 
-        tag = "Creature";
+		tag = "Creature";
 	}
 
 	public void setColour (Color c) {
-        original_colour = c;
+		original_colour = c;
 		mr = gameObject.GetComponent<MeshRenderer>();
-        mr.material.shader = Shader.Find("Legacy Shaders/Diffuse");
+		mr.material.shader = Shader.Find("Legacy Shaders/Diffuse");
 		mr.material.color = c;
 	}
 	

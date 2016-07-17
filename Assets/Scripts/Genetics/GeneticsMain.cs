@@ -90,20 +90,20 @@ public class GeneticsMain : MonoBehaviour
 			
 			// random initial limbs
 			int bs = Random.Range (1,branch_limit+1);
-            chromosome.setNumBranches(bs);
-            ArrayList branches = new ArrayList();
+			chromosome.setNumBranches(bs);
+			ArrayList branches = new ArrayList();
 
 			for (int j=0; j<bs; j++) {
 				ArrayList limbs = new ArrayList();
 
 				int recurrences = Random.Range(0,recurrence_limit);
-                chromosome.num_recurrences[j] = recurrences;
+				chromosome.num_recurrences[j] = recurrences;
 				for (int k=0; k<=recurrences; k++) {
 
 					Vector3 scale = new Vector3 ((float) Random.Range(min_limb_scale.x,max_limb_scale.x),
-		                                 (float) Random.Range(min_limb_scale.y,max_limb_scale.y),
-		                                 (float) Random.Range(min_limb_scale.z,max_limb_scale.z)
-		                                );
+										 (float) Random.Range(min_limb_scale.y,max_limb_scale.y),
+										 (float) Random.Range(min_limb_scale.z,max_limb_scale.z)
+										);
 
 					Vector3 position = Utility.RandomPointOnCubeSurface(rootScale);
 
@@ -122,9 +122,9 @@ public class GeneticsMain : MonoBehaviour
 
 			if (eth.enoughEnergy(creature_init_energy)) {
 				eth.spawner.spawn(Utility.RandomVec(-creature_spread,creature_spread,creature_spread), Utility.RandomRotVec(), creature_init_energy, chromosome);
-                eth.subtractEnergy(creature_init_energy);
-            }
-        }
+				eth.subtractEnergy(creature_init_energy);
+			}
+		}
 	}
 	
 	public static GeneticsMain getInstance () {

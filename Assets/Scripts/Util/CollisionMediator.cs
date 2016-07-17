@@ -36,7 +36,7 @@ public class CollisionMediator : MonoBehaviour {
 		energy_scale 		= float.Parse(	settings.contents["creature"]["energy_to_offspring"].ToString());
 		crossover_rate 		= (double) 			settings.contents["genetics"]["crossover_rate"];
 		mutation_rate		= (double)			settings.contents["genetics"]["mutation_rate"];
-		mutation_factor		= float.Parse(	    settings.contents["genetics"]["mutation_factor"].ToString() );
+		mutation_factor		= float.Parse(		settings.contents["genetics"]["mutation_factor"].ToString() );
 	}
 
 	public static CollisionMediator getInstance () {
@@ -64,15 +64,15 @@ public class CollisionMediator : MonoBehaviour {
 			float b_energy = b_script.getEnergy();
 
 			
-            Mutator mutator = new global::Mutator(a_script.chromosome);
-            Chromosome newChromosome = mutator.doMutating(b_script.chromosome, crossover_rate, mutation_rate, mutation_factor);
+			Mutator mutator = new global::Mutator(a_script.chromosome);
+			Chromosome newChromosome = mutator.doMutating(b_script.chromosome, crossover_rate, mutation_rate, mutation_factor);
 
-            float a_energy_to_child = (a_energy * energy_scale);
-            float b_energy_to_child = (b_energy * energy_scale);
-            float new_crt_energy = (a_energy_to_child + b_energy_to_child);
+			float a_energy_to_child = (a_energy * energy_scale);
+			float b_energy_to_child = (b_energy * energy_scale);
+			float new_crt_energy = (a_energy_to_child + b_energy_to_child);
 
 			ether.spawner.spawn(
-                      pos,Vector3.zero,
+					  pos,Vector3.zero,
 					  new_crt_energy,
 					  newChromosome
 					 );

@@ -16,54 +16,54 @@ public class Ether : MonoBehaviour
 
 	Logger lg;
 	Settings settings;
-    Data data;
-    public Spawner spawner;
+	Data data;
+	public Spawner spawner;
 	
 	public float total_energy;
 	public float energy;
 	float foodbit_energy;
-    float init_energy_min;
-    float init_energy_max;
-    float init_scale_min;
-    float init_scale_max;
+	float init_energy_min;
+	float init_energy_max;
+	float init_scale_min;
+	float init_scale_max;
 
-    Vector3 pos;
+	Vector3 pos;
 
 	float 	wide_spread;
 	int		start_number_foodbits;
 	float 	spore_time;
 	int 	spore_range;
 
-    public ArrayList creatures;
+	public ArrayList creatures;
 	public ArrayList foodbits;
 
-    public delegate void EtherInfo(float energy);
-    public static event EtherInfo EnergyUpdated;
-    public static event EtherInfo EnergyInitialised;
+	public delegate void EtherInfo(float energy);
+	public static event EtherInfo EnergyUpdated;
+	public static event EtherInfo EnergyInitialised;
 
-    public delegate void FoodbitInfo(int count);
-    public static event FoodbitInfo FoodbitsUpdated;
+	public delegate void FoodbitInfo(int count);
+	public static event FoodbitInfo FoodbitsUpdated;
 
-    void OnEnable ()
-    {
-        Spawner.CreatureSpawned += OnCreatureSpawned;
-        Creature.CreatureDead += OnCreatureDeath;
-    }
+	void OnEnable ()
+	{
+		Spawner.CreatureSpawned += OnCreatureSpawned;
+		Creature.CreatureDead += OnCreatureDeath;
+	}
 
-    void OnDisable()
-    {
-        Spawner.CreatureSpawned -= OnCreatureSpawned;
-        Creature.CreatureDead -= OnCreatureDeath;
-    }
+	void OnDisable()
+	{
+		Spawner.CreatureSpawned -= OnCreatureSpawned;
+		Creature.CreatureDead -= OnCreatureDeath;
+	}
 
-    void Start ()
-    {
+	void Start ()
+	{
 		foodbit = (GameObject)Resources.Load("Prefabs/Foodbit");
 		string name = this.name.ToLower();
 		
 		settings = Settings.getInstance();
-        data = Data.getInstance();
-        spawner = Spawner.getInstance();
+		data = Data.getInstance();
+		spawner = Spawner.getInstance();
 		
 		total_energy = 			float.Parse(settings.contents[name]	["total_energy"].ToString());
 		start_number_foodbits = (int)	 	settings.contents[name]	["start_number_foodbits"];
@@ -71,70 +71,70 @@ public class Ether : MonoBehaviour
 		wide_spread = 			float.Parse(settings.contents["foodbit"]["wide_spread"].ToString() );
 		spore_time = 			float.Parse(settings.contents["foodbit"]["spore_time"].ToString() );
 
-        init_energy_min = float.Parse(settings.contents["foodbit"]["init_energy_min"].ToString());
-        init_energy_max = float.Parse(settings.contents["foodbit"]["init_energy_max"].ToString());
+		init_energy_min = float.Parse(settings.contents["foodbit"]["init_energy_min"].ToString());
+		init_energy_max = float.Parse(settings.contents["foodbit"]["init_energy_max"].ToString());
 
-        init_scale_min = float.Parse(settings.contents["foodbit"]["init_scale_min"].ToString());
-        init_scale_max = float.Parse(settings.contents["foodbit"]["init_scale_max"].ToString());
+		init_scale_min = float.Parse(settings.contents["foodbit"]["init_scale_min"].ToString());
+		init_scale_max = float.Parse(settings.contents["foodbit"]["init_scale_max"].ToString());
 
-        energy = total_energy;
-        EnergyInitialised(energy);
+		energy = total_energy;
+		EnergyInitialised(energy);
 
-        creatures = new ArrayList();
+		creatures = new ArrayList();
 		foodbits = new ArrayList();
 		
 		for (int i=0; i<start_number_foodbits; i++)
-        {
+		{
 			Vector3 pos = Utility.RandomVec(-wide_spread,
-				                             wide_spread,
-				                             wide_spread
-				               				);
+											 wide_spread,
+											 wide_spread
+							   				);
 			newFoodbit(pos);
 		}
 
-        InvokeRepeating("FixEnergyLeak", 1F*60F, 1F*60F);
+		InvokeRepeating("FixEnergyLeak", 1F*60F, 1F*60F);
 		InvokeRepeating("fbSpawn",spore_time, spore_time);
 	}
 
-    void OnCreatureSpawned (Creature c)
-    {
-        creatures.Add(c);
-    }
+	void OnCreatureSpawned (Creature c)
+	{
+		creatures.Add(c);
+	}
 
-    void OnCreatureDeath (Creature c)
-    {
-        creatures.Remove(c);
-    }
+	void OnCreatureDeath (Creature c)
+	{
+		creatures.Remove(c);
+	}
 	
 	public void newFoodbit (Vector3 pos)
-    {
-        foodbit_energy = (float)Random.Range(init_energy_min, init_energy_max);
-        if (enoughEnergy(foodbit_energy))
-        {
+	{
+		foodbit_energy = (float)Random.Range(init_energy_min, init_energy_max);
+		if (enoughEnergy(foodbit_energy))
+		{
 			GameObject fb = (GameObject)Instantiate(foodbit, pos, Quaternion.identity);
 			Foodbit fb_s = fb.AddComponent<Foodbit>();
-            fb_s.energy = foodbit_energy;
+			fb_s.energy = foodbit_energy;
 			subtractEnergy(foodbit_energy);
-            float scale = Utility.ConvertRange((float)foodbit_energy, init_energy_min, init_energy_max, init_scale_min, init_scale_max);
-            fb.transform.localScale = new Vector3(scale, scale, scale);
-            foodbits.Add(fb);
-            FoodbitsUpdated(foodbits.Count);
+			float scale = Utility.ConvertRange((float)foodbit_energy, init_energy_min, init_energy_max, init_scale_min, init_scale_max);
+			fb.transform.localScale = new Vector3(scale, scale, scale);
+			foodbits.Add(fb);
+			FoodbitsUpdated(foodbits.Count);
 		}
 	}
 	
 	private void fbSpawn ()
-    {
+	{
 		int fb_count = getFoodbitCount();
 		if (fb_count >= 1)
-        {
+		{
 			int fb_index = Random.Range(0,fb_count);
 			GameObject fb = (GameObject) foodbits[fb_index];
 			Foodbit fb_script = fb.GetComponent<Foodbit>();
-            foodbit_energy = fb_script.energy;
+			foodbit_energy = fb_script.energy;
 			Vector3 fb_pos = fb_script.transform.localPosition;
 			pos = Utility.RandomVec (-spore_range,
-	                                 Foodbit.foodbitHeight / 2,
-	                                 spore_range
+									 Foodbit.foodbitHeight / 2,
+									 spore_range
 									);
 			
 			Vector3 new_pos = fb_pos + pos;
@@ -142,9 +142,9 @@ public class Ether : MonoBehaviour
 				|| new_pos.z > wide_spread || new_pos.z < -wide_spread)
 			{
 				new_pos = Utility.RandomVec(-wide_spread,
-					                         wide_spread,
-					                         wide_spread
-					               		   );
+											 wide_spread,
+											 wide_spread
+								   		   );
 			}
 			
 			newFoodbit(new_pos);
@@ -152,20 +152,20 @@ public class Ether : MonoBehaviour
 	}
 	
 	public void removeFoodbit (GameObject fb)
-    {
-        FoodbitsUpdated(foodbits.Count);
-        foodbits.Remove(fb);
+	{
+		FoodbitsUpdated(foodbits.Count);
+		foodbits.Remove(fb);
 	}
 	
 	public int getFoodbitCount ()
-    {
+	{
 		return foodbits.Count;
 	}
 	
 	public static Ether getInstance ()
-    {
+	{
 		if(!instance)
-        {
+		{
 			container = new GameObject();
 			container.name = "Ether";
 			instance = container.AddComponent(typeof(Ether)) as Ether;
@@ -174,38 +174,38 @@ public class Ether : MonoBehaviour
 	}
 	
 	public float getEnergy()
-    {
+	{
 		return energy;
 	}
 
-    public void addEnergy (float n)
-    {
-        energy += n;
-        EnergyUpdated(energy);
-    }
+	public void addEnergy (float n)
+	{
+		energy += n;
+		EnergyUpdated(energy);
+	}
 	
 	public void subtractEnergy (float n)
-    {
-        energy -= n;
-        EnergyUpdated(energy);
+	{
+		energy -= n;
+		EnergyUpdated(energy);
 	}
 
 	public bool enoughEnergy(float n)
-    {
+	{
 		return energy >= n;
 	}
 	
-    private void FixEnergyLeak ()
-    {
-        float total_crt = data.TotalCreatureEnergy();
-        float total_fb = data.TotalFoodbitEnergy();
-        float total = energy + total_crt + total_fb;
-        print("crt: " + total_crt + "     fb: " + total_fb + "     ether: " + energy + "        total: " + total);
-        if (total != total_energy)
-        {
-            float fix = total - total_energy;
-            print("Fixing energy leak... "+fix);
-            subtractEnergy(fix);
-        }
-    }
+	private void FixEnergyLeak ()
+	{
+		float total_crt = data.TotalCreatureEnergy();
+		float total_fb = data.TotalFoodbitEnergy();
+		float total = energy + total_crt + total_fb;
+		print("crt: " + total_crt + "	 fb: " + total_fb + "	 ether: " + energy + "		total: " + total);
+		if (total != total_energy)
+		{
+			float fix = total - total_energy;
+			print("Fixing energy leak... "+fix);
+			subtractEnergy(fix);
+		}
+	}
 }
