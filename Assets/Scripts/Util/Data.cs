@@ -51,7 +51,7 @@ public class Data : MonoBehaviour
 		creature_population = new List<int>();
 		eth = Ether.getInstance();
 		foodbit_population = new List<int>();
-		log_time = float.Parse(Settings.getInstance().contents["config"]["log_time"].ToString());
+		log_time = Settings.getInstance().log_time;
 
 		InvokeRepeating("UpdateCounts", 0F, log_time);
 	}

@@ -5,13 +5,10 @@ public class Eye : MonoBehaviour
 {
 	Creature crt;
 	Foodbit fbit;
-	public Creature targetCrt 		= null;
-	public GameObject targetFbit	= null;
+	public Creature targetCrt = null;
+	public GameObject targetFbit= null;
 	CollisionMediator co;
-	public float curr_dist 			= 0f;
-	double crt_mate_range;
-	double fb_eat_range;
-	float eye_refresh_rate;
+	public float curr_dist = 0f;
 	double los;
 	
 	public Collider[] cs;
@@ -32,15 +29,11 @@ public class Eye : MonoBehaviour
 		crt = _t.parent.parent.gameObject.GetComponent<Creature>();
 		co = CollisionMediator.getInstance();
 		settings = Settings.getInstance();
-		
-		crt_mate_range =	(double) settings.contents["creature"]["mate_range"];
-		fb_eat_range = 		(double) settings.contents["creature"]["eat_range"];
-		eye_refresh_rate =	float.Parse( settings.contents["creature"]["eye_refresh_rate"].ToString() );
 		los = crt.line_of_sight;
 
 		root = _t.parent;
 
-		InvokeRepeating("refreshVision",0,eye_refresh_rate);
+		InvokeRepeating("refreshVision", 0, settings.eye_refresh_rate);
 	}
 
 	void refreshVision ()
@@ -94,7 +87,7 @@ public class Eye : MonoBehaviour
 				}
 
 				Vector3 diff = c.transform.position - _t.position;
-				if (diff.magnitude < (float)crt_mate_range)
+				if (diff.magnitude < (float) settings.crt_mate_range)
 				{
 					other_crt = c.transform.parent.GetComponent<Creature>();
 					Genitalia other_genital = other_crt.genital.GetComponent<Genitalia>();
@@ -158,7 +151,7 @@ public class Eye : MonoBehaviour
 					target = c.transform.parent.gameObject;
 					dist = curr_dist;
 				}
-				if (curr_dist < (float)crt_mate_range)
+				if (curr_dist < (float) settings.crt_mate_range)
 				{
 					other_crt = c.transform.parent.GetComponent<Creature>();
 					Genitalia other_genital = other_crt.genital.GetComponent<Genitalia>();
@@ -201,7 +194,7 @@ public class Eye : MonoBehaviour
 					closest = f;
 					dist = curr_dist;
 				}
-				if (curr_dist < (float)fb_eat_range && (crt.state == Creature.State.persuing_food))
+				if (curr_dist < (float) settings.fb_eat_range && (crt.state == Creature.State.persuing_food))
 				{
 					fbit = f.GetComponent<Foodbit>();
 					crt.energy += fbit.energy;

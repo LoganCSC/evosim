@@ -11,7 +11,6 @@ public class Settings : MonoBehaviour {
 	public static GameObject container;
 	public static Settings instance;
 
-
 	public int starting_creatures;
 	public float creature_spread;
 
@@ -33,8 +32,39 @@ public class Settings : MonoBehaviour {
 	public float metabolic_rate;
 	public int age_sexual_maturity;
 	public float low_energy_threshold;
+	public float init_energy;
 
-	public Settings ()
+	public double crt_mate_range;
+	public double fb_eat_range;
+	public float eye_refresh_rate;
+	public float genitalia_line_length;
+
+	public float total_energy;
+	public int start_number_foodbits;
+	public int spore_range;
+	public float wide_spread;
+	public float spore_time;
+
+	public float init_energy_min;
+	public float init_energy_max;
+
+	public float init_scale_min;
+	public float init_scale_max;
+
+	public float energy_scale;
+	public double crossover_rate;
+	public double mutation_rate;
+	public float mutation_factor;
+
+	public float camera_sensitivity;
+	public float camera_invert;
+
+	public float log_time;
+	public int log_pop_data;
+	public int log_fbit_data;
+	
+
+	public Settings()
 	{
 		sr = new StreamReader(Application.dataPath + "/" + settings_file);
 		string raw_contents = sr.ReadToEnd();
@@ -46,7 +76,7 @@ public class Settings : MonoBehaviour {
 	
 	public static Settings getInstance ()
 	{
-		if(!instance) {
+		if (!instance) {
 			container = new GameObject();
 			container.name = "Settings";
 			instance = container.AddComponent(typeof(Settings)) as Settings;
@@ -58,7 +88,6 @@ public class Settings : MonoBehaviour {
 	{
 		return getRandomScale(min_root_scale, max_root_scale);
 	}
-
 
 	public Vector3 getRandomLimbScale()
 	{
@@ -74,7 +103,12 @@ public class Settings : MonoBehaviour {
 
 	private void initializeFromContents(JsonData contents)
 	{
+		Debug.Log("initiallizing from contents");
 		JsonData creature = contents["creature"];
+		JsonData ether = contents["ether"];
+		JsonData foodbit = contents["foodbit"];
+		JsonData genetics = contents["genetics"];
+
 		max_root_scale = new Vector3();
 		max_root_scale.x = float.Parse(creature["root"]["max_root_scale"]["x"].ToString());
 		max_root_scale.y = float.Parse(creature["root"]["max_root_scale"]["y"].ToString());
@@ -95,8 +129,6 @@ public class Settings : MonoBehaviour {
 		min_limb_scale.y = float.Parse(creature["limb"]["min_limb_scale"]["y"].ToString());
 		min_limb_scale.z = float.Parse(creature["limb"]["min_limb_scale"]["z"].ToString());
 
-		starting_creatures = (int)contents["ether"]["starting_creatures"];
-		creature_spread = float.Parse(contents["ether"]["creature_spread"].ToString());
 		creature_init_energy = float.Parse(creature["init_energy"].ToString());
 		branch_limit = (int)creature["branch_limit"];
 		recurrence_limit = (int)creature["recurrence_limit"];
@@ -109,5 +141,42 @@ public class Settings : MonoBehaviour {
 		metabolic_rate = float.Parse(creature["metabolic_rate"].ToString());
 		age_sexual_maturity = (int)creature["age_sexual_maturity"];
 		low_energy_threshold = float.Parse(creature["low_energy_threshold"].ToString());
+
+		crt_mate_range = (double)creature["mate_range"];
+		fb_eat_range = (double)creature["eat_range"];
+		eye_refresh_rate = float.Parse(creature["eye_refresh_rate"].ToString());
+
+		energy_scale = float.Parse(creature["energy_to_offspring"].ToString());
+		init_energy = float.Parse(creature["init_energy"].ToString());
+
+		crossover_rate = (double)genetics["crossover_rate"];
+		mutation_rate = (double)genetics["mutation_rate"];
+		mutation_factor = float.Parse(genetics["mutation_factor"].ToString());
+
+		starting_creatures = (int)ether["starting_creatures"];
+		creature_spread = float.Parse(ether["creature_spread"].ToString());
+		total_energy = float.Parse(ether["total_energy"].ToString());
+		start_number_foodbits = (int)ether["start_number_foodbits"];
+
+		spore_range = (int)foodbit["spore_range"];
+		wide_spread = float.Parse(foodbit["wide_spread"].ToString());
+		spore_time = float.Parse(foodbit["spore_time"].ToString());
+
+		init_energy_min = float.Parse(foodbit["init_energy_min"].ToString());
+		init_energy_max = float.Parse(foodbit["init_energy_max"].ToString());
+		init_scale_min = float.Parse(foodbit["init_scale_min"].ToString());
+		init_scale_max = float.Parse(foodbit["init_scale_max"].ToString());
+
+		genitalia_line_length = float.Parse(contents["genitalia"]["line_length"].ToString());
+		camera_sensitivity = float.Parse(contents["config"]["camera"]["sensitivity"].ToString());
+		camera_invert = float.Parse(contents["config"]["camera"]["invert"].ToString());
+
+		log_pop_data = (int)contents["config"]["population_logging"];
+		log_fbit_data = (int)contents["config"]["foodbit_logging"];
+		log_time = float.Parse(contents["config"]["log_time"].ToString());
+		Debug.Log("done initiallizing from contents");
 	}
 }
+
+
+

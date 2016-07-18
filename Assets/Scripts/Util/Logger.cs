@@ -59,9 +59,9 @@ public class Logger : MonoBehaviour {
 		//cc = GameObject.Find("CreatureCount").GetComponent<CreatureCount>();
 		//fc = GameObject.Find("FoodbitCount").GetComponent<FoodbitCount>();
 
-		log_pop_data = (int) settings.contents["config"]["population_logging"];
-		log_fbit_data = (int)settings.contents["config"]["foodbit_logging"];
-		log_time = float.Parse(settings.contents["config"]["log_time"].ToString());
+		log_pop_data = settings.log_pop_data;
+		log_fbit_data = settings.log_fbit_data;
+		log_time = settings.log_time;
 
 		String unixTime = Utility.UnixTimeNow().ToString();
 		crt_count_filename = "creatures-" + unixTime;
@@ -71,7 +71,7 @@ public class Logger : MonoBehaviour {
 			write( log_time.ToString(), crt_count_filename );
 		}
 
-		log_fbit_data = (int) settings.contents["config"]["foodbit_logging"];
+		
 		if (log_fbit_data == 1) {
 			write( log_time.ToString(), fbit_count_filename );
 		}

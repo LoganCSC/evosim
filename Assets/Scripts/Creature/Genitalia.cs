@@ -21,8 +21,8 @@ public class Genitalia : MonoBehaviour {
 	Transform _t;
 	LineRenderer lr;
 	Vector3 line_start;
-	float line_length			= 0.05F; // default
-	float line_width  			= 0.05F; // values
+	float line_length = 0.05F; // default
+	float line_width = 0.05F; // values
 	Vector3 line_end;
 	double timeCreated;
 	double timeToEnableMating 	= 1.0F;
@@ -47,8 +47,8 @@ public class Genitalia : MonoBehaviour {
 		lr.SetVertexCount(2);
 		lr.GetComponent<Renderer>().enabled = true;
 		timeCreated = Time.time;
-		
-		line_length = 	float.Parse( settings.contents["genitalia"]["line_length"].ToString() );
+
+		line_length = settings.genitalia_line_length;
 	}
 	
 	void Update () {

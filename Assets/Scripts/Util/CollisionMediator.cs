@@ -2,17 +2,11 @@ using UnityEngine;
 using System.Collections;
 
 
-/*
- *		Author: 	Craig Lomax
- *		Date: 		25.12.2011
- *		URL:		clomax.me.uk
- *		email:		craig@clomax.me.uk
- *
- */
-
-/*
- *	Handles events that happen between multiple
+/**
+ * Handles events that happen between multiple
  *	Objects of the same type.
+ *	
+ *		Author: 	Craig Lomax
  */
 public class CollisionMediator : MonoBehaviour {
 
@@ -33,10 +27,10 @@ public class CollisionMediator : MonoBehaviour {
 		collision_events = new ArrayList();
 		ether = Ether.getInstance();
 		settings = Settings.getInstance();
-		energy_scale 		= float.Parse(	settings.contents["creature"]["energy_to_offspring"].ToString());
-		crossover_rate 		= (double) 			settings.contents["genetics"]["crossover_rate"];
-		mutation_rate		= (double)			settings.contents["genetics"]["mutation_rate"];
-		mutation_factor		= float.Parse(		settings.contents["genetics"]["mutation_factor"].ToString() );
+		energy_scale = settings.energy_scale;
+		crossover_rate = settings.crossover_rate;
+		mutation_rate = settings.mutation_rate;
+		mutation_factor = settings.mutation_factor;
 	}
 
 	public static CollisionMediator getInstance () {

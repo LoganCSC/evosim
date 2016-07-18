@@ -29,8 +29,8 @@ public class CameraCtl : MonoBehaviour {
 	
 	void Start() {
 		settings = Settings.getInstance();
-		sensitivity = float.Parse( settings.contents["config"]["camera"]["sensitivity"].ToString() );
-		invert = float.Parse( settings.contents["config"]["camera"]["invert"].ToString() );
+		sensitivity = settings.camera_sensitivity;
+		invert = settings.camera_invert;
 		invert = invert == 0 ? 1 : -1;
 
 		pitch = _t.localEulerAngles.x;

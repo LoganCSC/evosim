@@ -8,7 +8,6 @@ public class Foodbit : MonoBehaviour
 {
 	public static float foodbitHeight = 1.0F;
 	
-	//Settings settings;
 	Ether eth;
 	MeshRenderer mr;
 
@@ -21,12 +20,11 @@ public class Foodbit : MonoBehaviour
 	 void Start ()
 	 {
 		name = "Foodbit";
-		//settings = Settings.getInstance();
 		
 		eth = Ether.getInstance();
 
-		  mr = GetComponent<MeshRenderer>();
-		  mr.sharedMaterial = (Material)Resources.Load("Materials/Foodbit");
+		mr = GetComponent<MeshRenderer>();
+		mr.sharedMaterial = (Material)Resources.Load("Materials/Foodbit");
 
 		Collider co = GetComponent<SphereCollider>();
 		co.isTrigger = true;

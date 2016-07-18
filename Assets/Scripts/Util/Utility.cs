@@ -38,6 +38,14 @@ public class Utility
 							);
 	}
 	
+	public static Color RandomColor()
+	{
+		return new Color((float)Random.Range(0.0F, 1.0F),
+						(float)Random.Range(0.0F, 1.0F),
+						(float)Random.Range(0.0F, 1.0F)
+					);
+	}
+
 	// return a random point on the surface of a given cube's scale
 	public static Vector3 RandomPointOnCubeSurface(Vector3 bounds)
 	{
