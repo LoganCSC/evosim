@@ -103,7 +103,6 @@ public class Settings : MonoBehaviour {
 
 	private void initializeFromContents(JsonData contents)
 	{
-		Debug.Log("initiallizing from contents");
 		JsonData creature = contents["creature"];
 		JsonData ether = contents["ether"];
 		JsonData foodbit = contents["foodbit"];
@@ -174,7 +173,6 @@ public class Settings : MonoBehaviour {
 		log_pop_data = (int)contents["config"]["population_logging"];
 		log_fbit_data = (int)contents["config"]["foodbit_logging"];
 		log_time = float.Parse(contents["config"]["log_time"].ToString());
-		Debug.Log("done initiallizing from contents");
 	}
 }
 
