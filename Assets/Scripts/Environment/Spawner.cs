@@ -47,7 +47,6 @@ public class Spawner : MonoBehaviour
 		// For each new starting creature, generate random genes and spawn the bugger
 		for (int i = 0; i < settings.starting_creatures; i++)
 		{
-			Debug.Log("spwaning initian " + i);
 			float init_energy = settings.creature_init_energy;
 			float spread = settings.creature_spread;
 			if (eth.enoughEnergy(init_energy))

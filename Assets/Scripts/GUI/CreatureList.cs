@@ -8,13 +8,13 @@ public class CreatureList : MonoBehaviour
 	public GameObject button_prefab;
 	public List<GameObject> selections;
 
-	CreatureInfoContainer creature_info;
+	//CreatureInfoContainer creature_info;
 
 	void Start ()
 	{
-		creature_info = CreatureInfoContainer.getInstance();
+		//creature_info = CreatureInfoContainer.getInstance();
 	}
-	/* This does not seem needed
+	/*
 	void OnEnable ()
 	{
 		SaveCreature.CreatureSaved += OnUpdate;
@@ -23,12 +23,12 @@ public class CreatureList : MonoBehaviour
 	void OnDisable ()
 	{
 		SaveCreature.CreatureSaved -= OnUpdate;
-	}
-	*/
+	}*/
+	
 	public void PopulateMenu (SortedList<string, Chromosome> creatures)
 	{
-		DepopulateMenu();
-			   
+		DepopulateMenu();  // first remove all items
+	
 		for (int i = 0; i < creatures.Count; ++i)
 		{
 			string name = creatures.Keys[i];
@@ -68,10 +68,11 @@ public class CreatureList : MonoBehaviour
 		selections.Clear();
 	}
 
+	/*
 	void OnUpdate ()
 	{
 		DepopulateMenu();
 		GetComponentInParent<ImportCreature>().LoadCreatures();
 		PopulateMenu(creature_info.creatures);
-	}
+	}*/
 }

@@ -19,8 +19,6 @@ public class Data : MonoBehaviour
 
 	public CreatureCount cc;
 
-	private UIElement ui_element;
-
 	float log_time;
 
 	public static Data getInstance()
@@ -34,20 +32,9 @@ public class Data : MonoBehaviour
 		return instance;
 	}
 
-	public void OnVisible()
-	{
-		if (ui_element.visible)
-		{
-		}
-
-		if (!ui_element.visible)
-		{
-		}
-	}
-
 	void Start ()
 	{
-		ui_element = GetComponent<UIElement>();
+		//ui_element = GetComponent<UIElement>();
 		creature_population = new List<int>();
 		eth = Ether.getInstance();
 		foodbit_population = new List<int>();
