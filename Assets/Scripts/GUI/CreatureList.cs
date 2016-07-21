@@ -14,7 +14,9 @@ public class CreatureList : MonoBehaviour
 	{
 		//creature_info = CreatureInfoContainer.getInstance();
 	}
+	
 	/*
+	// I did not think that this was needed, but wiuthout it there is a SavedCreature npe.
 	void OnEnable ()
 	{
 		SaveCreature.CreatureSaved += OnUpdate;
@@ -68,11 +70,11 @@ public class CreatureList : MonoBehaviour
 		selections.Clear();
 	}
 
-	/*
+	
 	void OnUpdate ()
 	{
 		DepopulateMenu();
 		GetComponentInParent<ImportCreature>().LoadCreatures();
-		PopulateMenu(creature_info.creatures);
-	}*/
+		//PopulateMenu(creature_info.creatures);
+	}
 }

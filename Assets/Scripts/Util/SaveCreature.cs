@@ -2,25 +2,26 @@
 using System.Collections;
 using System.IO;
 
+/**
+ * Write out the creature state as json.
+ * The file name will be the id of the creature.
+ */
 public class SaveCreature : MonoBehaviour
 {
 	public delegate void Save();
-	public static event Save CreatureSaved;
+	//public static event Save CreatureSaved;
 
 	public CreaturePane cp;
 
-	private string json_creature;
-
-	//CreatureInfoContainer creature_info;
-
 	void Start ()
 	{
-		//creature_info = CreatureInfoContainer.getInstance();
 	}
 
 	public void save ()
 	{
 		Chromosome chromosome = cp.crt.chromosome;
+		string json_creature;
+
 		int crt_id = Mathf.Abs(cp.crt.gameObject.GetInstanceID());
 		if (!Directory.Exists(Application.dataPath + "/data/saved_creatures" + crt_id))
 			Directory.CreateDirectory(Application.dataPath + "/data/saved_creatures/" + crt_id);
@@ -65,47 +66,69 @@ public class SaveCreature : MonoBehaviour
 		};
 		json_creature = string.Format(json_creature_pattern, args);
 
+		json_creature += getRecurrencesJson(chromosome);
+		json_creature += getLimbsJson(chromosome);
+
 		json_creature +=
+		@"}";
+
+		using (var sw = new StreamWriter(filename))
+		{
+			sw.Write(json_creature);
+			sw.Close();
+		}
+
+		//CreatureSaved();
+	}	
+
+	private string getRecurrencesJson(Chromosome chromosome)
+	{
+		string json_recurrences =
 		@"""recurrences"" : [
 		";
-		for(int i=0; i<chromosome.num_recurrences.Length; ++i)
+		for (int i = 0; i < chromosome.num_recurrences.Length; ++i)
 		{
 			string r_pattern =
 			@"{0}";
 
-			if (!(i == chromosome.num_recurrences.Length-1))
+			if (!(i == chromosome.num_recurrences.Length - 1))
 			{
 				r_pattern +=
 			@",
 			";
 			}
 
-			json_creature += string.Format(r_pattern, chromosome.num_recurrences[i]);
+			json_recurrences += string.Format(r_pattern, chromosome.num_recurrences[i]);
 		}
-		json_creature +=
+		json_recurrences +=
 		@"],
-		";		
+		";
+		return json_recurrences;
+	}
 
-		json_creature +=
+	private string getLimbsJson(Chromosome chromosome)
+	{
+
+		string limbs_json =
 		@"""limbs"" : {
 		";
 
 		int branch_count = chromosome.getBranchCount();
-		for(int i=0; i<branch_count; ++i)
+		for (int i = 0; i < branch_count; ++i)
 		{
 			string branch_string =
 			@"
 
 			""{0}"" : [
 			";
-			json_creature += string.Format(branch_string, i.ToString());
+			limbs_json += string.Format(branch_string, i.ToString());
 
 			ArrayList limbs = chromosome.getLimbs(i);
-			for(int k=0; k<limbs.Count; ++k)
+			for (int k = 0; k < limbs.Count; ++k)
 			{
 				ArrayList attributes = (ArrayList)limbs[k];
-				Vector3 position =  (Vector3)attributes[0];
-				Vector3 scale =	 (Vector3)attributes[1];
+				Vector3 position = (Vector3)attributes[0];
+				Vector3 scale = (Vector3)attributes[1];
 
 				string limb_string =
 				@"{{
@@ -130,35 +153,26 @@ public class SaveCreature : MonoBehaviour
 						position.x.ToString(), position.y.ToString(), position.z.ToString(),
 						scale.x.ToString(), scale.y.ToString(), scale.z.ToString()
 				};
-				json_creature += string.Format(limb_string, l_args);
+				limbs_json += string.Format(limb_string, l_args);
 			}
 
-			json_creature +=
+			limbs_json +=
 			@"]";
 
 			if (!(i == branch_count - 1))
 			{
-				json_creature += @",
+				limbs_json += @",
 				";
 			}
 		}
 
-			json_creature +=
-			@"
+		limbs_json +=
+		@"
 			}
 			";
 
-		json_creature += 
+		limbs_json +=
 		@"}";
-json_creature +=
-@"}";
-
-		using (var sw = new StreamWriter(filename))
-		{
-			sw.Write(json_creature);
-			sw.Close();
-		}
-
-		CreatureSaved();
-	}	
+		return limbs_json;
+	}
 }
