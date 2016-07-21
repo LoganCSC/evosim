@@ -14,7 +14,7 @@ public class CreatureList : MonoBehaviour
 	{
 		creature_info = CreatureInfoContainer.getInstance();
 	}
-
+	/* This does not seem needed
 	void OnEnable ()
 	{
 		SaveCreature.CreatureSaved += OnUpdate;
@@ -24,7 +24,7 @@ public class CreatureList : MonoBehaviour
 	{
 		SaveCreature.CreatureSaved -= OnUpdate;
 	}
-
+	*/
 	public void PopulateMenu (SortedList<string, Chromosome> creatures)
 	{
 		DepopulateMenu();
