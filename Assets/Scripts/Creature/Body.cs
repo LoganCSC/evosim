@@ -2,16 +2,16 @@ using UnityEngine;
 using System.Collections;
 
 /**
- *		Author: Craig Lomax
- *		Author: Barry Becker
+ * Author: Craig Lomax
+ * Author: Barry Becker
  * The body is the root element of the creature. Limbs, mouth, eyes are attached to the body.
  * In the future, mouth and eyes might be on limbs.
  */
 public class Body : MonoBehaviour {
 	
 	Transform _t;
-	
-	public Creature crt;	
+
+	public Creature crt;
 	public GameObject eye;
 	public GameObject mouth;
 	public GameObject genital;
