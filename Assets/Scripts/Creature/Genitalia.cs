@@ -3,13 +3,9 @@ using System.Collections;
 
 /*
  *		Author: 	Craig Lomax
- *		Date: 		06.09.2011
- *		URL:		clomax.me.uk
- *		email:		craig@clomax.me.uk
- *
+ *		
+ *		this will all be removed.
  */
-
-
 public class Genitalia : MonoBehaviour {
 
 #pragma warning disable 0414
