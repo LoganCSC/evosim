@@ -73,7 +73,7 @@ public class Spawner : MonoBehaviour
 
 		// random colours
 		Color col = Utility.RandomColor();
-		chromosome.setColour(col);
+		chromosome.setBodyColour(col);
 		chromosome.setLimbColour(col);
 
 		chromosome.hunger_threshold = settings.hunger_threshold;

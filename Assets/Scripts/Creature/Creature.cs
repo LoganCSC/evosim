@@ -93,7 +93,7 @@ public class Creature : MonoBehaviour
 		body.transform.eulerAngles = _t.eulerAngles;
 		body.AddComponent<Rigidbody>();
 		body_script = body.AddComponent<Body>();
-		body_script.setColour(chromosome.getColour());
+		body_script.setColour(chromosome.getBodyColour());
 		body_script.setScale(chromosome.getBodyScale());
 		//body.rigidbody.mass = 15F;
 		body.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
@@ -353,9 +353,9 @@ public class Creature : MonoBehaviour
 				ConfigurableJoint joint = limb.AddComponent<ConfigurableJoint>();
 				joint.axis = new Vector3(0.5F, 0F, 0F);
 				joint.anchor = new Vector3(0F, 0F, 0.5F);
-				joint.breakForce = 100.0f;  // lower this to make limbs break off
+				joint.breakForce = 1000.0f;  // lower this to make limbs break off
 				//joint.breakTorque = 10.0f;
-				if(j == 0) {
+				if (j == 0) {
 					joint.connectedBody = body.GetComponent<Rigidbody>();
 				} else {
 					joint.connectedBody = actual_limbs[j-1].GetComponent<Rigidbody>();

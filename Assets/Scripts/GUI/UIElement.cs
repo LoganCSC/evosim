@@ -39,7 +39,7 @@ public class UIElement : MonoBehaviour {
 	{
 		CanvasGroup cg = GetComponent<CanvasGroup>();
 		cg.interactable = true;
-		if(!passive)
+		if (!passive)
 			cg.blocksRaycasts = true;
 		cg.alpha = 1;
 		visible = true;

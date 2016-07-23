@@ -6,6 +6,8 @@ using System.Text;
 
 /**
  * UI to show info about the creature when it is clicked on.
+ * It took me forever to realize that Body_Col and Limb_COl are associated with images 
+ * in the Unity IDE under CreatureInfoPanel in hierarhcy tab.
  */
 public class CreaturePane : MonoBehaviour
 {
@@ -18,11 +20,32 @@ public class CreaturePane : MonoBehaviour
 
 	public Image Body_Col;
 	public Image Limb_Col;
-
+	
 	private UIElement ui_element;
 
 	private Button[] buttons;
 	public Creature crt;
+
+
+	void Start()
+	{
+
+		ui_element = GetComponent<UIElement>();
+		buttons = GetComponentsInChildren<Button>();
+
+		//Body_Col = GetComponent<Image>();
+
+		if (Limb_Col)
+			Debug.Log(Limb_Col  + " does actually exist");
+		else
+			Debug.Log("No object found for Limb_Col");
+
+		if (Body_Col)
+			Debug.Log(Body_Col + " does actually exist");
+		else
+			Debug.Log("No object found for Body_Col");
+
+	}
 
 	void OnEnable ()
 	{
@@ -64,12 +87,6 @@ public class CreaturePane : MonoBehaviour
 		}
 	}
 
-	void Start ()
-	{
-		ui_element = GetComponent<UIElement>();
-		buttons = GetComponentsInChildren<Button>();
-	}
-
 	void Update ()
 	{
 		set_data(crt);
@@ -86,14 +103,12 @@ public class CreaturePane : MonoBehaviour
 
 			StringBuilder sb = new StringBuilder(c.state.ToString());
 			string state = 
-				sb
-				  .Replace("_"," ")
-				  .ToString();
+				sb.Replace("_"," ").ToString();
 
 			state = char.ToUpper(state[0]) + state.Substring(1);
 			State.text = state;
 
-			Body_Col.color = c.chromosome.colour;
+			Body_Col.color = c.chromosome.body_colour;
 			Limb_Col.color = c.chromosome.limb_colour;
 
 			ui_element.make_visible();

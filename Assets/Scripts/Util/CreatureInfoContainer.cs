@@ -5,14 +5,13 @@ using System.Collections.Generic;
 public class CreatureInfoContainer : MonoBehaviour
 {
 	public static CreatureInfoContainer instance;
-	public static GameObject container;
 	public SortedList<string, Chromosome> creatures;
 
 	public static CreatureInfoContainer getInstance ()
 	{
 		if (!instance)
 		{
-			container = new GameObject();
+			GameObject container = new GameObject();
 			container.name = "CreatureInfo";
 			instance = container.AddComponent<CreatureInfoContainer>();
 		}

@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Linq;
 using LitJson;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 
 public class ImportCreature : MonoBehaviour
@@ -112,7 +109,7 @@ public class ImportCreature : MonoBehaviour
 					branches.Add(limbs);
 				}
 
-				chromosome.colour = body_col;
+				chromosome.body_colour = body_col;
 				chromosome.limb_colour = limb_col;
 				chromosome.hunger_threshold = ht;
 				chromosome.setBodyScale(body_scale);

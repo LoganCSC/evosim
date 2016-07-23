@@ -1,10 +1,20 @@
 fileFormatVersion: 2
 guid: d98b2dfb1e7d817418f9df87d64dbaf8
-timeCreated: 1453892763
+timeCreated: 1469289734
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Name: {instanceID: 0}
+  - Energy: {instanceID: 0}
+  - Age: {instanceID: 0}
+  - Offspring: {instanceID: 0}
+  - FoodEaten: {instanceID: 0}
+  - State: {instanceID: 0}
+  - Limb_Col: {fileID: 11484156, guid: 68314b93986e0864cab136c61cea08de, type: 2}
+  - Foo_Col: {fileID: 11484156, guid: 68314b93986e0864cab136c61cea08de, type: 2}
+  - Body_Col: {fileID: 11417826, guid: 68314b93986e0864cab136c61cea08de, type: 2}
+  - crt: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

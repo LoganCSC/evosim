@@ -41,7 +41,7 @@ public class Mutator
 	private void mutateColor(Chromosome newChromo, double rate, float factor)
 	{
 		float[] cs = new float[3];
-		Color cc = newChromo.getColour();
+		Color cc = newChromo.getBodyColour();
 
 		cs[0] = cc.r;
 		cs[1] = cc.g;
@@ -52,7 +52,7 @@ public class Mutator
 			if (rand < rate)
 				cs[i] = randomizeGene(cs[i], factor, 0, 1);
 		}
-		newChromo.setColour(new Color(cs[0], cs[1], cs[2]));
+		newChromo.setBodyColour(new Color(cs[0], cs[1], cs[2]));
 	}
 
 	private void mutateBodyScale(Chromosome newChromo, double rate, float factor)
@@ -152,7 +152,7 @@ public class Mutator
 		Chromosome newChromo = new Chromosome();
 		
 		// Crossover colours
-		newChromo.setColour(getMutatedColor(chromo.getColour(), c2.getColour()));
+		newChromo.setBodyColour(getMutatedColor(chromo.getBodyColour(), c2.getBodyColour()));
 		newChromo.setLimbColour(getMutatedColor(chromo.getLimbColour(), c2.getLimbColour()));
 
 		crossoverLimbs(c2, newChromo, rate);

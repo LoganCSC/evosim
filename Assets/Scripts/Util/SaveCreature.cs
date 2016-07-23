@@ -58,7 +58,7 @@ public class SaveCreature : MonoBehaviour
 
 		string[] args = {
 			cp.Name.text,
-			chromosome.colour.r.ToString(), chromosome.colour.g.ToString(), chromosome.colour.b.ToString(),
+			chromosome.body_colour.r.ToString(), chromosome.body_colour.g.ToString(), chromosome.body_colour.b.ToString(),
 			chromosome.limb_colour.r.ToString(), chromosome.limb_colour.g.ToString(), chromosome.limb_colour.b.ToString(),
 			chromosome.body_scale.x.ToString(), chromosome.body_scale.y.ToString(), chromosome.body_scale.z.ToString(),
 			chromosome.base_joint_frequency.ToString(), chromosome.base_joint_amplitude.ToString(), chromosome.base_joint_phase.ToString(),

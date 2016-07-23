@@ -7,7 +7,7 @@ using System.Collections;
  */
 public class Chromosome
 {
-	public Color colour;
+	public Color body_colour;
 	public Color limb_colour;
 	public Vector3 body_scale;
 
@@ -41,8 +41,8 @@ public class Chromosome
 		return (ArrayList) branches[index];
 	}
 
-	public Color getColour() {
-		return colour;
+	public Color getBodyColour() {
+		return body_colour;
 	}
 
 	public Color getLimbColour() {
@@ -61,8 +61,8 @@ public class Chromosome
 		branches = bs;
 	}
 
-	public void setColour(Color c) {
-		colour = c;
+	public void setBodyColour(Color c) {
+		body_colour = c;
 	}
 
 	public void setLimbColour(Color c) {
