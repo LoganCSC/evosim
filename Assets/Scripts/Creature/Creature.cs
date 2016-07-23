@@ -146,7 +146,8 @@ public class Creature : MonoBehaviour
 	void FixedUpdate () {
 		sine = Sine(joint_frequency, joint_amplitude, joint_phase);
 		for (int i=0; i<joints.Count; i++) {
-			joints[i].targetRotation = Quaternion.Euler (sine * new Vector3(5F,0F,0F));
+			if (joints[i] != null)
+				joints[i].targetRotation = Quaternion.Euler (sine * new Vector3(5F,0F,0F));
 		}
 
 		if(eye_script.goal) {
@@ -352,6 +353,8 @@ public class Creature : MonoBehaviour
 				ConfigurableJoint joint = limb.AddComponent<ConfigurableJoint>();
 				joint.axis = new Vector3(0.5F, 0F, 0F);
 				joint.anchor = new Vector3(0F, 0F, 0.5F);
+				joint.breakForce = 100.0f;  // lower this to make limbs break off
+				//joint.breakTorque = 10.0f;
 				if(j == 0) {
 					joint.connectedBody = body.GetComponent<Rigidbody>();
 				} else {
@@ -372,7 +375,9 @@ public class Creature : MonoBehaviour
 				JointDrive angXDrive = new JointDrive();
 				//angXDrive.mode = JointDriveMode.Position;
 				angXDrive.positionSpring = 7F;
-				angXDrive.maximumForce = 1000000F;
+				// If this gets down around 0.001, they look sleepy.
+				angXDrive.maximumForce = 10.0F;
+
 				joint.angularXDrive = angXDrive;
 				joint.angularYZDrive = angXDrive;
 
