@@ -84,7 +84,8 @@ public class Ether : MonoBehaviour
 	/** add a new foodbit to the ether if the either has enough energy. */
 	public void addFoodbit (Vector3 pos)
 	{
-		foodbit_energy = (float)Random.Range(settings.init_energy_min, settings.init_energy_max);
+		float[] energy_range = { settings.init_energy_min, settings.init_energy_max };
+		foodbit_energy = (float)Random.Range(energy_range[0], energy_range[1]);
 		
 		if (enoughEnergy(foodbit_energy))
 		{
@@ -92,9 +93,10 @@ public class Ether : MonoBehaviour
 			Foodbit fb_s = fb.AddComponent<Foodbit>();
 			fb_s.energy = foodbit_energy;
 			subtractEnergy(foodbit_energy);
-			float[] old_range = { settings.init_energy_min, settings.init_energy_max };
-			float[] new_range = { settings.init_scale_min, settings.init_scale_max };
-			float scale = Utility.ConvertRange((float)foodbit_energy,  old_range, new_range);
+			
+			// The volume of the food bit is propertional to its energy value
+			float[] scale_range = { settings.init_scale_min, settings.init_scale_max };
+			float scale = Utility.ConvertRange(Mathf.Pow(foodbit_energy, 1.0f/3.0f),  energy_range, scale_range);
 			fb.transform.localScale = new Vector3(scale, scale, scale);
 			foodbits.Add(fb);
 			FoodbitsUpdated(foodbits.Count);

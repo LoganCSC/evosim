@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
+/**
+ * UI to show info about the creature when it is clicked on.
+ */
 public class CreaturePane : MonoBehaviour
 {
 	public InputField Name;
