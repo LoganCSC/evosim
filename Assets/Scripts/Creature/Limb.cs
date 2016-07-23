@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Limb : MonoBehaviour {
 
-	HingeJoint hj;
+	//HingeJoint hj;
 	public Color original_colour;
 
 	void Start () {

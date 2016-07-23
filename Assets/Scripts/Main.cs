@@ -10,8 +10,6 @@ public class Main : MonoBehaviour
 {
 
 #pragma warning disable 0414
-	 Data d;
-	 Logger lg;
 	 Settings settings;
 	 Selection selectionManager;
 	 Spawner spawner;
@@ -25,8 +23,6 @@ public class Main : MonoBehaviour
 	void Start()
 	{
 		createFolders();
-		d = Data.getInstance();
-		lg = Logger.getInstance();
 		settings = Settings.getInstance();
 		selectionManager = Selection.getInstance();
 		aperatus = (GameObject)Instantiate(Resources.Load("Prefabs/Aperatus"));

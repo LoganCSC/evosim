@@ -14,8 +14,7 @@ public class Genitalia : MonoBehaviour {
 
 #pragma warning disable 0414
 	Creature crt;
-	Logger lg;
-	Spawner spw;
+	//Spawner spw;
 	Settings settings;
 	CollisionMediator co;
 	Transform _t;
@@ -35,7 +34,6 @@ public class Genitalia : MonoBehaviour {
 		_t = transform;
 		gameObject.tag = "Genital";
 		crt = (Creature)_t.parent.parent.gameObject.GetComponent("Creature");
-		lg = Logger.getInstance();
 		co = CollisionMediator.getInstance();
 		eye = crt.eye.gameObject.GetComponent<Eye>();
 		

@@ -8,14 +8,12 @@ public class Spawner : MonoBehaviour
 {
 #pragma warning disable 0414
 	public static Spawner instance;
-	Logger lg;
-	Data d;
 	CreatureCount crt_count;
 	Ether eth;
 	Settings settings;
-	GameObject crt;
+	//GameObject crt;
 	static GameObject container;
-	Vector3 pos;
+	//Vector3 pos;
 #pragma warning restore 0414
 
 	public delegate void Crt(Creature c);
@@ -24,8 +22,6 @@ public class Spawner : MonoBehaviour
 	void Start()
 	{
 		settings = Settings.getInstance();
-		lg = Logger.getInstance();
-		d = Data.getInstance();
 		crt_count = GameObject.Find("CreatureCount").GetComponent<CreatureCount>();
 		eth = Ether.getInstance();
 		spawnInitialCreatures();

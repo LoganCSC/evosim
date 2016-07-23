@@ -7,7 +7,6 @@ using System.Collections.Generic;
 /**
  *		Author: 	Craig Lomax
  */
-
 public class Creature : MonoBehaviour
 {
 	Transform _t;
@@ -18,8 +17,8 @@ public class Creature : MonoBehaviour
 	public GameObject root;
 	public Root root_script;
 
-	Vector3 max_root_scale;
-	Vector3 min_root_scale;
+	//Vector3 max_root_scale;
+	//Vector3 min_root_scale;
 
 	public GameObject eye;
 	public GameObject mouth;

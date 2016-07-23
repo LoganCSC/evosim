@@ -12,10 +12,6 @@ public class Foodbit : MonoBehaviour
 	MeshRenderer mr;
 
 	public float energy;
-	float decay_amount;
-	float destroy_at;
-	float decay_time;
-	float decay_rate;
 
 	 void Start ()
 	 {

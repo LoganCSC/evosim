@@ -1,9 +1,5 @@
 ﻿{
 	"config": {
-		"population_logging"		: 0,
-		"foodbit_logging"			: 0,
-		"log_time"					: 5.0,
-
 		"camera": {
 			"sensitivity"			: 1.0,
 			"invert"				: 1,

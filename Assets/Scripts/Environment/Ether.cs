@@ -5,7 +5,7 @@ using LitJson;
 
 /**
  *		Author: 	Craig Lomax
- *		Date: 		06.09.2011
+ *		Author: 	Barry Becker
  */
 public class Ether : MonoBehaviour
 {	
@@ -13,10 +13,7 @@ public class Ether : MonoBehaviour
 	public static Ether instance;
 	
 	GameObject foodbit;
-
-	Logger lg;
 	Settings settings;
-	Data data;
 	public Spawner spawner;
 	
 	public float total_energy;
@@ -52,7 +49,6 @@ public class Ether : MonoBehaviour
 		foodbit = (GameObject)Resources.Load("Prefabs/Foodbit");
 
 		settings = Settings.getInstance();
-		data = Data.getInstance();
 		spawner = Spawner.getInstance();
 
 		total_energy = settings.total_energy;
@@ -175,8 +171,8 @@ public class Ether : MonoBehaviour
 	
 	private void FixEnergyLeak ()
 	{
-		float total_crt = data.TotalCreatureEnergy();
-		float total_fb = data.TotalFoodbitEnergy();
+		float total_crt = TotalCreatureEnergy();
+		float total_fb = TotalFoodbitEnergy();
 		float total = energy + total_crt + total_fb;
 		print("crt: " + total_crt + "	 fb: " + total_fb + "	 ether: " + energy + "		total: " + total);
 		if (total != total_energy)
@@ -185,5 +181,25 @@ public class Ether : MonoBehaviour
 			print("Fixing energy leak... "+fix);
 			subtractEnergy(fix);
 		}
+	}
+
+	public float TotalCreatureEnergy()
+	{
+		float result = 0;
+		foreach (Creature c in creatures)
+		{
+			result += c.energy;
+		}
+		return (result);
+	}
+
+	internal float TotalFoodbitEnergy()
+	{
+		float result = 0;
+		foreach (GameObject f in foodbits)
+		{
+			result += f.GetComponent<Foodbit>().energy;
+		}
+		return (result);
 	}
 }

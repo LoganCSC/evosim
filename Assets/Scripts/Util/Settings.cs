@@ -58,10 +58,6 @@ public class Settings : MonoBehaviour {
 
 	public float camera_sensitivity;
 	public float camera_invert;
-
-	public float log_time;
-	public int log_pop_data;
-	public int log_fbit_data;
 	
 
 	public Settings()
@@ -169,10 +165,6 @@ public class Settings : MonoBehaviour {
 		genitalia_line_length = float.Parse(contents["genitalia"]["line_length"].ToString());
 		camera_sensitivity = float.Parse(contents["config"]["camera"]["sensitivity"].ToString());
 		camera_invert = float.Parse(contents["config"]["camera"]["invert"].ToString());
-
-		log_pop_data = (int)contents["config"]["population_logging"];
-		log_fbit_data = (int)contents["config"]["foodbit_logging"];
-		log_time = float.Parse(contents["config"]["log_time"].ToString());
 	}
 }
 
