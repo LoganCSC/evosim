@@ -7,9 +7,8 @@ public class Eye : MonoBehaviour
 	Foodbit fbit;
 	public Creature targetCrt = null;
 	public GameObject targetFbit= null;
-	CollisionMediator co;
+	CollisionMediator cm;
 	public float curr_dist = 0f;
-	double los;
 	
 	public Collider[] cs;
 	
@@ -27,10 +26,8 @@ public class Eye : MonoBehaviour
 		_t = transform;
 		
 		crt = _t.parent.parent.gameObject.GetComponent<Creature>();
-		co = CollisionMediator.getInstance();
+		cm = CollisionMediator.getInstance();
 		settings = Settings.getInstance();
-		los = crt.line_of_sight;
-
 		body = _t.parent;
 
 		InvokeRepeating("refreshVision", 0, settings.eye_refresh_rate);
@@ -42,14 +39,10 @@ public class Eye : MonoBehaviour
 		switch (crt.state)
 		{
 		case Creature.State.persuing_mate:
-			most_similar_creature();
-			break;
 		case Creature.State.searching_for_mate:
 			most_similar_creature();
 			break;
 		case Creature.State.persuing_food:
-			closestFoodbit();
-			break;
 		case Creature.State.searching_for_food:
 			closestFoodbit();
 			break;
@@ -63,7 +56,7 @@ public class Eye : MonoBehaviour
 		GameObject c 			= null; // current collider being looked at
 		float similarity		= Mathf.Infinity;
 		float curr_similarity;
-		cs = Physics.OverlapSphere(_t.position, (float)los);
+		cs = Physics.OverlapSphere(_t.position, (float)crt.line_of_sight);
 
 
 		if (cs.Length == 0)
@@ -93,7 +86,7 @@ public class Eye : MonoBehaviour
 					Genitalia other_genital = other_crt.genital.GetComponent<Genitalia>();
 					if (crt.state == Creature.State.persuing_mate || other_crt.state == Creature.State.persuing_mate)
 					{
-						co.observe(crt.genital.gameObject, other_genital.gameObject);
+						cm.observe(crt.genital.gameObject, other_genital.gameObject);
 						other_crt.ChangeState(Creature.State.mating);
 						crt.ChangeState(Creature.State.mating);
 					}
@@ -128,7 +121,7 @@ public class Eye : MonoBehaviour
 		GameObject target 		= null;
 		GameObject c 			= null; // current collider being looked at
 		float dist 				= Mathf.Infinity;
-		cs = Physics.OverlapSphere(_t.position, (float)los);
+		cs = Physics.OverlapSphere(_t.position, (float)crt.line_of_sight);
 
 		if (cs.Length == 0)
 		{
@@ -157,7 +150,7 @@ public class Eye : MonoBehaviour
 					Genitalia other_genital = other_crt.genital.GetComponent<Genitalia>();
 					if (crt.state == Creature.State.persuing_mate || other_crt.state == Creature.State.persuing_mate)
 					{
-						co.observe(crt.genital.gameObject, other_genital.gameObject);
+						cm.observe(crt.genital.gameObject, other_genital.gameObject);
 						other_crt.ChangeState(Creature.State.mating);
 						crt.ChangeState(Creature.State.mating);
 					}
@@ -181,7 +174,7 @@ public class Eye : MonoBehaviour
 		targetFbit 		= null;	// reference to the script of the closest foodbit
 		GameObject closest 	= null;
 		float dist 			= Mathf.Infinity;
-		cs = Physics.OverlapSphere(_t.position, (float)los);
+		cs = Physics.OverlapSphere(_t.position, (float)crt.line_of_sight);
 
 		foreach (Collider c in cs) {
 			GameObject f = (GameObject) c.gameObject;

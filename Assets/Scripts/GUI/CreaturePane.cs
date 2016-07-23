@@ -44,7 +44,6 @@ public class CreaturePane : MonoBehaviour
 			Debug.Log(Body_Col + " does actually exist");
 		else
 			Debug.Log("No object found for Body_Col");
-
 	}
 
 	void OnEnable ()
