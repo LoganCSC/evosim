@@ -32,18 +32,6 @@ public class CreaturePane : MonoBehaviour
 
 		ui_element = GetComponent<UIElement>();
 		buttons = GetComponentsInChildren<Button>();
-
-		//Body_Col = GetComponent<Image>();
-
-		if (Limb_Col)
-			Debug.Log(Limb_Col  + " does actually exist");
-		else
-			Debug.Log("No object found for Limb_Col");
-
-		if (Body_Col)
-			Debug.Log(Body_Col + " does actually exist");
-		else
-			Debug.Log("No object found for Body_Col");
 	}
 
 	void OnEnable ()

@@ -49,6 +49,7 @@ public class Eye : MonoBehaviour
 		}
 	}
 	
+	// Entirely based on color. This can go away.
 	void most_similar_creature()
 	{
 		targetCrt 				= null;	// reference to the script of the closest creature
@@ -57,7 +58,6 @@ public class Eye : MonoBehaviour
 		float similarity		= Mathf.Infinity;
 		float curr_similarity;
 		cs = Physics.OverlapSphere(_t.position, (float)crt.line_of_sight);
-
 
 		if (cs.Length == 0)
 		{
@@ -82,26 +82,36 @@ public class Eye : MonoBehaviour
 				Vector3 diff = c.transform.position - _t.position;
 				if (diff.magnitude < (float) settings.crt_mate_range)
 				{
-					other_crt = c.transform.parent.GetComponent<Creature>();
-					Genitalia other_genital = other_crt.genital.GetComponent<Genitalia>();
-					if (crt.state == Creature.State.persuing_mate || other_crt.state == Creature.State.persuing_mate)
-					{
-						cm.observe(crt.genital.gameObject, other_genital.gameObject);
-						other_crt.ChangeState(Creature.State.mating);
-						crt.ChangeState(Creature.State.mating);
-					}
+					DoMating(c);
 					similarity = curr_similarity;
 				}
 			}
 
-			distance_to_goal = 0F;
-			goal = null;
-			if (target)
-			{
-				targetCrt = target.GetComponent<Creature>();
-				goal = targetCrt.body;
-				distance_to_goal = distanceToGoal();
-			}
+			UpdateDistanceToGoal(target);
+		}
+	}
+
+	private void UpdateDistanceToGoal(GameObject target)
+	{
+		distance_to_goal = 0F;
+		goal = null;
+		if (target)
+		{
+			targetCrt = target.GetComponent<Creature>();
+			goal = targetCrt.body;
+			distance_to_goal = distanceToGoal();
+		}
+	}
+
+	private void DoMating(GameObject c)
+	{
+		other_crt = c.transform.parent.GetComponent<Creature>();
+		Genitalia other_genital = other_crt.genital.GetComponent<Genitalia>();
+		if (crt.state == Creature.State.persuing_mate || other_crt.state == Creature.State.persuing_mate)
+		{
+			cm.observe(crt.genital.gameObject, other_genital.gameObject);
+			other_crt.ChangeState(Creature.State.mating);
+			crt.ChangeState(Creature.State.mating);
 		}
 	}
 
@@ -113,60 +123,6 @@ public class Eye : MonoBehaviour
 
 		//return Mathf.Abs((colour1.r * colour2.r) - (colour1.g * colour2.g) - (colour1.b * colour2.b)); // this seems wrong
 		return Mathf.Abs(Mathf.Abs(colour1.r - colour2.r) + Mathf.Abs(colour1.g - colour2.g) + Mathf.Abs(colour1.b - colour2.b));
-	}
-
-	private void closestCreature ()
-	{
-		targetCrt 				= null;	// reference to the script of the closest creature
-		GameObject target 		= null;
-		GameObject c 			= null; // current collider being looked at
-		float dist 				= Mathf.Infinity;
-		cs = Physics.OverlapSphere(_t.position, (float)crt.line_of_sight);
-
-		if (cs.Length == 0)
-		{
-			target = null;
-			return;
-		}
-
-		foreach (Collider col in cs)
-		{
-			c = (GameObject) col.transform.gameObject;
-			if (c && c.gameObject.name == "body" && c != crt.body.gameObject)
-			{
-				Vector3 diff = c.transform.position - _t.position;
-				curr_dist = diff.magnitude;
-				other_crt = c.transform.parent.GetComponent<Creature>();
-
-
-				if (curr_dist < dist)
-				{
-					target = c.transform.parent.gameObject;
-					dist = curr_dist;
-				}
-				if (curr_dist < (float) settings.crt_mate_range)
-				{
-					other_crt = c.transform.parent.GetComponent<Creature>();
-					Genitalia other_genital = other_crt.genital.GetComponent<Genitalia>();
-					if (crt.state == Creature.State.persuing_mate || other_crt.state == Creature.State.persuing_mate)
-					{
-						cm.observe(crt.genital.gameObject, other_genital.gameObject);
-						other_crt.ChangeState(Creature.State.mating);
-						crt.ChangeState(Creature.State.mating);
-					}
-					dist = curr_dist;
-				}
-			}
-
-			distance_to_goal = 0F;
-			goal = null;
-			if (target)
-			{
-				targetCrt = target.GetComponent<Creature>();
-				goal = targetCrt.body;
-				distance_to_goal = distanceToGoal();
-			}
-		}	
 	}
 	
 	void closestFoodbit ()
