@@ -78,21 +78,23 @@ public class Utility
 		return (int) t.TotalSeconds;
 	}
 	
-	//http://stackoverflow.com/questions/929103/convert-a-number-range-to-another-range-maintaining-ratio
-	public static float ConvertRange(float old_value, float old_min, float old_max, float new_min, float new_max)
+	/**
+	 * http://stackoverflow.com/questions/929103/convert-a-number-range-to-another-range-maintaining-ratio
+	 */
+	public static float ConvertRange(float old_value, float [] old_range, float [] new_range)
 	{
 		float new_value;
-		float old_range = (old_max - old_min);
-		if (old_range == 0)
+		float old_extent = (old_range[1] - old_range[0]);
+		if (old_extent == 0)
 		{
-			new_value = new_min;
+			new_value = new_range[0];
 		}
 		else
 		{
-			float new_range = (new_max - new_min);
-			new_value = (((old_value - old_min) * new_range) / old_range) + new_min;
+			float new_extent = (new_range[1] - new_range[0]);
+			new_value = (((old_value - old_range[0]) * new_extent) / old_extent) + new_range[0];
 		}
 
-		return (new_value);
+		return new_value;
 	}
 }

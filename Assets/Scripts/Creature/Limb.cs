@@ -10,8 +10,19 @@ public class Limb : MonoBehaviour {
 		tag = "Creature";
 	}
 
+
+	public void setPosition(Vector3 p)
+	{
+		transform.localPosition = p;
+	}
+
 	public Vector3 getPosition () {
 		return transform.localPosition;
+	}
+
+	public void setScale(Vector3 s)
+	{
+		transform.localScale = s;
 	}
 
 	public Vector3 getScale () {
@@ -24,12 +35,4 @@ public class Limb : MonoBehaviour {
 		gameObject.GetComponent<MeshRenderer>().material.color = c;
 	}
 	
-	public void setPosition (Vector3 p) {
-		transform.localPosition = p;
-	}
-	
-	public void setScale (Vector3 s) {
-		transform.localScale = s;
-	}
-
 }

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using LitJson;
 
 /**
- *		Author: 	Craig Lomax
- *		Author: 	Barry Becker
+ * Author: Craig Lomax
+ * Author: Barry Becker
+ * The ether is the liquid that the vvreatures swim in.
  */
 public class Ether : MonoBehaviour
 {	
@@ -62,10 +63,11 @@ public class Ether : MonoBehaviour
 		for (int i=0; i<settings.start_number_foodbits; i++)
 		{
 			Vector3 pos = Utility.RandomVec(-spread, spread, spread);
-			newFoodbit(pos);
+			addFoodbit(pos);
 		}
 
-		InvokeRepeating("FixEnergyLeak", 1F*60F, 1F*60F);
+		// fix energy every minute
+		InvokeRepeating("FixEnergyLeak", 60F, 60F);
 		InvokeRepeating("fbSpawn", settings.spore_time, settings.spore_time);
 	}
 
@@ -79,7 +81,8 @@ public class Ether : MonoBehaviour
 		creatures.Remove(c);
 	}
 	
-	public void newFoodbit (Vector3 pos)
+	/** add a new foodbit to the ether if the either has enough energy. */
+	public void addFoodbit (Vector3 pos)
 	{
 		foodbit_energy = (float)Random.Range(settings.init_energy_min, settings.init_energy_max);
 		
@@ -89,15 +92,21 @@ public class Ether : MonoBehaviour
 			Foodbit fb_s = fb.AddComponent<Foodbit>();
 			fb_s.energy = foodbit_energy;
 			subtractEnergy(foodbit_energy);
-			float scale = Utility.ConvertRange((float)foodbit_energy, 
-				settings.init_energy_min, settings.init_energy_max, 
-				settings.init_scale_min, settings.init_scale_max);
+			float[] old_range = { settings.init_energy_min, settings.init_energy_max };
+			float[] new_range = { settings.init_scale_min, settings.init_scale_max };
+			float scale = Utility.ConvertRange((float)foodbit_energy,  old_range, new_range);
 			fb.transform.localScale = new Vector3(scale, scale, scale);
 			foodbits.Add(fb);
 			FoodbitsUpdated(foodbits.Count);
 		}
 	}
-	
+
+	public void removeFoodbit(GameObject fb)
+	{
+		FoodbitsUpdated(foodbits.Count);
+		foodbits.Remove(fb);
+	}
+
 	private void fbSpawn()
 	{
 		int fb_count = getFoodbitCount();
@@ -121,14 +130,8 @@ public class Ether : MonoBehaviour
 				new_pos = Utility.RandomVec(-spread, spread, spread);
 			}
 			
-			newFoodbit(new_pos);
+			addFoodbit(new_pos);
 		}
-	}
-	
-	public void removeFoodbit (GameObject fb)
-	{
-		FoodbitsUpdated(foodbits.Count);
-		foodbits.Remove(fb);
 	}
 	
 	public int getFoodbitCount ()
