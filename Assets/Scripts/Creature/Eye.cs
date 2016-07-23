@@ -20,7 +20,7 @@ public class Eye : MonoBehaviour
 
 	public GameObject goal = null;
 	public float distance_to_goal = 0F;
-	Transform root;
+	Transform body;
 	
 	void Start ()
 	{
@@ -31,7 +31,7 @@ public class Eye : MonoBehaviour
 		settings = Settings.getInstance();
 		los = crt.line_of_sight;
 
-		root = _t.parent;
+		body = _t.parent;
 
 		InvokeRepeating("refreshVision", 0, settings.eye_refresh_rate);
 	}
@@ -75,7 +75,7 @@ public class Eye : MonoBehaviour
 		foreach (Collider col in cs)
 		{
 			c = (GameObject) col.transform.gameObject;
-			if (c && c.gameObject.name == "root" && c != crt.root.gameObject)
+			if (c && c.gameObject.name == "body" && c != crt.body.gameObject)
 			{
 				other_crt = c.transform.parent.GetComponent<Creature>();
 				curr_similarity = similar_colour(crt.chromosome, other_crt.chromosome);
@@ -106,7 +106,7 @@ public class Eye : MonoBehaviour
 			if (target)
 			{
 				targetCrt = target.GetComponent<Creature>();
-				goal = targetCrt.root;
+				goal = targetCrt.body;
 				distance_to_goal = distanceToGoal();
 			}
 		}
@@ -139,7 +139,7 @@ public class Eye : MonoBehaviour
 		foreach (Collider col in cs)
 		{
 			c = (GameObject) col.transform.gameObject;
-			if (c && c.gameObject.name == "root" && c != crt.root.gameObject)
+			if (c && c.gameObject.name == "body" && c != crt.body.gameObject)
 			{
 				Vector3 diff = c.transform.position - _t.position;
 				curr_dist = diff.magnitude;
@@ -170,7 +170,7 @@ public class Eye : MonoBehaviour
 			if (target)
 			{
 				targetCrt = target.GetComponent<Creature>();
-				goal = targetCrt.root;
+				goal = targetCrt.body;
 				distance_to_goal = distanceToGoal();
 			}
 		}	
@@ -220,7 +220,7 @@ public class Eye : MonoBehaviour
 	public float distanceToGoal ()
 	{
 		if (goal)
-			return Vector3.Distance(root.position, goal.transform.position);
+			return Vector3.Distance(body.position, goal.transform.position);
 		else
 			return 0F;
 	}

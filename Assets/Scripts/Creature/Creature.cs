@@ -14,11 +14,11 @@ public class Creature : MonoBehaviour
 	Settings settings;
 	Ether eth;
 
-	public GameObject root;
-	public Root root_script;
+	public GameObject body;
+	public Body body_script;
 
-	//Vector3 max_root_scale;
-	//Vector3 min_root_scale;
+	//Vector3 max_body_scale;
+	//Vector3 min_body_scale;
 
 	public GameObject eye;
 	public GameObject mouth;
@@ -86,36 +86,36 @@ public class Creature : MonoBehaviour
 		joint_amplitude = chromosome.base_joint_amplitude;
 		joint_phase = chromosome.base_joint_phase;
 
-		root = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		root.name = "root";
-		root.transform.parent = _t;
-		root.transform.position = _t.position;
-		root.transform.eulerAngles = _t.eulerAngles;
-		root.AddComponent<Rigidbody>();
-		root_script = root.AddComponent<Root>();
-		root_script.setColour(chromosome.getColour());
-		root_script.setScale(chromosome.getRootScale());
-		//root.rigidbody.mass = 15F;
-		root.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
-		root.GetComponent<Rigidbody>().drag = settings.drag;
+		body = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		body.name = "body";
+		body.transform.parent = _t;
+		body.transform.position = _t.position;
+		body.transform.eulerAngles = _t.eulerAngles;
+		body.AddComponent<Rigidbody>();
+		body_script = body.AddComponent<Body>();
+		body_script.setColour(chromosome.getColour());
+		body_script.setScale(chromosome.getBodyScale());
+		//body.rigidbody.mass = 15F;
+		body.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
+		body.GetComponent<Rigidbody>().drag = settings.drag;
 		eye = new GameObject();
 		eye.name = "Eye";
-		eye.transform.parent = root.transform;
-		eye.transform.eulerAngles = root.transform.eulerAngles;
-		eye.transform.position = root.transform.position;
+		eye.transform.parent = body.transform;
+		eye.transform.eulerAngles = body.transform.eulerAngles;
+		eye.transform.position = body.transform.position;
 		eye_script = eye.AddComponent<Eye>();
 
 		mouth = new GameObject();
 		mouth.name = "Mouth";
-		mouth.transform.parent = root.transform;
-		mouth.transform.eulerAngles = root.transform.eulerAngles;
+		mouth.transform.parent = body.transform;
+		mouth.transform.eulerAngles = body.transform.eulerAngles;
 		mouth.transform.localPosition = new Vector3(0, 0, .5F);
 		mouth.AddComponent<Mouth>();
 
 		genital = new GameObject();
 		genital.name = "Genital";
-		genital.transform.parent = root.transform;
-		genital.transform.eulerAngles = root.transform.eulerAngles;
+		genital.transform.parent = body.transform;
+		genital.transform.eulerAngles = body.transform.eulerAngles;
 		genital.transform.localPosition = new Vector3(0, 0, -.5F);
 		genital.AddComponent<Genitalia>();
 
@@ -135,7 +135,7 @@ public class Creature : MonoBehaviour
 		InvokeRepeating("updateState", 0, 0.1f);
 		InvokeRepeating("RandomDirection", 1F, 5F);
 
-		root.GetComponent<Rigidbody>().SetDensity(4F);
+		body.GetComponent<Rigidbody>().SetDensity(4F);
 
 		ms = GetComponentsInChildren<MeshRenderer>();
 	}
@@ -150,7 +150,7 @@ public class Creature : MonoBehaviour
 		}
 
 		if(eye_script.goal) {
-			target_direction = (eye_script.goal.transform.position - root.transform.position).normalized;
+			target_direction = (eye_script.goal.transform.position - body.transform.position).normalized;
 		}
 
 		if (target_direction != Vector3.zero) {
@@ -159,13 +159,13 @@ public class Creature : MonoBehaviour
 
 		float abs_sine = Mathf.Abs(sine);
 		float pos_sine = System.Math.Max(sine,0);
-		root.transform.rotation = Quaternion.Slerp(root.transform.rotation, lookRotation, Time.deltaTime * (abs_sine * 3F));
+		body.transform.rotation = Quaternion.Slerp(body.transform.rotation, lookRotation, Time.deltaTime * (abs_sine * 3F));
 
 		if (pos_sine == 0) {
-			direction = root.transform.forward;
+			direction = body.transform.forward;
 		}
 
-		root.GetComponent<Rigidbody>().AddForce(Mathf.Abs(force_scalar) * direction * pos_sine * chromosome.getBranchCount());
+		body.GetComponent<Rigidbody>().AddForce(Mathf.Abs(force_scalar) * direction * pos_sine * chromosome.getBranchCount());
 	}
 
 	float Sine (float freq, float amplitude, float phase_shift) {
@@ -338,10 +338,10 @@ public class Creature : MonoBehaviour
 
 				if(j == 0) {
 					limb_script.setPosition( (Vector3) attributes[0] );
-					limb.transform.LookAt(root.transform);
+					limb.transform.LookAt(body.transform);
 				} else {
 					limb_script.setPosition( actual_limbs[j-1].transform.localPosition );
-					limb.transform.LookAt(root.transform);
+					limb.transform.LookAt(body.transform);
 					limb.transform.Translate(0,0,-actual_limbs[j-1].transform.localScale.z);
 				}
 
@@ -353,7 +353,7 @@ public class Creature : MonoBehaviour
 				joint.axis = new Vector3(0.5F, 0F, 0F);
 				joint.anchor = new Vector3(0F, 0F, 0.5F);
 				if(j == 0) {
-					joint.connectedBody = root.GetComponent<Rigidbody>();
+					joint.connectedBody = body.GetComponent<Rigidbody>();
 				} else {
 					joint.connectedBody = actual_limbs[j-1].GetComponent<Rigidbody>();
 				}
@@ -417,7 +417,7 @@ public class Creature : MonoBehaviour
 
 	private void Lighten ()
 	{
-		root.GetComponent<MeshRenderer>().material.color = root_script.original_colour;
+		body.GetComponent<MeshRenderer>().material.color = body_script.original_colour;
 		foreach (Limb l in all_limbs)
 		{
 			l.GetComponent<MeshRenderer>().material.color = l.original_colour;

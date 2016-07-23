@@ -1,7 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
-public class Root : MonoBehaviour {
+/**
+ *		Author: Craig Lomax
+ *		Author: Barry Becker
+ * The body is the root element of the creature. Limbs, mouth, eyes are attached to the body.
+ * In the future, mouth and eyes might be on limbs.
+ */
+public class Body : MonoBehaviour {
 	
 	Transform _t;
 	

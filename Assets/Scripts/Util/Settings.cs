@@ -14,8 +14,8 @@ public class Settings : MonoBehaviour {
 	public int starting_creatures;
 	public float creature_spread;
 
-	public Vector3 max_root_scale;
-	public Vector3 min_root_scale;
+	public Vector3 max_body_scale;
+	public Vector3 min_body_scale;
 
 	public Vector3 max_limb_scale;
 	public Vector3 min_limb_scale;
@@ -80,9 +80,9 @@ public class Settings : MonoBehaviour {
 		return instance;
 	}
 
-	public Vector3 getRandomRootScale()
+	public Vector3 getRandomBodyScale()
 	{
-		return getRandomScale(min_root_scale, max_root_scale);
+		return getRandomScale(min_body_scale, max_body_scale);
 	}
 
 	public Vector3 getRandomLimbScale()
@@ -104,15 +104,15 @@ public class Settings : MonoBehaviour {
 		JsonData foodbit = contents["foodbit"];
 		JsonData genetics = contents["genetics"];
 
-		max_root_scale = new Vector3();
-		max_root_scale.x = float.Parse(creature["root"]["max_root_scale"]["x"].ToString());
-		max_root_scale.y = float.Parse(creature["root"]["max_root_scale"]["y"].ToString());
-		max_root_scale.z = float.Parse(creature["root"]["max_root_scale"]["z"].ToString());
+		max_body_scale = new Vector3();
+		max_body_scale.x = float.Parse(creature["body"]["max_body_scale"]["x"].ToString());
+		max_body_scale.y = float.Parse(creature["body"]["max_body_scale"]["y"].ToString());
+		max_body_scale.z = float.Parse(creature["body"]["max_body_scale"]["z"].ToString());
 
-		min_root_scale = new Vector3();
-		min_root_scale.x = float.Parse(creature["root"]["min_root_scale"]["x"].ToString());
-		min_root_scale.y = float.Parse(creature["root"]["min_root_scale"]["y"].ToString());
-		min_root_scale.z = float.Parse(creature["root"]["min_root_scale"]["z"].ToString());
+		min_body_scale = new Vector3();
+		min_body_scale.x = float.Parse(creature["body"]["min_body_scale"]["x"].ToString());
+		min_body_scale.y = float.Parse(creature["body"]["min_body_scale"]["y"].ToString());
+		min_body_scale.z = float.Parse(creature["body"]["min_body_scale"]["z"].ToString());
 
 		max_limb_scale = new Vector3();
 		max_limb_scale.x = float.Parse(creature["limb"]["max_limb_scale"]["x"].ToString());

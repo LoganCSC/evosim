@@ -9,7 +9,7 @@ public class Chromosome
 {
 	public Color colour;
 	public Color limb_colour;
-	public Vector3 root_scale;
+	public Vector3 body_scale;
 
 	public float base_joint_frequency;
 	public float base_joint_amplitude;
@@ -49,8 +49,8 @@ public class Chromosome
 		return limb_colour;
 	}
 
-	public Vector3 getRootScale() {
-		return root_scale;
+	public Vector3 getBodyScale() {
+		return body_scale;
 	}
 
 	public ArrayList getBranches() {
@@ -69,8 +69,8 @@ public class Chromosome
 		limb_colour = c;
 	}
 
-	public void setRootScale(Vector3 rs) {
-		root_scale = rs;
+	public void setBodyScale(Vector3 rs) {
+		body_scale = rs;
 	}
 
 	public void setBaseFequency(float freq) {

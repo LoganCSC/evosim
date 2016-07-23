@@ -78,8 +78,8 @@ public class Spawner : MonoBehaviour
 
 		chromosome.hunger_threshold = settings.hunger_threshold;
 
-		Vector3 rootScale = settings.getRandomRootScale();
-		chromosome.setRootScale(rootScale);
+		Vector3 bodyScale = settings.getRandomBodyScale();
+		chromosome.setBodyScale(bodyScale);
 
 		// random initial limbs
 		int bs = Random.Range(1, settings.branch_limit + 1);
@@ -94,7 +94,7 @@ public class Spawner : MonoBehaviour
 			chromosome.num_recurrences[j] = recurrences;
 			for (int k = 0; k <= recurrences; k++)
 			{
-				Vector3 position = Utility.RandomPointOnCubeSurface(rootScale);
+				Vector3 position = Utility.RandomPointOnCubeSurface(bodyScale);
 				ArrayList limb = new ArrayList();
 				limb.Add(position);
 				limb.Add(settings.getRandomLimbScale());

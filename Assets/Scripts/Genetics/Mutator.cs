@@ -31,7 +31,7 @@ public class Mutator
 	private Chromosome mutate(Chromosome newChromo, double rate, float factor)
 	{
 		mutateColor(newChromo, rate, factor);
-		mutateRootScale(newChromo, rate, factor);
+		mutateBodyScale(newChromo, rate, factor);
 		mutateLimbs(newChromo, rate, factor);
 		mutateSine(newChromo, rate, factor);
 		
@@ -55,9 +55,9 @@ public class Mutator
 		newChromo.setColour(new Color(cs[0], cs[1], cs[2]));
 	}
 
-	private void mutateRootScale(Chromosome newChromo, double rate, float factor)
+	private void mutateBodyScale(Chromosome newChromo, double rate, float factor)
 	{
-		Vector3 rc = newChromo.getRootScale();
+		Vector3 rc = newChromo.getBodyScale();
 
 		if (rc.x > 1F && rc.y > 1F && rc.z > 1F)
 		{
@@ -71,8 +71,8 @@ public class Mutator
 				if (rand < rate)
 					rs[i] = randomizeGene(rs[i], factor, 0, 1);
 			}
-			Vector3 rootScale = new Vector3(rs[0], rs[1], rs[2]);
-			newChromo.setRootScale(rootScale);
+			Vector3 bodyScale = new Vector3(rs[0], rs[1], rs[2]);
+			newChromo.setBodyScale(bodyScale);
 		}
 	}
 
@@ -189,11 +189,11 @@ public class Mutator
 		select = Random.Range(0, 2);
 		if (select == 0)
 		{
-			newChromo.setRootScale(chromo.getRootScale());
+			newChromo.setBodyScale(chromo.getBodyScale());
 		}
 		else
 		{
-			newChromo.setRootScale(c2.getRootScale());
+			newChromo.setBodyScale(c2.getBodyScale());
 		}
 
 		// Randomly select attributes from the selected creature's limbs to

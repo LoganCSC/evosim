@@ -62,11 +62,11 @@ public class ImportCreature : MonoBehaviour
 
 				string name = contents["name"].ToString();
 
-				Color root_col = new Color();
-				root_col.r = float.Parse(contents["attributes"]["colour"]["r"].ToString());
-				root_col.g = float.Parse(contents["attributes"]["colour"]["g"].ToString());
-				root_col.b = float.Parse(contents["attributes"]["colour"]["b"].ToString());
-				root_col.a = 1;
+				Color body_col = new Color();
+				body_col.r = float.Parse(contents["attributes"]["colour"]["r"].ToString());
+				body_col.g = float.Parse(contents["attributes"]["colour"]["g"].ToString());
+				body_col.b = float.Parse(contents["attributes"]["colour"]["b"].ToString());
+				body_col.a = 1;
 
 				Color limb_col = new Color();
 				limb_col.r = float.Parse(contents["attributes"]["limb_colour"]["r"].ToString());
@@ -74,10 +74,10 @@ public class ImportCreature : MonoBehaviour
 				limb_col.b = float.Parse(contents["attributes"]["limb_colour"]["b"].ToString());
 				limb_col.a = 1;
 
-				Vector3 root_scale = new Vector3();
-				root_scale.x = float.Parse(contents["attributes"]["root_scale"]["x"].ToString());
-				root_scale.y = float.Parse(contents["attributes"]["root_scale"]["y"].ToString());
-				root_scale.z = float.Parse(contents["attributes"]["root_scale"]["z"].ToString());
+				Vector3 body_scale = new Vector3();
+				body_scale.x = float.Parse(contents["attributes"]["body_scale"]["x"].ToString());
+				body_scale.y = float.Parse(contents["attributes"]["body_scale"]["y"].ToString());
+				body_scale.z = float.Parse(contents["attributes"]["body_scale"]["z"].ToString());
 
 				float bjf = float.Parse(contents["attributes"]["base_joint_frequency"].ToString());
 				float bja = float.Parse(contents["attributes"]["base_joint_amplitude"].ToString());
@@ -112,10 +112,10 @@ public class ImportCreature : MonoBehaviour
 					branches.Add(limbs);
 				}
 
-				chromosome.colour = root_col;
+				chromosome.colour = body_col;
 				chromosome.limb_colour = limb_col;
 				chromosome.hunger_threshold = ht;
-				chromosome.setRootScale(root_scale);
+				chromosome.setBodyScale(body_scale);
 				chromosome.setBaseFequency(bjf);
 				chromosome.setBaseAmplitude(bja);
 				chromosome.setBasePhase(bjp);

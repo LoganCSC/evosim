@@ -46,14 +46,14 @@
 		"branch_limit"				: 4,
 		"recurrence_limit"			: 3,
 
-		"root": {
-			"max_root_scale" : {
+		"body": {
+			"max_body_scale" : {
 				"x"					: 1.0,
 				"y"					: 1.0,
 				"z"					: 1.0
 			},
 
-			"min_root_scale": {
+			"min_body_scale": {
 				"x"					: 0.3,
 				"y"					: 0.3,
 				"z"					: 0.3
