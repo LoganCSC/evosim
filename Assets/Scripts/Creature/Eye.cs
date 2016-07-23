@@ -99,7 +99,7 @@ public class Eye : MonoBehaviour
 		{
 			targetCrt = target.GetComponent<Creature>();
 			goal = targetCrt.body;
-			distance_to_goal = distanceToGoal();
+			distance_to_goal = distanceToGoal(goal);
 		}
 	}
 
@@ -162,11 +162,11 @@ public class Eye : MonoBehaviour
 		goal = targetFbit;
 		if (goal)
 		{
-			distance_to_goal = distanceToGoal();
+			distance_to_goal = distanceToGoal(goal);
 		}
 	}
 
-	public float distanceToGoal ()
+	public float distanceToGoal (GameObject goal)
 	{
 		if (goal)
 			return Vector3.Distance(body.position, goal.transform.position);
