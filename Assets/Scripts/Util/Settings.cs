@@ -37,7 +37,6 @@ public class Settings : MonoBehaviour {
 	public double crt_mate_range;
 	public double fb_eat_range;
 	public float eye_refresh_rate;
-	public float genitalia_line_length;
 
 	public float total_energy;
 	public int start_number_foodbits;
@@ -162,7 +161,6 @@ public class Settings : MonoBehaviour {
 		init_scale_min = float.Parse(foodbit["init_scale_min"].ToString());
 		init_scale_max = float.Parse(foodbit["init_scale_max"].ToString());
 
-		genitalia_line_length = float.Parse(contents["genitalia"]["line_length"].ToString());
 		camera_sensitivity = float.Parse(contents["config"]["camera"]["sensitivity"].ToString());
 		camera_invert = float.Parse(contents["config"]["camera"]["invert"].ToString());
 	}

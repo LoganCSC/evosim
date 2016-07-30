@@ -13,5 +13,4 @@ public class CreatureWindow: MonoBehaviour {
 		GUI.Label (new Rect(20,20,100,50), "Creature Window");
 		GUI.DragWindow (new Rect (0,0,100,100));
 	}
-
 }

@@ -2,12 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-/*
- *		Author: 	Craig Lomax
- *		Date: 		31.08.2011
- *		URL:		clomax.me.uk
- *		email:		craig@clomax.me.uk
- *
+/**
+ * Author: Craig Lomax
  */
  
 public class EtherEnergy : MonoBehaviour

@@ -9,8 +9,6 @@ using System.IO;
 public class SaveCreature : MonoBehaviour
 {
 	public delegate void Save();
-	//public static event Save CreatureSaved;
-
 	public CreaturePane cp;
 
 	void Start ()

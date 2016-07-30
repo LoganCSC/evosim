@@ -73,11 +73,6 @@
 			}
 		}
 	},
-
-	"genitalia": {
-		"line_length"				: 0.05
-	},
-
 	"genetics": {
 		"crossover_rate"			: 0.5,
 		"mutation_rate"				: 0.1,

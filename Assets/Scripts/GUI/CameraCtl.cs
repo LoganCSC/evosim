@@ -1,16 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-
-/*
- *		Author: 	Craig Lomax
- *		Date: 		06.09.2011
- *		URL:		clomax.me.uk
- *		email:		craig@clomax.me.uk
- *
+/**
+ * Controls 3D mouse navigation by the user in the environment.
+ *	Author: Craig Lomax
  */
-
-
 public class CameraCtl : MonoBehaviour {
 
 	private float sensitivity;	
@@ -18,7 +12,6 @@ public class CameraCtl : MonoBehaviour {
 	
 	float hdg = 0F;
 	float pitch = 0F;
-
 	float invert;
 
 	Settings settings;
@@ -41,7 +34,7 @@ public class CameraCtl : MonoBehaviour {
 		float deltaX = Input.GetAxis("Mouse X") * sensitivity;
 		float deltaY = Input.GetAxis("Mouse Y") * sensitivity;
 
-		if(Input.GetMouseButton(2)) {
+		if (Input.GetMouseButton(2)) {
 			pan (deltaX, deltaY);
 		}
 	

@@ -3,7 +3,8 @@ using LitJson;
 using System.Collections;
 
 /**
- *		Author: 	Craig Lomax
+ * Author: Craig Lomax
+ * Author: Barry Beckeer
  */
 public class Chromosome
 {

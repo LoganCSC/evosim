@@ -17,9 +17,6 @@ public class Foodbit : MonoBehaviour
 		name = "Foodbit";
 		mr = GetComponent<MeshRenderer>();
 		mr.sharedMaterial = (Material)Resources.Load("Materials/Foodbit");
-
-		//Collider co = GetComponent<SphereCollider>();
-		//co.isTrigger = true;
 	 }
 
 	public void destroy ()

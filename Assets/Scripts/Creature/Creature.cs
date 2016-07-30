@@ -22,7 +22,6 @@ public class Creature : MonoBehaviour
 
 	public GameObject eye;
 	public GameObject mouth;
-	public GameObject genital;
 
 	List<ConfigurableJoint> joints = new List<ConfigurableJoint>();
 
@@ -56,9 +55,6 @@ public class Creature : MonoBehaviour
 	// TODO: Fix this "state machine"
 	public enum State {
 		persuing_food,
-		persuing_mate, // rm
-		searching_for_mate, // rm
-		mating, // rm
 		eating,
 		searching_for_food,
 		dead
@@ -93,7 +89,6 @@ public class Creature : MonoBehaviour
 		body = CreateBody();
 		eye = CreateEye();
 		mouth = CreateMouth();
-		genital = CreateGenital();
 
 		line_of_sight = settings.line_of_sight;
 		metabolic_rate = settings.metabolic_rate;
@@ -154,17 +149,6 @@ public class Creature : MonoBehaviour
 		mouth.transform.localPosition = new Vector3(0, 0, .5F);
 		mouth.AddComponent<Mouth>();
 		return mouth;
-	}
-
-	GameObject CreateGenital()
-	{
-		GameObject genital = new GameObject();
-		genital.name = "Genital";
-		genital.transform.parent = body.transform;
-		genital.transform.eulerAngles = body.transform.eulerAngles;
-		genital.transform.localPosition = new Vector3(0, 0, -.5F);
-		genital.AddComponent<Genitalia>();
-		return genital;
 	}
 
 	/**
@@ -233,7 +217,7 @@ public class Creature : MonoBehaviour
 
 		float original_force = force_scalar;
 		float original_joint_frequency = joint_frequency;
-		if (state == State.eating || state == State.mating)
+		if (state == State.eating)
 		{
 			joint_frequency = 0F;
 			force_scalar = 0F;
@@ -273,19 +257,13 @@ public class Creature : MonoBehaviour
 	 * Searching for food if not pursuing food.
 	 */
 	void updateState() {
-		if (state != Creature.State.mating) {
-			if (chromosome == null)
-			{
-				throw new System.InvalidOperationException("Chromosome is null");
-			}
+		if (chromosome == null)
+		{
+			throw new System.InvalidOperationException("Chromosome is null");
+		}
 			
-			if (energy < chromosome.hunger_threshold) {
-				ChangeState((eye_script.targetFbit != null) ? State.persuing_food : State.searching_for_food);
-			}
-			// remove this when removing genitals
-			if (energy >= chromosome.hunger_threshold && age > age_sexual_maturity) {
-				ChangeState((eye_script.targetCrt != null) ? State.persuing_mate : State.searching_for_mate);
-			}
+		if (energy < chromosome.hunger_threshold) {
+			ChangeState((eye_script.targetFbit != null) ? State.persuing_food : State.searching_for_food);
 		}
 	}
 
@@ -426,7 +404,7 @@ public class Creature : MonoBehaviour
 	}
 
 	float d_col = 0.01F;
-	private IEnumerator Darken ()
+	private IEnumerator Darken()
 	{
 		float col = 1F;
 		while (col > 0.15F && energy < low_energy_threshold)
@@ -444,7 +422,7 @@ public class Creature : MonoBehaviour
 	float d_force = 0.01F;
 
 
-	private IEnumerator SlowDown ()
+	private IEnumerator SlowDown()
 	{
 		float freq = joint_frequency;
 		while (freq > 0.15F && energy < low_energy_threshold)
@@ -457,16 +435,14 @@ public class Creature : MonoBehaviour
 		}
 	}
 
-	private void Lighten ()
+	private void Lighten()
 	{
 		body.GetComponent<MeshRenderer>().material.color = body_script.original_colour;
 		foreach (Limb l in all_limbs)
-		{
 			l.GetComponent<MeshRenderer>().material.color = l.original_colour;
-		}
 	}
 
-	private void ResetSpeed ()
+	private void ResetSpeed()
 	{
 		joint_frequency = chromosome.base_joint_frequency;
 		force_scalar = 1F;

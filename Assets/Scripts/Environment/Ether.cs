@@ -45,7 +45,7 @@ public class Ether : MonoBehaviour
 		Creature.CreatureDead -= OnCreatureDeath;
 	}
 
-	void Start ()
+	void Start()
 	{
 		foodbit = (GameObject)Resources.Load("Prefabs/Foodbit");
 
@@ -71,12 +71,12 @@ public class Ether : MonoBehaviour
 		InvokeRepeating("fbSpawn", settings.spore_time, settings.spore_time);
 	}
 
-	void OnCreatureSpawned (Creature c)
+	void OnCreatureSpawned(Creature c)
 	{
 		creatures.Add(c);
 	}
 
-	void OnCreatureDeath (Creature c)
+	void OnCreatureDeath(Creature c)
 	{
 		creatures.Remove(c);
 	}
@@ -114,7 +114,7 @@ public class Ether : MonoBehaviour
 		int fb_count = getFoodbitCount();
 		if (fb_count >= 1)
 		{
-			int fb_index = Random.Range(0,fb_count);
+			int fb_index = Random.Range(0, fb_count);
 			GameObject fb = (GameObject) foodbits[fb_index];
 			Foodbit fb_script = fb.GetComponent<Foodbit>();
 			foodbit_energy = fb_script.energy;

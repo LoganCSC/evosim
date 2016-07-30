@@ -42,8 +42,6 @@ public class Mouth : MonoBehaviour {
 	void drawLineFromMouthToFood(GameObject cf)
 	{
 		lr.useWorldSpace = true;
-		//Vector3 line_end = new Vector3(cf.transform.position.x, cf.transform.position.y, cf.transform.position.z);
-		Vector3 line_start = _t.position;
 		lr.SetPosition(1, cf.transform.position);
 		resetStart();
 	}

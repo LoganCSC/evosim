@@ -8,12 +8,7 @@ public class CreatureList : MonoBehaviour
 	public GameObject button_prefab;
 	public List<GameObject> selections;
 
-	//CreatureInfoContainer creature_info;
-
-	void Start ()
-	{
-		//creature_info = CreatureInfoContainer.getInstance();
-	}
+	void Start () {}
 	
 	/*
 	// I did not think that this was needed, but wiuthout it there is a SavedCreature npe.
@@ -44,7 +39,6 @@ public class CreatureList : MonoBehaviour
 			lc.parent = GetComponentInParent<UIElement>();
 			lc.c = chromosome;
 
-			//Button b = button.GetComponent<Button>();
 			Text t = button.GetComponentInChildren<Text>();
 			t.text = name;
 

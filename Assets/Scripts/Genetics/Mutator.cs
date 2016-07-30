@@ -3,8 +3,8 @@ using System.Collections;
 
 /**
  * Mutates a specified chromosome and does crossover with another.
- *		Author: 	Craig Lomax
- *		Author:	 Barry Becker
+ *	Author: Craig Lomax
+ *	Author: Barry Becker
  */
 public class Mutator
 {
@@ -105,7 +105,6 @@ public class Mutator
 					if (rand < rate)
 						v[k] = randomizeGene(v[k], factor, 0, 1);	// What is range?
 				}
-
 			}
 		}
 		newChromo.setBranches(branches);
@@ -116,27 +115,19 @@ public class Mutator
 		// mutate base frequency and amplitude
 		double rand = RND.NextDouble();
 		if (rand < rate)
-		{
 			newChromo.base_joint_amplitude = randomizeGene(newChromo.base_joint_amplitude, factor);
-		}
 
 		rand = RND.NextDouble();
 		if (rand < rate)
-		{
 			newChromo.base_joint_frequency = randomizeGene(newChromo.base_joint_frequency, factor);
-		}
 
 		rand = RND.NextDouble();
 		if (rand < rate)
-		{
 			newChromo.base_joint_phase = randomizeGene(newChromo.base_joint_phase, factor);
-		}
 
 		rand = RND.NextDouble();
 		if (rand < rate)
-		{
 			newChromo.hunger_threshold = randomizeGene(newChromo.hunger_threshold, factor);
-		}
 	}
 
 	private Color getMutatedColor(Color c1, Color c2)
@@ -156,7 +147,6 @@ public class Mutator
 		newChromo.setLimbColour(getMutatedColor(chromo.getLimbColour(), c2.getLimbColour()));
 
 		crossoverLimbs(c2, newChromo, rate);
-
 		crossoverSine(c2, newChromo);
 
 		return (newChromo);
@@ -188,13 +178,9 @@ public class Mutator
 
 		select = Random.Range(0, 2);
 		if (select == 0)
-		{
 			newChromo.setBodyScale(chromo.getBodyScale());
-		}
 		else
-		{
 			newChromo.setBodyScale(c2.getBodyScale());
-		}
 
 		// Randomly select attributes from the selected creature's limbs to
 		//	assign to child creature's limbs

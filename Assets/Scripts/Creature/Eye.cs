@@ -3,20 +3,17 @@ using System.Collections;
 
 public class Eye : MonoBehaviour
 {
+	private static System.Random RND = new System.Random();
 	Creature crt;
 	Foodbit fbit;
 	public Creature targetCrt = null;
 	public GameObject targetFbit= null;
 	CollisionObserver observer;
 	public float curr_dist = 0f;
-	
 	public Collider[] cs;
-	
 	Transform _t;
-	
 	Settings settings;
 	Creature other_crt;
-
 	public GameObject goal = null;
 	public float distance_to_goal = 0F;
 	Transform body;
@@ -38,17 +35,14 @@ public class Eye : MonoBehaviour
 		targetCrt = null;
 		switch (crt.state)
 		{
-		case Creature.State.persuing_mate:
-		case Creature.State.searching_for_mate:
-			most_similar_creature();
-			break;
-		case Creature.State.persuing_food:
-		case Creature.State.searching_for_food:
-			closestFoodbit();
-			break;
+			case Creature.State.persuing_food:
+			case Creature.State.searching_for_food:
+				closestFoodbit();
+				break;
 		}
 	}
 	
+	/*
 	// Entirely based on color. This can go away.
 	void most_similar_creature()
 	{
@@ -82,15 +76,16 @@ public class Eye : MonoBehaviour
 				Vector3 diff = c.transform.position - _t.position;
 				if (diff.magnitude < (float) settings.crt_mate_range)
 				{
-					DoMating(c);
+					//DoMating(c);
 					similarity = curr_similarity;
 				}
 			}
 
 			UpdateDistanceToGoal(target);
 		}
-	}
+	}*/
 
+		/*
 	private void UpdateDistanceToGoal(GameObject target)
 	{
 		distance_to_goal = 0F;
@@ -101,19 +96,7 @@ public class Eye : MonoBehaviour
 			goal = targetCrt.body;
 			distance_to_goal = distanceToGoal(goal);
 		}
-	}
-
-	private void DoMating(GameObject c)
-	{
-		other_crt = c.transform.parent.GetComponent<Creature>();
-		Genitalia other_genital = other_crt.genital.GetComponent<Genitalia>();
-		if (crt.state == Creature.State.persuing_mate || other_crt.state == Creature.State.persuing_mate)
-		{
-			observer.observe(crt.genital.gameObject, other_genital.gameObject);
-			other_crt.ChangeState(Creature.State.mating);
-			crt.ChangeState(Creature.State.mating);
-		}
-	}
+	}*/
 
 	private float similar_colour(Chromosome c1, Chromosome c2)
 	{
@@ -126,9 +109,9 @@ public class Eye : MonoBehaviour
 	
 	void closestFoodbit ()
 	{
-		targetFbit 		= null;	// reference to the script of the closest foodbit
+		targetFbit = null; // reference to the script of the closest foodbit
 		GameObject closest 	= null;
-		float dist 			= Mathf.Infinity;
+		float dist = Mathf.Infinity;
 		cs = Physics.OverlapSphere(_t.position, (float)crt.line_of_sight);
 
 		foreach (Collider c in cs) {
@@ -150,6 +133,19 @@ public class Eye : MonoBehaviour
 					crt.food_eaten++;
 				}
 			}
+
+			if (c && c.gameObject.name == "body" && c != crt.body.gameObject)
+			{
+				other_crt = c.transform.parent.GetComponent<Creature>();
+				Vector3 distDiff = c.transform.position - _t.position;
+				float similarityDiff = similar_colour(crt.chromosome, other_crt.chromosome); // avoid mating with relatives
+				if (distDiff.magnitude < (float)settings.crt_mate_range && similarityDiff > 0.5 && RND.NextDouble() < 0.1)
+				{
+					Debug.Log("crt1: " + crt + " other crt: " + other_crt + " diff.magnitude=" + distDiff.magnitude + " similarityDiff =" + similarityDiff);
+					//observer.DoMating(crt, other_crt);
+					observer.observe(crt, other_crt);
+				}
+			}
 		}
 
 		distance_to_goal = 0F;
@@ -163,6 +159,7 @@ public class Eye : MonoBehaviour
 		{
 			distance_to_goal = distanceToGoal(goal);
 		}
+		//UpdateDistanceToGoal(goal);
 	}
 
 	public float distanceToGoal (GameObject goal)

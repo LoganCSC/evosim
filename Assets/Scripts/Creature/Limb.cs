@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Limb : MonoBehaviour {
 
-	//HingeJoint hj; // should allow different sorts of joints // have breaking thresh
 	public Color original_colour;
 
 	void Start () {

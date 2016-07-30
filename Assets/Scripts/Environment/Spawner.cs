@@ -11,9 +11,7 @@ public class Spawner : MonoBehaviour
 	CreatureCount crt_count;
 	Ether eth;
 	Settings settings;
-	//GameObject crt;
 	static GameObject container;
-	//Vector3 pos;
 #pragma warning restore 0414
 
 	public delegate void Crt(Creature c);

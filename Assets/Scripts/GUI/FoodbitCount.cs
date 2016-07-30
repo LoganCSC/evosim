@@ -26,6 +26,6 @@ public class FoodbitCount : MonoBehaviour
 		text.text = "Foodbits: " + count;
 	}
 
-	void Update ()	{
+	void Update () {
 	}
 }

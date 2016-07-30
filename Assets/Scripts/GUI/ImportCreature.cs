@@ -11,12 +11,9 @@ public class ImportCreature : MonoBehaviour
 	StreamReader sr;
 	string raw_contents;
 	public JsonData contents;
-
 	CreatureInfoContainer creature_info;
-
 	private UIElement ui_element;
 	public Transform button_ui_parent;
-
 	GameObject s;
 
 	void Start()
