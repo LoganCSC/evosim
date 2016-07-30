@@ -7,7 +7,7 @@ public class Eye : MonoBehaviour
 	Foodbit fbit;
 	public Creature targetCrt = null;
 	public GameObject targetFbit= null;
-	CollisionMediator cm;
+	CollisionObserver observer;
 	public float curr_dist = 0f;
 	
 	public Collider[] cs;
@@ -26,7 +26,7 @@ public class Eye : MonoBehaviour
 		_t = transform;
 		
 		crt = _t.parent.parent.gameObject.GetComponent<Creature>();
-		cm = CollisionMediator.getInstance();
+		observer = CollisionObserver.getInstance();
 		settings = Settings.getInstance();
 		body = _t.parent;
 
@@ -109,12 +109,11 @@ public class Eye : MonoBehaviour
 		Genitalia other_genital = other_crt.genital.GetComponent<Genitalia>();
 		if (crt.state == Creature.State.persuing_mate || other_crt.state == Creature.State.persuing_mate)
 		{
-			cm.observe(crt.genital.gameObject, other_genital.gameObject);
+			observer.observe(crt.genital.gameObject, other_genital.gameObject);
 			other_crt.ChangeState(Creature.State.mating);
 			crt.ChangeState(Creature.State.mating);
 		}
 	}
-
 
 	private float similar_colour(Chromosome c1, Chromosome c2)
 	{

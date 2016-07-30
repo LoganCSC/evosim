@@ -13,7 +13,7 @@ public class Main : MonoBehaviour
 	 Settings settings;
 	 Selection selectionManager;
 	 Spawner spawner;
-	 CollisionMediator co;
+	 CollisionObserver co;
 
 	 GameObject aperatus;
 	 GameObject cam;
@@ -30,7 +30,7 @@ public class Main : MonoBehaviour
 		cam.AddComponent<CameraCtl>();
 		ether = Ether.getInstance();
 		spawner = Spawner.getInstance();
-		co = CollisionMediator.getInstance();
+		co = CollisionObserver.getInstance();
 	}
 
 	void Update()

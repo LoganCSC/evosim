@@ -12,7 +12,7 @@ public class Genitalia : MonoBehaviour {
 	Creature crt;
 	//Spawner spw;
 	Settings settings;
-	CollisionMediator co;
+	CollisionObserver co;
 	Transform _t;
 	LineRenderer lr;
 	Vector3 line_start;
@@ -30,7 +30,7 @@ public class Genitalia : MonoBehaviour {
 		_t = transform;
 		gameObject.tag = "Genital";
 		crt = (Creature)_t.parent.parent.gameObject.GetComponent("Creature");
-		co = CollisionMediator.getInstance();
+		co = CollisionObserver.getInstance();
 		eye = crt.eye.gameObject.GetComponent<Eye>();
 		
 		_t = transform;
