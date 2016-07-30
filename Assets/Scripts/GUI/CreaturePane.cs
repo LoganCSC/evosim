@@ -85,7 +85,7 @@ public class CreaturePane : MonoBehaviour
 		{
 			Energy.text = c.energy.ToString("0.0");
 			Age.text = c.age.ToString("0");
-			Offspring.text = c.offspring.ToString();
+			Offspring.text = c.num_offspring.ToString();
 			FoodEaten.text = c.food_eaten.ToString();
 
 			StringBuilder sb = new StringBuilder(c.state.ToString());

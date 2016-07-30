@@ -5,7 +5,10 @@ using System.Collections.Generic;
 
 
 /**
- *		Author: 	Craig Lomax
+ * Creatures swim around, mate and eat. 
+ * The ones that survive the longest, reproduce and pass on their genes.
+ *	Author: Craig Lomax
+ *	Author: Barry Becker
  */
 public class Creature : MonoBehaviour
 {
@@ -17,9 +20,6 @@ public class Creature : MonoBehaviour
 	public GameObject body;
 	public Body body_script;
 
-	//Vector3 max_body_scale;
-	//Vector3 min_body_scale;
-
 	public GameObject eye;
 	public GameObject mouth;
 	public GameObject genital;
@@ -28,51 +28,55 @@ public class Creature : MonoBehaviour
 
 	public double age;
 	public float energy;
+	// The creature dies if its energy gets below this for too long.
 	public float low_energy_threshold;
 
 	public Chromosome chromosome;
 
 	public double line_of_sight;
+	// Instead a fixed rate of burning energy, it should be dependent on forces in physical movement
 	float metabolic_rate;
 	int age_sexual_maturity;
 
-	public int offspring;
+	public int num_offspring;
 	public int food_eaten;
 
-	ArrayList limbs;
-	ArrayList all_limbs;
+	private ArrayList limbs;
+	private ArrayList all_limbs;
 
-	float joint_frequency;
-	float joint_amplitude;
-	float joint_phase;
-
-	float force_scalar = 1F;
+	// These should be part of each joint
+	private float joint_frequency;
+	private float joint_amplitude;
+	private float joint_phase;
+	private float force_scalar = 1F;
 
 	public delegate void CreatureState(Creature c);
 	public static event CreatureState CreatureDead;
 
-	// TODO: Fix this shit "state machine"
+	// TODO: Fix this "state machine"
 	public enum State {
-						persuing_food,
-						persuing_mate,
-						searching_for_mate,
-						mating,
-						eating,
-						searching_for_food,
-						dead,
-						neutral
-					  };
+		persuing_food,
+		persuing_mate, // rm
+		searching_for_mate, // rm
+		mating, // rm
+		eating,
+		searching_for_food,
+		dead
+	};
 	public State state;
 	private bool state_lock = false;
 
 	public Eye eye_script;
 	public Vector3 target_direction;
+
+	// Directional movement should be emergent rather than explicit
 	private Quaternion lookRotation;
 	private float sine;
 	private Vector3 direction;
 
 	private bool low_energy_lock = false;
-	MeshRenderer[] ms;
+	private MeshRenderer[] ms;
+	private float metabolise_timer = 1F;
 
 	void Start()
 	{
@@ -86,7 +90,33 @@ public class Creature : MonoBehaviour
 		joint_amplitude = chromosome.base_joint_amplitude;
 		joint_phase = chromosome.base_joint_phase;
 
-		body = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		body = CreateBody();
+		eye = CreateEye();
+		mouth = CreateMouth();
+		genital = CreateGenital();
+
+		line_of_sight = settings.line_of_sight;
+		metabolic_rate = settings.metabolic_rate;
+		age_sexual_maturity = settings.age_sexual_maturity;
+
+		all_limbs = new ArrayList();
+		setupLimbs();
+
+		age = 0.0;
+		ChangeState(State.searching_for_food);
+		food_eaten = 0;
+		num_offspring = 0;
+		low_energy_threshold = settings.low_energy_threshold;
+
+		// timers
+		InvokeRepeating("updateState", 0, 0.1f);
+
+		ms = GetComponentsInChildren<MeshRenderer>();
+	}
+
+	GameObject CreateBody()
+	{
+		GameObject body = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		body.name = "body";
 		body.transform.parent = _t;
 		body.transform.position = _t.position;
@@ -97,142 +127,151 @@ public class Creature : MonoBehaviour
 		body_script.setScale(chromosome.getBodyScale());
 		//body.rigidbody.mass = 15F;
 		body.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
+		// If drag is too high, creatures go nowhere; too low, and they fly off
 		body.GetComponent<Rigidbody>().drag = settings.drag;
-		eye = new GameObject();
+		// Are creatures made of lead (40) or styrophoam (0.4)
+		body.GetComponent<Rigidbody>().SetDensity(4F);
+		return body;
+	}
+
+	GameObject CreateEye()
+	{
+		GameObject eye = new GameObject();
 		eye.name = "Eye";
 		eye.transform.parent = body.transform;
 		eye.transform.eulerAngles = body.transform.eulerAngles;
 		eye.transform.position = body.transform.position;
 		eye_script = eye.AddComponent<Eye>();
+		return eye;
+	}
 
-		mouth = new GameObject();
+	GameObject CreateMouth()
+	{
+		GameObject mouth = new GameObject();
 		mouth.name = "Mouth";
 		mouth.transform.parent = body.transform;
 		mouth.transform.eulerAngles = body.transform.eulerAngles;
 		mouth.transform.localPosition = new Vector3(0, 0, .5F);
 		mouth.AddComponent<Mouth>();
+		return mouth;
+	}
 
-		genital = new GameObject();
+	GameObject CreateGenital()
+	{
+		GameObject genital = new GameObject();
 		genital.name = "Genital";
 		genital.transform.parent = body.transform;
 		genital.transform.eulerAngles = body.transform.eulerAngles;
 		genital.transform.localPosition = new Vector3(0, 0, -.5F);
 		genital.AddComponent<Genitalia>();
-
-		line_of_sight = settings.line_of_sight;
-		metabolic_rate = settings.metabolic_rate;
-		age_sexual_maturity = settings.age_sexual_maturity;
-
-		all_limbs = new ArrayList();
-		setupLimbs();
-
-		age = 0.0;
-		ChangeState(State.neutral);
-		food_eaten = 0;
-		offspring = 0;
-		low_energy_threshold = settings.low_energy_threshold;
-
-		InvokeRepeating("updateState", 0, 0.1f);
-		InvokeRepeating("RandomDirection", 1F, 5F);
-
-		body.GetComponent<Rigidbody>().SetDensity(4F);
-
-		ms = GetComponentsInChildren<MeshRenderer>();
+		return genital;
 	}
 
-
-	// TODO: Find a better way of controlling the joints with wave functions
-	//				the current way needs some sort of magic scalar
+	/**
+	 * Physics update
+	 * // TODO: Find a better way of controlling the joints with wave functions
+	 *				the current way needs some sort of magic scalar
+	 * The physics should really be purely dynamic, instead of this kinematic stuff.
+	 * The creature movement should be a result of water resistance when paddling. 
+	 */
 	void FixedUpdate () {
 		sine = Sine(joint_frequency, joint_amplitude, joint_phase);
 		for (int i=0; i<joints.Count; i++) {
 			if (joints[i] != null)
-				joints[i].targetRotation = Quaternion.Euler (sine * new Vector3(5F,0F,0F));
+				joints[i].targetRotation = Quaternion.Euler (sine * new Vector3(5F, 0F, 0F));
 		}
 
-		if(eye_script.goal) {
+		if (eye_script.goal) {
+			// The unit vector toward the object in sight should only be used as input to neural network.
 			target_direction = (eye_script.goal.transform.position - body.transform.position).normalized;
 		}
 
 		if (target_direction != Vector3.zero) {
+			// turn toward the goal. This is faking it. It needs to be emergent.
 			lookRotation = Quaternion.LookRotation(target_direction);
 		}
 
 		float abs_sine = Mathf.Abs(sine);
 		float pos_sine = System.Math.Max(sine,0);
-		body.transform.rotation = Quaternion.Slerp(body.transform.rotation, lookRotation, Time.deltaTime * (abs_sine * 3F));
+		// interpolates toward where it is looking
+		body.transform.rotation = Quaternion.Slerp(body.transform.rotation, lookRotation, Time.deltaTime * abs_sine * 3F);
 
 		if (pos_sine == 0) {
 			direction = body.transform.forward;
 		}
 
+		// toally fake. Needs fixing.
 		body.GetComponent<Rigidbody>().AddForce(Mathf.Abs(force_scalar) * direction * pos_sine * chromosome.getBranchCount());
 	}
 
-	float Sine (float freq, float amplitude, float phase_shift) {
+	/**
+	 * Sinusoidal frequency slows as the creature ages. Should it?
+	 */
+	float Sine(float freq, float amplitude, float phase_shift) {
 		return Mathf.Sin((float)age * freq + phase_shift) * amplitude;
 	}
 
-	float metabolise_timer = 1F;
+	/**
+	 * Animation update
+	 */
 	void Update()
 	{
 		age += Time.deltaTime;
 
 		metabolise_timer -= Time.deltaTime;
-		if(metabolise_timer <= 0 && state != State.dead)
+		if (metabolise_timer <= 0 && state != State.dead)
 		{
 			metabolise();
 			metabolise_timer = 1F;
 		}
 
 		if (energy <= low_energy_threshold && !low_energy_lock)
-		{
-			low_energy_lock = true;
-			StartCoroutine(SlowDown());
-			StartCoroutine(Darken());
-		}
+			StartShuttingDown();
 
 		if (energy > low_energy_threshold)
-		{
-			state_lock = false;
-			low_energy_lock = false;
-			StopCoroutine(SlowDown());
-			StopCoroutine(Darken());
-			Lighten();
-			ResetSpeed();
-		}
+			AbortShutDown();
 
-		float _force = force_scalar;
-		float _joint_frequency = joint_frequency;
-		if (state == State.mating)
+		float original_force = force_scalar;
+		float original_joint_frequency = joint_frequency;
+		if (state == State.eating || state == State.mating)
 		{
 			joint_frequency = 0F;
 			force_scalar = 0F;
 		}
 		else
 		{
-			joint_frequency = _joint_frequency;
-			force_scalar = _force;
+			joint_frequency = original_joint_frequency;
+			force_scalar = original_force;
 		}
 
 		if (state == State.dead)
-		{
 			kill();
-		}
 	}
 
-	private void RandomDirection () {
-		target_direction = new Vector3 (
-						UnityEngine.Random.Range(-1F,1F),
-						UnityEngine.Random.Range(-1F,1F),
-						UnityEngine.Random.Range(-1F,1F)
-		);
+	private void StartShuttingDown()
+	{
+		low_energy_lock = true;
+		StartCoroutine(SlowDown());
+		StartCoroutine(Darken());
+	}
+
+	private void AbortShutDown()
+	{
+		state_lock = false;
+		low_energy_lock = false;
+		StopCoroutine(SlowDown());
+		StopCoroutine(Darken());
+		Lighten();
+		ResetSpeed();
 	}
 
 	public void setEnergy(float n) {
 		energy = n;
 	}
 
+	/**
+	 * Searching for food if not pursuing food.
+	 */
 	void updateState() {
 		if (state != Creature.State.mating) {
 			if (chromosome == null)
@@ -243,24 +282,22 @@ public class Creature : MonoBehaviour
 			if (energy < chromosome.hunger_threshold) {
 				ChangeState((eye_script.targetFbit != null) ? State.persuing_food : State.searching_for_food);
 			}
+			// remove this when removing genitals
 			if (energy >= chromosome.hunger_threshold && age > age_sexual_maturity) {
 				ChangeState((eye_script.targetCrt != null) ? State.persuing_mate : State.searching_for_mate);
 			}
 		}
 	}
 
-	public void invokechromosome (Chromosome gs) {
+	public void SetChromosome (Chromosome gs) {
 		this.chromosome = gs;
 	}
 
 	public void ChangeState(State s)
 	{
 		if (!state_lock)
-		{
 			state = s;
-		}
 	}
-
 
 	/*
 	 * Return the current energy value for the creature
@@ -315,7 +352,7 @@ public class Creature : MonoBehaviour
 	}
 
 	// TODO: Limbs should be made into a better tree structure, not this
-	// 				list of lists rubbish
+	// 	list of lists rubbish. Also, add symmetry
 	private void setupLimbs () {
 		int num_branches = chromosome.getBranchCount();
 		chromosome.setNumBranches(num_branches);
@@ -328,7 +365,7 @@ public class Creature : MonoBehaviour
 			for (int j=0; j<limbs.Count; j++) {
 				GameObject limb = GameObject.CreatePrimitive(PrimitiveType.Cube);
 				limb.layer = LayerMask.NameToLayer("Creature");
-				limb.name = "limb_"+i+"_"+j;
+				limb.name = "limb_" + i + "_" + j;
 				limb.transform.parent = _t;
 				actual_limbs.Add(limb);
 				Limb limb_script = limb.AddComponent<Limb>();
@@ -337,7 +374,7 @@ public class Creature : MonoBehaviour
 				limb_script.setScale( (Vector3) attributes[1] );
 				limb_script.setColour( (Color) chromosome.getLimbColour());
 
-				if(j == 0) {
+				if (j == 0) {
 					limb_script.setPosition( (Vector3) attributes[0] );
 					limb.transform.LookAt(body.transform);
 				} else {
@@ -375,7 +412,7 @@ public class Creature : MonoBehaviour
 				JointDrive angXDrive = new JointDrive();
 				//angXDrive.mode = JointDriveMode.Position;
 				angXDrive.positionSpring = 7F;
-				// If this gets down around 0.001, they look sleepy.
+				// If this gets down around 0.001, they look sleepy. Two high and population declines.
 				angXDrive.maximumForce = 10.0F;
 
 				joint.angularXDrive = angXDrive;

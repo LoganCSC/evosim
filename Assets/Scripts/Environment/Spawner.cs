@@ -62,7 +62,7 @@ public class Spawner : MonoBehaviour
 		child.transform.eulerAngles = Utility.RandomRotVec();
 		Creature crt_script = child.AddComponent<Creature>();
 		child.tag = "Creature";
-		crt_script.invokechromosome(chromosome);
+		crt_script.SetChromosome(chromosome);
 		crt_script.setEnergy(energy);
 		CreatureSpawned(crt_script);
 	}
