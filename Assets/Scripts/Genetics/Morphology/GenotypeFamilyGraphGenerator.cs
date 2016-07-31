@@ -45,11 +45,17 @@ public class GenotypeFamilyGraphGenerator
 				{
 					terms.Add(parser.ParseTerm(termText));
 				}
+				options.Add(terms);
 			}
 			productions.Add(lhsRhs[0], options);
 		}
 
 		MonoBehaviour.print("grammar dictionary = \n" + this.ToString());
+	}
+
+	public GenotypeFamilyNode GenerateGenotypeFamilyGraph()
+	{
+		return new GenotypeFamilyNode();
 	}
 
 	public override String ToString()
@@ -63,9 +69,11 @@ public class GenotypeFamilyGraphGenerator
 			foreach (List<GenotypeTerm> terms in rule.Value)
 			{
 				List<string> termsList = new List<string>();
+				MonoBehaviour.print("terms len " + terms.Count());
 				foreach (GenotypeTerm term in terms)
 				{
 					termsList.Add(term.ToString());
+					MonoBehaviour.print("term " + term.ToString());
 				}
 				optionTerms.Add(String.Join(", ", termsList.ToArray()));
 			}

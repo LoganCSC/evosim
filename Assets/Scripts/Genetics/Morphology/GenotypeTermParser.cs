@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 /**
@@ -26,12 +24,12 @@ public class GenotypeTermParser
 
 		switch (txt)
 		{
-			case "L": term = new GenotypeTerm(txt); break;
-			case "head": term = new GenotypeTerm(txt); break;
-			case "F": term = new GenotypeTerm(txt); break;
-			case "torso": term = new GenotypeTerm(txt); break;
-			case "limb": term = new GenotypeTerm(txt); break;
-			case "C": term = new GenotypeTerm(txt); break;
+			case "Last": term = new LastConnectionTerm(txt); break;
+			case "First": term = new FirstConnectionTerm(txt); break;
+			case "head": term = new HeadTerm(txt); break;
+			case "torso": term = new TorsoTerm(txt, (int)float.Parse(termParts[1]), (int)float.Parse(termParts[2])); break;
+			case "limb": term = new LimbTerm(txt, (int)float.Parse(termParts[1]), (int)float.Parse(termParts[2])); break;
+			case "Connect": term = new MultiConnectionTerm(txt, (int)float.Parse(termParts[1]), (int)float.Parse(termParts[2])); break;
 			default: term = new VariableTerm(txt); break;
 			//default: throw new ArgumentException("Unexpected term name: " + txt);
 		}

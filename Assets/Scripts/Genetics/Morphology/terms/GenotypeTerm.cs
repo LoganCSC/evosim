@@ -8,17 +8,17 @@ using UnityEngine;
  * There are only a certain set of terms allowed in the genotype epxressions.
  * They must all be defined here. Some take parameters
  */
-public class VariableTerm : GenotypeTerm
+public abstract class GenotypeTerm
 {
-	private Dictionary<string, List<string>> productions;
+	private string rawTxt;
 
-	public VariableTerm(string txt) : base(txt)
+	public GenotypeTerm(string txt)
 	{
+		rawTxt = txt;
 	}
-	
-	public override GenotypeNode CreateGenotypeNode()
+
+	public override String ToString()
 	{
-		return new global::GenotypeNode();
+		return rawTxt;
 	}
-	
 }
