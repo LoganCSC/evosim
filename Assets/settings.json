@@ -40,7 +40,6 @@
 		"mate_range"				: 1.0,
 		"eat_range"					: 0.75,
 		"eye_refresh_rate"			: 0.25,
-		"age_sexual_maturity"		: 6,
 		"angular_drag"				: 7.5,
 		"drag"						: 2.0,
 		"branch_limit"				: 4,

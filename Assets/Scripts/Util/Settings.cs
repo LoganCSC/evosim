@@ -30,7 +30,6 @@ public class Settings : MonoBehaviour {
 
 	public double line_of_sight;
 	public float metabolic_rate;
-	public int age_sexual_maturity;
 	public float low_energy_threshold;
 	public float init_energy;
 
@@ -133,7 +132,6 @@ public class Settings : MonoBehaviour {
 
 		line_of_sight = (double)creature["line_of_sight"];
 		metabolic_rate = float.Parse(creature["metabolic_rate"].ToString());
-		age_sexual_maturity = (int)creature["age_sexual_maturity"];
 		low_energy_threshold = float.Parse(creature["low_energy_threshold"].ToString());
 
 		crt_mate_range = (double)creature["mate_range"];

@@ -35,7 +35,6 @@ public class Creature : MonoBehaviour
 	public double line_of_sight;
 	// Instead a fixed rate of burning energy, it should be dependent on forces in physical movement
 	float metabolic_rate;
-	int age_sexual_maturity;
 
 	public int num_offspring;
 	public int food_eaten;
@@ -92,7 +91,6 @@ public class Creature : MonoBehaviour
 
 		line_of_sight = settings.line_of_sight;
 		metabolic_rate = settings.metabolic_rate;
-		age_sexual_maturity = settings.age_sexual_maturity;
 
 		all_limbs = new ArrayList();
 		setupLimbs();
