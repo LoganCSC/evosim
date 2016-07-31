@@ -134,12 +134,14 @@ public class Eye : MonoBehaviour
 				}
 			}
 
+			// This mating heuristic is not very good
+			// instead, just have a timer that periodically checks the number of creatures and if < threshold, mates until back to desired number.
 			if (c && c.gameObject.name == "body" && c != crt.body.gameObject)
 			{
 				other_crt = c.transform.parent.GetComponent<Creature>();
 				Vector3 distDiff = c.transform.position - _t.position;
 				float similarityDiff = similar_colour(crt.chromosome, other_crt.chromosome); // avoid mating with relatives
-				if (distDiff.magnitude < (float)settings.crt_mate_range && similarityDiff > 0.5 && RND.NextDouble() < 0.1)
+				if (distDiff.magnitude < (float)settings.crt_mate_range && similarityDiff > 0.5 && RND.NextDouble() < 0.5)
 				{
 					Debug.Log("crt1: " + crt + " other crt: " + other_crt + " diff.magnitude=" + distDiff.magnitude + " similarityDiff =" + similarityDiff);
 					//observer.DoMating(crt, other_crt);
