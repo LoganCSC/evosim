@@ -9,7 +9,8 @@ public class CollEvent {
 	private GameObject a;
 	private GameObject b;
 	
-	public CollEvent (GameObject a, GameObject b) {
+	/** Constructor */
+	public CollEvent(GameObject a, GameObject b) {
 		this.a = a;
 		this.b = b;
 	}

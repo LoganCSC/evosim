@@ -143,7 +143,7 @@ public class Eye : MonoBehaviour
 				float similarityDiff = similar_colour(crt.chromosome, other_crt.chromosome); // avoid mating with relatives
 				if (distDiff.magnitude < (float)settings.crt_mate_range && similarityDiff > 0.5 && RND.NextDouble() < 0.5)
 				{
-					Debug.Log("crt1: " + crt + " other crt: " + other_crt + " diff.magnitude=" + distDiff.magnitude + " similarityDiff =" + similarityDiff);
+					//Debug.Log("crt1: " + crt + " other crt: " + other_crt + " diff.magnitude=" + distDiff.magnitude + " similarityDiff =" + similarityDiff);
 					//observer.DoMating(crt, other_crt);
 					observer.observe(crt, other_crt);
 				}
