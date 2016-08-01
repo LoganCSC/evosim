@@ -53,11 +53,16 @@ public class GenotypeFamilyGraphGenerator
 		MonoBehaviour.print("grammar dictionary = \n" + this.ToString());
 	}
 
+	/** 
+	 * @return the root node of the genotype-family graph.
+	 * This graph will produce the genotype-graph. The genotypy-graph is what will be persisted and mutated,
+	 * and is what produces the phenotype (actual physical morphology).
 	public GenotypeFamilyNode GenerateGenotypeFamilyGraph()
 	{
 		return new GenotypeFamilyNode();
 	}
 
+	/** Serialize the productions dictionary. Yseful for debugging */
 	public override String ToString()
 	{
 		StringBuilder bldr = new StringBuilder();
