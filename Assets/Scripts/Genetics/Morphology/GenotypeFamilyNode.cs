@@ -19,7 +19,7 @@ public class GenotypeFamilyNode
 
 	// Configurable join parameters (there are a lot)
 	// set target angle and use max force for slerp mode
-	// set hanlge limits here.
-	public 
+	// set angle limits here.
+	//public 
 
 }

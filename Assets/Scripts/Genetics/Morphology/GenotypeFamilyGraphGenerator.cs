@@ -13,7 +13,7 @@ using UnityEngine;
  * L indicates a connection that needs to be instantiated last,
  * And m:n after a term indicates the number of times that it can recur. Typically m is more likely than n.
  */
-public class GenotypeFamilyGraphGenerator
+public class GenotypeFamilyGraphGenerator : MonoBehaviour
 {
 	// context free grammar production rules
 	private Dictionary<string, List<List<GenotypeTerm>>> productions;
@@ -57,6 +57,7 @@ public class GenotypeFamilyGraphGenerator
 	 * @return the root node of the genotype-family graph.
 	 * This graph will produce the genotype-graph. The genotypy-graph is what will be persisted and mutated,
 	 * and is what produces the phenotype (actual physical morphology).
+	 */
 	public GenotypeFamilyNode GenerateGenotypeFamilyGraph()
 	{
 		return new GenotypeFamilyNode();
