@@ -9,15 +9,10 @@ using UnityEngine;
  * The graph that is created can create the phonotypes for specific creatures.
  * @author Barry Becker
  */
-public class GenotypeFamilyGraphGenerator : MonoBehaviour
+public class GenotypeFamilyGraphGenerator
 {
 	// context free grammar production rules
 	private GenotypeFamilyGrammar grammar;
-
-	private static char PROD_SEP = ';';
-	private static string[] RULE_SEP = {"=>"};
-	private static char OPTION_SEP = '|';
-	private static char TERM_SEP = ',';
 
 
 	/** 

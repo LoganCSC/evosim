@@ -9,7 +9,7 @@ using UnityEngine;
  * The graph that is created can create the phonotypes for specific creatures.
  * @author Barry Becker
  */
-public class GenotypeFamilyGrammar : MonoBehaviour
+public class GenotypeFamilyGrammar
 {
 	// context free grammar production rules
 	private Dictionary<string, List<List<GenotypeTerm>>> productions;
@@ -18,6 +18,9 @@ public class GenotypeFamilyGrammar : MonoBehaviour
 	private static string[] RULE_SEP = {"=>"};
 	private static char OPTION_SEP = '|';
 	private static char TERM_SEP = ',';
+
+	private string initialNonTerminal;
+	
 
 
 	/** 
@@ -36,6 +39,7 @@ public class GenotypeFamilyGrammar : MonoBehaviour
 		GenotypeTermParser parser = new GenotypeTermParser();
 
 		string[] rules = grammar.Split(PROD_SEP);
+		initialNonTerminal = rules[0].Split(RULE_SEP, StringSplitOptions.None)[0];
 
 		foreach (string rule in rules)
 		{
@@ -64,14 +68,44 @@ public class GenotypeFamilyGrammar : MonoBehaviour
 	 * This graph will produce the genotype-graph. The genotypy-graph is what will be persisted and mutated,
 	 * and is what produces the phenotype (actual physical morphology).
 	 */
-	public String createSentence()
+	public string createSentence()
 	{
-		// start with "creature" and make the sentance by applying production rules.
-		return "torso:2,Connect:2,limb:2,First,head";
+		// start with "creature" and make the sentence by applying production rules.
+		//return e.g. "torso:2,Connect:2,limb:2,First,head";
+		return getExpressionForNonTerminal(initialNonTerminal);
+	}
+
+	/**
+	 * Recursively apply rules, until we have a sentence.
+	 */
+	private string getExpressionForNonTerminal(string nonTerminal)
+	{
+
+		if (!productions.ContainsKey(nonTerminal))
+			throw new ArgumentException("Unexpected nonTerminal: " + nonTerminal);
+
+		string expression = "";
+		List<List<GenotypeTerm>> rhs = productions[nonTerminal];
+		// randomly pick from the list of possible RHS's
+		int rndIdx = UnityEngine.Random.Range(0, rhs.Count);
+		//Debug.Log("getExp for " + nonTerminal + " rnd = " + rndIdx + "  count = "+ rhs.Count);
+		List<GenotypeTerm> terms = rhs[rndIdx];
+		foreach (GenotypeTerm term in terms)
+		{
+			if (term is VariableTerm)
+			{
+				expression += getExpressionForNonTerminal(term.ToString()) + ",";
+			}
+			else
+			{
+				expression += term.GetInstanceText() + ",";
+			}
+		}
+		return expression.Substring(0, expression.Length -1);
 	}
 
 	/** Serialize the productions dictionary. Useful for debugging */
-	public override String ToString()
+	public override string ToString()
 	{
 		StringBuilder bldr = new StringBuilder();
 		foreach (KeyValuePair<string, List<List<GenotypeTerm>>> rule in productions)
@@ -86,11 +120,11 @@ public class GenotypeFamilyGrammar : MonoBehaviour
 				foreach (GenotypeTerm term in terms)
 				{
 					termsList.Add(term.ToString());
-					MonoBehaviour.print("term " + term.ToString());
+					//MonoBehaviour.print("term " + term.ToString());
 				}
-				optionTerms.Add(String.Join(", ", termsList.ToArray()));
+				optionTerms.Add(string.Join(", ", termsList.ToArray()));
 			}
-			bldr.Append(String.Join(" | ", optionTerms.ToArray()));
+			bldr.Append(string.Join(" | ", optionTerms.ToArray()));
 			bldr.Append("   ");
 		}
 		return bldr.ToString();

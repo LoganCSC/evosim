@@ -18,6 +18,11 @@ public class LimbTerm : GenotypeNodeTerm
 		minNum = minNumSegments;
 		maxNum = maxNumSegments;
 	}
+
+	public override string GetInstanceText()
+	{
+		return this.rawTxt + GetSkewedRandom(minNum, maxNum);
+	}
 	
 	public override GenotypeFamilyNode CreateGenotypeNode()
 	{

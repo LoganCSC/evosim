@@ -16,7 +16,13 @@ public class MultiConnectionTerm : GenotypeConnectionTerm
 		this.minNumConnects = minNumConnects;
 		this.maxNumConnects = maxNumConnects;
 	}
-	
+
+	public override string GetInstanceText()
+	{
+		return this.rawTxt + GetSkewedRandom(minNumConnects, maxNumConnects);
+	}
+
+
 	public override void ConnectNodes(GenotypeFamilyNode firstNode, GenotypeFamilyNode secondNode)
 	{
 	}

@@ -141,6 +141,12 @@ public class Settings : MonoBehaviour {
 		init_energy = float.Parse(creature["init_energy"].ToString());
 
 		GenotypeFamilyGrammar grammar = new GenotypeFamilyGrammar(genetics["genotype-family-grammar"].ToString());
+
+		// test it
+		for (int i =0; i< 6; i++)
+		{
+			Debug.Log("sentence = " + grammar.createSentence());
+		}
 		gfg_generator = new GenotypeFamilyGraphGenerator(grammar);
 		crossover_rate = (double)genetics["crossover_rate"];
 		mutation_rate = (double)genetics["mutation_rate"];
