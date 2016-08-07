@@ -30,7 +30,7 @@ public class GenotypeTermParser
 			case "torso": term = new TorsoTerm(txt, (int)float.Parse(termParts[1]), (int)float.Parse(termParts[2])); break;
 			case "limb": term = new LimbTerm(txt, (int)float.Parse(termParts[1]), (int)float.Parse(termParts[2])); break;
 			case "Connect": term = new MultiConnectionTerm(txt, (int)float.Parse(termParts[1]), (int)float.Parse(termParts[2])); break;
-			default: term = new VariableTerm(txt); break;
+			default: term = new VariableTerm(txt); break; // a non-terminal to be expanded
 			//default: throw new ArgumentException("Unexpected term name: " + txt);
 		}
 		MonoBehaviour.print("grammar dictionary = \n" + this.ToString());

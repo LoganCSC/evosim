@@ -5,13 +5,9 @@ using System.Text;
 using UnityEngine;
 
 /**
- * Parse a grammar of this form
- * "<LHS1>=><term1A1>,<term1A2>,...|<term1B1>,<term1B2>,...|...;<LHS2>=><term2A1>,<term2A2>,...|<term2B1>,<term2B2>,...|...;..."
- * For example:
- * "creature=>body,F,head;body=>torso:1:8|torso:1:5,C:1:4,limbs;limbs=>limb:1:3"
- * Where F indicates a connection that needs to be instantiated first,
- * L indicates a connection that needs to be instantiated last,
- * And m:n after a term indicates the number of times that it can recur. Typically m is more likely than n.
+ * Generate a graph representing a certain family of creatures.
+ * The graph that is created can create the phonotypes for specific creatures.
+ * @author Barry Becker
  */
 public class GenotypeFamilyGraphGenerator : MonoBehaviour
 {
@@ -24,7 +20,16 @@ public class GenotypeFamilyGraphGenerator : MonoBehaviour
 	private static char TERM_SEP = ',';
 
 
-	/** Constructor */
+	/** 
+	 * Constructor 
+	 * @param grammar:  a grammar of this form
+	 * "<LHS1>=><term1A1>,<term1A2>,...|<term1B1>,<term1B2>,...|...;<LHS2>=><term2A1>,<term2A2>,...|<term2B1>,<term2B2>,...|...;..."
+	 * For example:
+	 * "creature=>body,F,head;body=>torso:1:8|torso:1:5,C:1:4,limbs;limbs=>limb:1:3"
+	 * Where F indicates a connection that needs to be instantiated first,
+	 * L indicates a connection that needs to be instantiated last,
+	 * And m:n after a term indicates the number of times that it can recur. Typically m is more likely than n.
+	 */
 	public GenotypeFamilyGraphGenerator(string grammar)
 	{
 		productions = new Dictionary<string, List<List<GenotypeTerm>>>();
@@ -63,7 +68,7 @@ public class GenotypeFamilyGraphGenerator : MonoBehaviour
 		return new GenotypeFamilyNode();
 	}
 
-	/** Serialize the productions dictionary. Yseful for debugging */
+	/** Serialize the productions dictionary. Useful for debugging */
 	public override String ToString()
 	{
 		StringBuilder bldr = new StringBuilder();
