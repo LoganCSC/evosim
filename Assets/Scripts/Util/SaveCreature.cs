@@ -29,14 +29,14 @@ public class SaveCreature : MonoBehaviour
 @"{{
 	""name"" : ""{0}"",
 	""attributes"" : {{
-		""colour"" : {{""r"" : {1}, ""g"" : {2}, ""b"" : {3}}},
-		""limb_colour"" : {{""r"" : {4}, ""g"" : {5}, ""b"" : {6}}},
-		""body_scale"" : {{""x"" : {7}, ""y"" : {8}, ""z"" : {9}
+		""colour"" : {{""r"": {1}, ""g"": {2}, ""b"": {3}}},
+		""limb_colour"" : {{""r"": {4}, ""g"": {5}, ""b"": {6}}},
+		""body_scale"" : {{""x"": {7}, ""y"": {8}, ""z"": {9}
 		}},
-		""base_joint_frequency"" : {10},
-		""base_joint_amplitude"" : {11},
-		""base_joint_phase""	 : {12},
-		""branches""			 : {13},
+		""base_joint_frequency"": {10},
+		""base_joint_amplitude"": {11},
+		""base_joint_phase"": {12},
+		""branches"": {13},
 		";
 
 		string[] args = {
@@ -53,7 +53,11 @@ public class SaveCreature : MonoBehaviour
 		json_creature += getLimbsJson(chromosome);
 
 		json_creature +=
-		@"}";
+	@"
+	}"; // close attributes
+		json_creature +=
+@"
+}";  // close creature root
 
 		using (var sw = new StreamWriter(filename))
 		{
@@ -87,16 +91,14 @@ public class SaveCreature : MonoBehaviour
 	{
 
 		string limbs_json =
-		@"""limbs"" : {
-		";
+		@"""limbs"": {";
 
 		int branch_count = chromosome.getBranchCount();
 		for (int i = 0; i < branch_count; ++i)
 		{
 			string branch_string =
 			@"
-
-			""{0}"" : [
+			""{0}"": [
 			";
 			limbs_json += string.Format(branch_string, i.ToString());
 
@@ -108,22 +110,14 @@ public class SaveCreature : MonoBehaviour
 				Vector3 scale = (Vector3)attributes[1];
 
 				string limb_string =
-				@"{{
-					""position"" : {{
-						""x"": {1},
-						""y"": {2},
-						""z"": {3}
-					}},
-					""scale"" : {{
-						""x"": {4},
-						""y"": {5},
-						""z"": {6}
-					}}
+				@"	{{
+					""position"" : {{""x"": {1}, ""y"": {2}, ""z"": {3}}},
+					""scale"" : {{""x"": {4}, ""y"": {5}, ""z"": {6}}}
 				}}";
 
 				if (!(k == limbs.Count - 1))
 					limb_string += @",
-					";
+			";
 
 				string[] l_args = {
 						k.ToString(),
@@ -134,22 +128,18 @@ public class SaveCreature : MonoBehaviour
 			}
 
 			limbs_json +=
-			@"]";
+			@"
+			]";
 
 			if (!(i == branch_count - 1))
 			{
-				limbs_json += @",
-				";
+				limbs_json += @",";
 			}
 		}
 
 		limbs_json +=
 		@"
-			}
-			";
-
-		limbs_json +=@"
-}";
+		}"; // close limbs
 		return limbs_json;
 	}
 }
