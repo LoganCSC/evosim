@@ -76,7 +76,6 @@ public class ImportCreature : MonoBehaviour
 				float bjf = float.Parse(contents["attributes"]["base_joint_frequency"].ToString());
 				float bja = float.Parse(contents["attributes"]["base_joint_amplitude"].ToString());
 				float bjp = float.Parse(contents["attributes"]["base_joint_phase"].ToString());
-				float ht = float.Parse(contents["attributes"]["hunger_threshold"].ToString());
 
 				ArrayList branches = new ArrayList();
 				int num_branches = (int)contents["attributes"]["branches"];
@@ -108,7 +107,6 @@ public class ImportCreature : MonoBehaviour
 
 				chromosome.body_colour = body_col;
 				chromosome.limb_colour = limb_col;
-				chromosome.hunger_threshold = ht;
 				chromosome.setBodyScale(body_scale);
 				chromosome.setBaseFequency(bjf);
 				chromosome.setBaseAmplitude(bja);

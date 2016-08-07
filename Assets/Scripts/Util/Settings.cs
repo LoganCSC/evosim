@@ -23,7 +23,6 @@ public class Settings : MonoBehaviour {
 	public float creature_init_energy;
 	public int branch_limit;
 	public int recurrence_limit;
-	public float hunger_threshold;
 
 	public float angular_drag;
 	public float drag;
@@ -128,7 +127,6 @@ public class Settings : MonoBehaviour {
 		branch_limit = (int)creature["branch_limit"];
 		recurrence_limit = (int)creature["recurrence_limit"];
 
-		hunger_threshold = float.Parse(creature["hunger_threshold"].ToString());
 		angular_drag = float.Parse(creature["angular_drag"].ToString());
 		drag = float.Parse(creature["drag"].ToString());
 

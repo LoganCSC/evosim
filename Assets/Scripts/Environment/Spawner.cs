@@ -36,6 +36,7 @@ public class Spawner : MonoBehaviour
 		return instance;
 	}
 
+	/** At startup, add some initial random creatures */
 	public void spawnInitialCreatures()
 	{
 		// For each new starting creature, generate random genes and spawn the bugger
@@ -65,6 +66,9 @@ public class Spawner : MonoBehaviour
 		CreatureSpawned(crt_script);
 	}
 
+	/**
+	 * TODO: generate chromosome (with phenotype graph) from generator in settings.
+	 */
 	private Chromosome generateRandomChromosome()
 	{
 		Chromosome chromosome = new Chromosome();
@@ -73,8 +77,6 @@ public class Spawner : MonoBehaviour
 		Color col = Utility.RandomColor();
 		chromosome.setBodyColour(col);
 		chromosome.setLimbColour(col);
-
-		chromosome.hunger_threshold = settings.hunger_threshold;
 
 		Vector3 bodyScale = settings.getRandomBodyScale();
 		chromosome.setBodyScale(bodyScale);

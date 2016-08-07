@@ -50,7 +50,6 @@ public class SaveCreature : MonoBehaviour
 		""base_joint_frequency"" : {10},
 		""base_joint_amplitude"" : {11},
 		""base_joint_phase""	 : {12},
-		""hunger_threshold""	 : {13},
 		""branches""			 : {14},
 		";
 
@@ -60,7 +59,7 @@ public class SaveCreature : MonoBehaviour
 			chromosome.limb_colour.r.ToString(), chromosome.limb_colour.g.ToString(), chromosome.limb_colour.b.ToString(),
 			chromosome.body_scale.x.ToString(), chromosome.body_scale.y.ToString(), chromosome.body_scale.z.ToString(),
 			chromosome.base_joint_frequency.ToString(), chromosome.base_joint_amplitude.ToString(), chromosome.base_joint_phase.ToString(),
-			chromosome.hunger_threshold.ToString(), chromosome.num_branches.ToString()
+			chromosome.num_branches.ToString()
 		};
 		json_creature = string.Format(json_creature_pattern, args);
 

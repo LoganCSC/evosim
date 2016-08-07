@@ -6,7 +6,7 @@ using LitJson;
 /**
  * Author: Craig Lomax
  * Author: Barry Becker
- * The ether is the liquid that the vvreatures swim in.
+ * The ether is the liquid that the creatures swim in.
  */
 public class Ether : MonoBehaviour
 {	
@@ -33,7 +33,7 @@ public class Ether : MonoBehaviour
 	public delegate void FoodbitInfo(int count);
 	public static event FoodbitInfo FoodbitsUpdated;
 
-	void OnEnable ()
+	void OnEnable()
 	{
 		Spawner.CreatureSpawned += OnCreatureSpawned;
 		Creature.CreatureDead += OnCreatureDeath;
@@ -121,8 +121,7 @@ public class Ether : MonoBehaviour
 			Vector3 fb_pos = fb_script.transform.localPosition;
 			pos = Utility.RandomVec (-settings.spore_range,
 									 Foodbit.foodbitHeight / 2,
-									 settings.spore_range
-									);
+									 settings.spore_range);
 			
 			Vector3 new_pos = fb_pos + pos;
 			float spread = settings.wide_spread;

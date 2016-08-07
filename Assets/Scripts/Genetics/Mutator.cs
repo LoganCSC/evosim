@@ -124,10 +124,6 @@ public class Mutator
 		rand = RND.NextDouble();
 		if (rand < rate)
 			newChromo.base_joint_phase = randomizeGene(newChromo.base_joint_phase, factor);
-
-		rand = RND.NextDouble();
-		if (rand < rate)
-			newChromo.hunger_threshold = randomizeGene(newChromo.hunger_threshold, factor);
 	}
 
 	private Color getMutatedColor(Color c1, Color c2)
@@ -246,12 +242,8 @@ public class Mutator
 
 		rand = RND.NextDouble();
 		newChromo.base_joint_phase = rand < 0.5f ? chromo.base_joint_phase : c2.base_joint_phase;
-
-		rand = RND.NextDouble();
-		newChromo.hunger_threshold = rand < 0.5f ? chromo.hunger_threshold : c2.hunger_threshold;
 	}
 
-	
 	private static float randomizeGene(float originalValue, float factor)
 	{
 		return originalValue + originalValue * ((float) RND.NextDouble() * 2 * factor - factor);
