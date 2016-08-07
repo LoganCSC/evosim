@@ -12,7 +12,7 @@ using UnityEngine;
 public class GenotypeFamilyGraphGenerator : MonoBehaviour
 {
 	// context free grammar production rules
-	private Dictionary<string, List<List<GenotypeTerm>>> productions;
+	private GenotypeFamilyGrammar grammar;
 
 	private static char PROD_SEP = ';';
 	private static string[] RULE_SEP = {"=>"};
@@ -30,67 +30,26 @@ public class GenotypeFamilyGraphGenerator : MonoBehaviour
 	 * L indicates a connection that needs to be instantiated last,
 	 * And m:n after a term indicates the number of times that it can recur. Typically m is more likely than n.
 	 */
-	public GenotypeFamilyGraphGenerator(string grammar)
+	public GenotypeFamilyGraphGenerator(GenotypeFamilyGrammar gfGrammar)
 	{
-		productions = new Dictionary<string, List<List<GenotypeTerm>>>();
-		GenotypeTermParser parser = new GenotypeTermParser();
-
-		string[] rules = grammar.Split(PROD_SEP);
-
-		foreach (string rule in rules)
-		{
-			string[] lhsRhs = rule.Split(RULE_SEP, StringSplitOptions.None);
-			List<string> optionsList = lhsRhs[1].Split(OPTION_SEP).ToList();
-			List<List<GenotypeTerm>> options = new List<List<GenotypeTerm>>();
-			foreach (string opt in optionsList)
-			{
-				string[] termList = opt.Split(TERM_SEP);
-				List<GenotypeTerm> terms = new List<GenotypeTerm>();
-				foreach (string termText in termList)
-				{
-					terms.Add(parser.ParseTerm(termText));
-				}
-				options.Add(terms);
-			}
-			productions.Add(lhsRhs[0], options);
-		}
-
-		MonoBehaviour.print("grammar dictionary = \n" + this.ToString());
+		grammar = gfGrammar;
 	}
 
 	/** 
+	 * Create a random sentence using the genotype grammar. That sentence will become the graph.
 	 * @return the root node of the genotype-family graph.
 	 * This graph will produce the genotype-graph. The genotypy-graph is what will be persisted and mutated,
 	 * and is what produces the phenotype (actual physical morphology).
 	 */
 	public GenotypeFamilyNode GenerateGenotypeFamilyGraph()
 	{
+		//
 		return new GenotypeFamilyNode();
 	}
 
 	/** Serialize the productions dictionary. Useful for debugging */
 	public override String ToString()
 	{
-		StringBuilder bldr = new StringBuilder();
-		foreach (KeyValuePair<string, List<List<GenotypeTerm>>> rule in productions)
-		{
-			bldr.Append(rule.Key + " => ");
-			List<string> optionTerms = new List<string>();
-
-			foreach (List<GenotypeTerm> terms in rule.Value)
-			{
-				List<string> termsList = new List<string>();
-				MonoBehaviour.print("terms len " + terms.Count());
-				foreach (GenotypeTerm term in terms)
-				{
-					termsList.Add(term.ToString());
-					MonoBehaviour.print("term " + term.ToString());
-				}
-				optionTerms.Add(String.Join(", ", termsList.ToArray()));
-			}
-			bldr.Append(String.Join(" | ", optionTerms.ToArray()));
-			bldr.Append("   ");
-		}
-		return bldr.ToString();
+		return "gfgg";
 	}
 }

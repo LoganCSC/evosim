@@ -54,7 +54,6 @@ public class Settings : MonoBehaviour {
 	public double mutation_rate;
 	public float mutation_factor;
 
-
 	public float camera_sensitivity;
 	public float camera_invert;
 	
@@ -141,7 +140,8 @@ public class Settings : MonoBehaviour {
 		energy_scale = float.Parse(creature["energy_to_offspring"].ToString());
 		init_energy = float.Parse(creature["init_energy"].ToString());
 
-		gfg_generator = new GenotypeFamilyGraphGenerator(genetics["genotype-family-grammar"].ToString());
+		GenotypeFamilyGrammar grammar = new GenotypeFamilyGrammar(genetics["genotype-family-grammar"].ToString());
+		gfg_generator = new GenotypeFamilyGraphGenerator(grammar);
 		crossover_rate = (double)genetics["crossover_rate"];
 		mutation_rate = (double)genetics["mutation_rate"];
 		mutation_factor = float.Parse(genetics["mutation_factor"].ToString());
