@@ -11,11 +11,11 @@ public class SaveCreature : MonoBehaviour
 	public delegate void Save();
 	public CreaturePane cp;
 
-	void Start ()
+	void Start()
 	{
 	}
 
-	public void save ()
+	public void save()
 	{
 		Chromosome chromosome = cp.crt.chromosome;
 		string json_creature;
@@ -25,32 +25,18 @@ public class SaveCreature : MonoBehaviour
 			Directory.CreateDirectory(Application.dataPath + "/data/saved_creatures/" + crt_id);
 
 		string filename = Application.dataPath + "/data/saved_creatures/" + crt_id + "/" + crt_id + ".json";
-		string json_creature_pattern = 
+		string json_creature_pattern =
 @"{{
 	""name"" : ""{0}"",
 	""attributes"" : {{
-		""colour"" : {{
-			""r"" : {1},
-			""g"" : {2},
-			""b"" : {3}
+		""colour"" : {{""r"" : {1}, ""g"" : {2}, ""b"" : {3}}},
+		""limb_colour"" : {{""r"" : {4}, ""g"" : {5}, ""b"" : {6}}},
+		""body_scale"" : {{""x"" : {7}, ""y"" : {8}, ""z"" : {9}
 		}},
-					
-		""limb_colour"" : {{
-			""r"" : {4},
-			""g"" : {5},
-			""b"" : {6}
-		}},
-
-		""body_scale"" : {{
-			""x"" : {7},
-			""y"" : {8},
-			""z"" : {9}
-		}},
-
 		""base_joint_frequency"" : {10},
 		""base_joint_amplitude"" : {11},
 		""base_joint_phase""	 : {12},
-		""branches""			 : {14},
+		""branches""			 : {13},
 		";
 
 		string[] args = {
@@ -76,25 +62,19 @@ public class SaveCreature : MonoBehaviour
 		}
 
 		//CreatureSaved();
-	}	
+	}
 
 	private string getRecurrencesJson(Chromosome chromosome)
 	{
 		string json_recurrences =
-		@"""recurrences"" : [
-		";
+		@"""recurrences"" : [";
 		for (int i = 0; i < chromosome.num_recurrences.Length; ++i)
 		{
-			string r_pattern =
-			@"{0}";
-
+			string r_pattern = @"{0}";
 			if (!(i == chromosome.num_recurrences.Length - 1))
 			{
-				r_pattern +=
-			@",
-			";
+				r_pattern += @", ";
 			}
-
 			json_recurrences += string.Format(r_pattern, chromosome.num_recurrences[i]);
 		}
 		json_recurrences +=
@@ -168,8 +148,8 @@ public class SaveCreature : MonoBehaviour
 			}
 			";
 
-		limbs_json +=
-		@"}";
+		limbs_json +=@"
+}";
 		return limbs_json;
 	}
 }
