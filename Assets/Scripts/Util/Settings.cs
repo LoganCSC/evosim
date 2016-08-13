@@ -143,9 +143,10 @@ public class Settings : MonoBehaviour {
 		GenotypeFamilyGrammar grammar = new GenotypeFamilyGrammar(genetics["genotype-family-grammar"].ToString());
 
 		// test it
+		GenotypeFamilySentenceGenerator gen = new GenotypeFamilySentenceGenerator(grammar);
 		for (int i =0; i< 6; i++)
 		{
-			Debug.Log("sentence = " + grammar.createSentence());
+			Debug.Log("sentence = " + gen.createSentence());
 		}
 		gfg_generator = new GenotypeFamilyGraphGenerator(grammar);
 		crossover_rate = (double)genetics["crossover_rate"];
