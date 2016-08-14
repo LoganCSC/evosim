@@ -25,7 +25,7 @@ public class MultiConnectionTerm : GenotypeConnectionTerm
 
 	public override void ConnectNodes(GenotypeFamilyNode firstNode, GenotypeFamilyNode secondNode)
 	{
-		GenotypeFamilyConnection connection = new GenotypeFamilyConnection();
+		GenotypeFamilyConnection connection = new GenotypeFamilyConnection(secondNode);
 
 		connection.isFirst = false;
 		connection.rotateFromParent = new Vector3(0, 0, 0);

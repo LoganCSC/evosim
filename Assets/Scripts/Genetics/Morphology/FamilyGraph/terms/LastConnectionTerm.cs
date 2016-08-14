@@ -15,7 +15,7 @@ public class LastConnectionTerm : GenotypeConnectionTerm
 
 	public override void ConnectNodes(GenotypeFamilyNode firstNode, GenotypeFamilyNode secondNode)
 	{
-		GenotypeFamilyConnection connection = new GenotypeFamilyConnection();
+		GenotypeFamilyConnection connection = new GenotypeFamilyConnection(secondNode);
 
 		connection.isFirst = false;
 		connection.rotateFromParent = new Vector3(0.5f, 0, 0);

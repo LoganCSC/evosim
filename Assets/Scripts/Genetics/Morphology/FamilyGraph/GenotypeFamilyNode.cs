@@ -9,7 +9,7 @@ using UnityEngine;
  * The genotype-family-graph is an abstract representation of a whole family of creatures.
  * When this graph is run it will produce specific genotype-graphs (a different one each time run).
  */
-public class GenotypeFamilyNode
+public class GenotypeFamilyNode : GenotypeFamilyComponent
 {
 	public string name;
 
@@ -40,5 +40,31 @@ public class GenotypeFamilyNode
 	public void AddConnection(GenotypeFamilyConnection connection)
 	{
 		connections.Add(connection);
+	}
+
+	public override string ToString()
+	{
+		return ToString("");
+	}
+
+	public override string ToString(string indent)
+	{
+		string s = indent + "{\n";
+		s += indent + "  name: \"" + name + "\",\n";
+		int numConnections = connections.Count;
+		s += indent + "  selfRecursion: \"" + selfRecursion + "\"" + (numConnections > 0 ? ",\n" : "\n");
+		s += indent + "  connections: [\n";
+		for (int i=0; i < numConnections; i++)
+		{
+			s += connections[i].ToString(indent + "    ");
+			if (i < numConnections - 1)
+			{
+				s += ",\n";
+			}
+		}
+		s += indent + "  ]\n";
+		s += indent + "}\n";
+
+		return s;
 	}
 }
