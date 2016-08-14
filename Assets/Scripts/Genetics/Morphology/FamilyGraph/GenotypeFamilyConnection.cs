@@ -5,17 +5,28 @@ using System.Text;
 using UnityEngine;
 
 /**
- * Connects GenotypeFamilyNodes
+ * Connects two GenotypeFamilyNodes
  * @author Barry Becker
  */
 public class GenotypeFamilyConnection
 {
-	// If true, this connction apples only at the recursive limit of the parent.
+	/* not sure if I prefer enums to separate booleans
+	public enum ConnectionType
+	{
+		first,
+		normal,
+		terminal
+	};*/
+
+	// if true, then this connection will be applied before others
+	public bool isFirst;
+
+	// If true, this connction applies only at the recursive limit of the parent.
 	public bool terminalOnly;
 
-	// If grater than 1, then it represents a set of N symmetrical connections to child appendages.
+	// If greater than 1, then it represents a set of "symmetry"" symmetrical connections to child appendages.
 	// For example, 2 means bilateral symmetry.
-	public int symmetry;
+	public int symmetry = 0;
 
 	// transform from parent (position, orientation, scale)
 	public Vector3 translateFromParent;

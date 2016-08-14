@@ -25,6 +25,15 @@ public class MultiConnectionTerm : GenotypeConnectionTerm
 
 	public override void ConnectNodes(GenotypeFamilyNode firstNode, GenotypeFamilyNode secondNode)
 	{
+		GenotypeFamilyConnection connection = new GenotypeFamilyConnection();
+
+		connection.isFirst = false;
+		connection.rotateFromParent = new Vector3(0, 0, 0);
+		connection.translateFromParent = new Vector3(0.5f, 1.0f, 0.5f);
+		connection.terminalOnly = false;
+		connection.symmetry = GetSkewedRandom(minNumConnects, maxNumConnects);
+
+		firstNode.AddConnection(connection);
 	}
-	
+
 }

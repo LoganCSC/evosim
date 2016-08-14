@@ -41,6 +41,7 @@
 		"eye_refresh_rate"			: 0.25,
 		"angular_drag"				: 7.5,
 		"drag"						: 2.0,
+		// everything below this should come from the genotype graph
 		"branch_limit"				: 4,
 		"recurrence_limit"			: 3,
 

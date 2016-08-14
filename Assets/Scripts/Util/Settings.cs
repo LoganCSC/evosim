@@ -174,7 +174,7 @@ public class Settings : MonoBehaviour {
 		for (int i = 0; i < 5; i++)
 		{
 			GenotypeFamilyNode node = gfg_generator.CreateGenotypeFamilyGraph();
-			print("node = " + node);
+			print("Family graph = " + node.ToString());
 		}
 		
 	}
