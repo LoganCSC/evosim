@@ -53,16 +53,19 @@ public class GenotypeFamilyNode : GenotypeFamilyComponent
 		s += indent + "  name: \"" + name + "\",\n";
 		int numConnections = connections.Count;
 		s += indent + "  selfRecursion: \"" + selfRecursion + "\"" + (numConnections > 0 ? ",\n" : "\n");
-		s += indent + "  connections: [\n";
-		for (int i=0; i < numConnections; i++)
+		if (numConnections > 0)
 		{
-			s += connections[i].ToString(indent + "    ");
-			if (i < numConnections - 1)
+			s += indent + "  connections: [\n";
+			for (int i = 0; i < numConnections; i++)
 			{
-				s += ",\n";
+				s += connections[i].ToString(indent + "    ");
+				if (i < numConnections - 1)
+				{
+					s += ",\n";
+				}
 			}
+			s += indent + "\n  ]\n";
 		}
-		s += indent + "  ]\n";
 		s += indent + "}\n";
 
 		return s;

@@ -27,7 +27,7 @@ public class TorsoTerm : GenotypeNodeTerm
 	public override GenotypeFamilyNode CreateGenotypeNode()
 	{
 		GenotypeFamilyNode torsoNode = new GenotypeFamilyNode();
-		torsoNode.name = "limb";
+		torsoNode.name = "torso";
 		torsoNode.minDimension = new Vector3(3, 4, 4);
 		torsoNode.maxDimension = new Vector3(6, 8, 8);
 
