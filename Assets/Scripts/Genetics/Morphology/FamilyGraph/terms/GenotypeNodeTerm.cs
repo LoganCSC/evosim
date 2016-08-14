@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 /**
- * There are only a certain set of terms allowed in the genotype epxressions.
+ * There are only a certain set of terms allowed in the genotype expressions.
  * They must all be defined here. Some take parameters
  */
 public abstract class GenotypeNodeTerm : GenotypeTerm

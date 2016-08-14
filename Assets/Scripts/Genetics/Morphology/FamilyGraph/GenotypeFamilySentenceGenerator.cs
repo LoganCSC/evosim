@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 /**
@@ -36,17 +34,17 @@ public class GenotypeFamilySentenceGenerator
 	 * This graph will produce the genotype-graph. The genotypy-graph is what will be persisted and mutated,
 	 * and is what produces the phenotype (actual physical morphology).
 	 */
-	public string createSentence()
+	public string CreateSentence()
 	{
 		// start with "creature" and make the sentence by applying production rules.
 		//return e.g. "torso:2,Connect:2,limb:2,First,head";
-		return getExpressionForNonTerminal(grammar.initialNonTerminal);
+		return GetExpressionForNonTerminal(grammar.initialNonTerminal);
 	}
 
 	/**
 	 * Recursively apply rules, until we have a sentence.
 	 */
-	private string getExpressionForNonTerminal(string nonTerminal)
+	private string GetExpressionForNonTerminal(string nonTerminal)
 	{
 
 		string expression = "";
@@ -59,7 +57,7 @@ public class GenotypeFamilySentenceGenerator
 		{
 			if (term is VariableTerm)
 			{
-				expression += getExpressionForNonTerminal(term.ToString()) + ",";
+				expression += GetExpressionForNonTerminal(term.ToString()) + ",";
 			}
 			else
 			{
