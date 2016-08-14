@@ -26,7 +26,17 @@ public class TorsoTerm : GenotypeNodeTerm
 
 	public override GenotypeFamilyNode CreateGenotypeNode()
 	{
-		return new global::GenotypeFamilyNode();
+		GenotypeFamilyNode torsoNode = new GenotypeFamilyNode();
+		torsoNode.name = "limb";
+		torsoNode.minDimension = new Vector3(3, 4, 4);
+		torsoNode.maxDimension = new Vector3(6, 8, 8);
+
+		torsoNode.rotateFromParent = new Vector3(1, 1, 1);
+		torsoNode.translateFromParent = new Vector3(1, 1, 1);
+
+		torsoNode.selfRecursion = GetSkewedRandom(minNum, maxNum);
+
+		return torsoNode;
 	}
-	
+
 }

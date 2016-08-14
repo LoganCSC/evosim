@@ -10,7 +10,6 @@ using UnityEngine;
  */
 public class VariableTerm : GenotypeTerm
 {
-	private Dictionary<string, List<string>> productions;
 
 	public VariableTerm(string txt) : base(txt)
 	{

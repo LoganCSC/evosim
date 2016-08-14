@@ -17,7 +17,17 @@ public class HeadTerm : GenotypeNodeTerm
 	
 	public override GenotypeFamilyNode CreateGenotypeNode()
 	{
-		return new global::GenotypeFamilyNode();
+		GenotypeFamilyNode headNode = new GenotypeFamilyNode();
+		headNode.name = "head";
+		headNode.minDimension = new Vector3(3, 4, 4);
+		headNode.maxDimension = new Vector3(6, 8, 8);
+
+		headNode.rotateFromParent = new Vector3(1, 1, 1);
+		headNode.translateFromParent = new Vector3(1, 1, 1);
+
+		headNode.selfRecursion = 0;
+
+		return headNode;
 	}
 	
 }

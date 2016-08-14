@@ -23,10 +23,20 @@ public class LimbTerm : GenotypeNodeTerm
 	{
 		return this.rawTxt + GetSkewedRandom(minNum, maxNum);
 	}
-	
+
 	public override GenotypeFamilyNode CreateGenotypeNode()
 	{
-		return new global::GenotypeFamilyNode();
+		GenotypeFamilyNode limbNode = new GenotypeFamilyNode();
+		limbNode.name = "limb";
+		limbNode.minDimension = new Vector3(3, 4, 4);
+		limbNode.maxDimension = new Vector3(6, 8, 8);
+
+		limbNode.rotateFromParent = new Vector3(1, 1, 1);
+		limbNode.translateFromParent = new Vector3(1, 1, 1);
+
+		limbNode.selfRecursion = GetSkewedRandom(minNum, maxNum);
+
+		return limbNode;
 	}
-	
+
 }

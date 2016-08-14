@@ -30,8 +30,6 @@ public class GenotypeFamilyGraphGenerator
 		grammar = gfGrammar;
 	}
 
-
-
 	/** 
 	 * @return a family graph defined by the grammar.
 	 * This graph will produce the genotype-graph. The genotypy-graph is what will be persisted and mutated,
@@ -50,8 +48,6 @@ public class GenotypeFamilyGraphGenerator
 	 */
 	private GenotypeFamilyNode GetGraphForNonTerminal(string nonTerminal)
 	{
-
-		string expression = "";
 		List<List<GenotypeTerm>> rhs = grammar.GetRHS(nonTerminal);
 		// randomly pick from the list of possible RHS's
 		int rndIdx = UnityEngine.Random.Range(0, rhs.Count);

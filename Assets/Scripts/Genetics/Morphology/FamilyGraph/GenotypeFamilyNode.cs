@@ -11,19 +11,21 @@ using UnityEngine;
  */
 public class GenotypeFamilyNode
 {
+	public string name;
+
 	public Vector3 minDimension;
 	public Vector3 maxDimension;
 
 	public Vector3 translateFromParent;
 	public Vector3 rotateFromParent;  // eulerAngles
 
+	/** The number of times to recurse. If 0, then no recursion */
+	public int selfRecursion;
+
 	// Configurable joint parameters (there are a lot)
 	// set target angle and use max force for slerp mode
 	// set angle limits here.
 	//public TODO
-
-	/** The number of times to recurse. If 0, then no recursion */
-	public int recursiveLimit;
 
 	// TODO - define how input should be translated into join actuator 
 	// public Neuron[] neurons; 

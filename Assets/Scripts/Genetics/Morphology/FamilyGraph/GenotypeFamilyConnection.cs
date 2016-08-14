@@ -5,6 +5,7 @@ using System.Text;
 using UnityEngine;
 
 /**
+ * Connects GenotypeFamilyNodes
  * @author Barry Becker
  */
 public class GenotypeFamilyConnection

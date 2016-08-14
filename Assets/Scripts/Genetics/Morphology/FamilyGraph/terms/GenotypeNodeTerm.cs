@@ -14,9 +14,6 @@ public abstract class GenotypeNodeTerm : GenotypeTerm
 	public GenotypeNodeTerm(string txt) : base(txt)
 	{
 	}
-	
-	public virtual GenotypeFamilyNode CreateGenotypeNode()  // eventually abstract
-	{
-		return new global::GenotypeFamilyNode();
-	}
+
+	public abstract GenotypeFamilyNode CreateGenotypeNode();
 }
