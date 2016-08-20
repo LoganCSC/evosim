@@ -7,6 +7,7 @@ using UnityEngine;
 /**
  * Generate a graph representing a certain family of creatures.
  * The graph that is created can create the phonotypes for specific creatures.
+ * It's those phenotype graphs that will be part of the creature, mutated, and persisted as json.
  * @author Barry Becker
  */
 public class GenotypeFamilyGrammar
@@ -85,7 +86,6 @@ public class GenotypeFamilyGrammar
 			foreach (List<GenotypeTerm> terms in rule.Value)
 			{
 				List<string> termsList = new List<string>();
-				MonoBehaviour.print("terms len " + terms.Count());
 				foreach (GenotypeTerm term in terms)
 				{
 					termsList.Add(term.ToString());

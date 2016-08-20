@@ -21,7 +21,7 @@ public class TorsoTerm : GenotypeNodeTerm
 
 	public override string GetInstanceText()
 	{
-		return this.rawTxt + GetSkewedRandom(minNum, maxNum);
+		return this.rawTxt + Utility.GetSkewedRandom(minNum, maxNum);
 	}
 
 	public override GenotypeFamilyNode CreateGenotypeNode()
@@ -34,7 +34,7 @@ public class TorsoTerm : GenotypeNodeTerm
 		torsoNode.rotateFromParent = new Vector3(1, 1, 1);
 		torsoNode.translateFromParent = new Vector3(1, 1, 1);
 
-		torsoNode.selfRecursion = GetSkewedRandom(minNum, maxNum);
+		torsoNode.selfRecursion = Utility.GetSkewedRandom(minNum, maxNum);
 
 		return torsoNode;
 	}

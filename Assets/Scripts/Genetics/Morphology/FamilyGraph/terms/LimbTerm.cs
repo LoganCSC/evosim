@@ -21,7 +21,7 @@ public class LimbTerm : GenotypeNodeTerm
 
 	public override string GetInstanceText()
 	{
-		return this.rawTxt + GetSkewedRandom(minNum, maxNum);
+		return this.rawTxt + Utility.GetSkewedRandom(minNum, maxNum);
 	}
 
 	public override GenotypeFamilyNode CreateGenotypeNode()
@@ -34,7 +34,7 @@ public class LimbTerm : GenotypeNodeTerm
 		limbNode.rotateFromParent = new Vector3(1, 1, 1);
 		limbNode.translateFromParent = new Vector3(1, 1, 1);
 
-		limbNode.selfRecursion = GetSkewedRandom(minNum, maxNum);
+		limbNode.selfRecursion = Utility.GetSkewedRandom(minNum, maxNum);
 
 		return limbNode;
 	}

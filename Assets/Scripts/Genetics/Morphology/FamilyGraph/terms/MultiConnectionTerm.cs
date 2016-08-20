@@ -19,7 +19,7 @@ public class MultiConnectionTerm : GenotypeConnectionTerm
 
 	public override string GetInstanceText()
 	{
-		return this.rawTxt + GetSkewedRandom(minNumConnects, maxNumConnects);
+		return this.rawTxt + Utility.GetSkewedRandom(minNumConnects, maxNumConnects);
 	}
 
 
@@ -31,7 +31,7 @@ public class MultiConnectionTerm : GenotypeConnectionTerm
 		connection.rotateFromParent = new Vector3(0, 0, 0);
 		connection.translateFromParent = new Vector3(0.5f, 1.0f, 0.5f);
 		connection.terminalOnly = false;
-		connection.symmetry = GetSkewedRandom(minNumConnects, maxNumConnects);
+		connection.symmetry = Utility.GetSkewedRandom(minNumConnects, maxNumConnects);
 
 		firstNode.AddConnection(connection);
 	}

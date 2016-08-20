@@ -6,7 +6,7 @@ using UnityEngine;
 
 /**
  * There are only a certain set of terms allowed in the genotype epxressions.
- * They must all be defined here. Some take parameters
+ * They must all be defined here. Some take parameters.
  */
 public abstract class GenotypeTerm
 {
@@ -32,13 +32,5 @@ public abstract class GenotypeTerm
 		return rawTxt;
 	}
 
-	protected int GetSkewedRandom(int rndMin, int rndMax)
-	{
-		float max = (float)rndMax - rndMin + 1;
-		float r = UnityEngine.Random.Range(0.0f, max);
-		float rndVal = (r * r) / max;
-		int rnd = rndMin + (int)rndVal;
-		if (rnd > rndMax) throw new ArgumentException(rnd + " bigger than " + rndMax);
-		return rnd;
-	}
+
 }

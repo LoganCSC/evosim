@@ -97,4 +97,18 @@ public class Utility
 
 		return new_value;
 	}
+
+	/**
+	 * @return a random int in the range [rndMin, rndMax] 
+	 * that is skewed toward the low end and only occasionally gives high numbers.
+	 */
+	public static int GetSkewedRandom(int rndMin, int rndMax)
+	{
+		float range = (float)rndMax - rndMin + 1;
+		float r = UnityEngine.Random.Range(0.0f, range);
+		float rndVal = (r * r) / range;
+		int rnd = rndMin + (int)rndVal;
+		if (rnd > rndMax) throw new System.ArgumentException(rnd + " bigger than " + rndMax);
+		return rnd;
+	}
 }
