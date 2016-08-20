@@ -332,7 +332,7 @@ public class Creature : MonoBehaviour
 	// 	list of lists rubbish. Also, add symmetry
 	private void setupLimbs () {
 		int num_branches = chromosome.getBranchCount();
-		chromosome.setNumBranches(num_branches);
+		//chromosome.setNumBranches(num_branches); seems unnecessary
 
 		for (int i=0; i<num_branches; i++)
 		{

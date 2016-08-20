@@ -11,6 +11,7 @@ public class Spawner : MonoBehaviour
 	CreatureCount crt_count;
 	Ether eth;
 	Settings settings;
+	ChromosomeGenerator cGenerator;
 	static GameObject container;
 #pragma warning restore 0414
 
@@ -22,6 +23,7 @@ public class Spawner : MonoBehaviour
 		settings = Settings.getInstance();
 		crt_count = GameObject.Find("CreatureCount").GetComponent<CreatureCount>();
 		eth = Ether.getInstance();
+		cGenerator = new ChromosomeGenerator();
 		spawnInitialCreatures();
 	}
 	
@@ -46,7 +48,7 @@ public class Spawner : MonoBehaviour
 			float spread = settings.creature_spread;
 			if (eth.enoughEnergy(init_energy))
 			{
-				Chromosome chromosome = generateRandomChromosome();
+				Chromosome chromosome = cGenerator.GenerateRandomChromosome();
 				spawn(Utility.RandomVec(-spread, spread, spread), Utility.RandomRotVec(), init_energy, chromosome);
 				eth.subtractEnergy(init_energy);
 			}
@@ -64,50 +66,6 @@ public class Spawner : MonoBehaviour
 		crt_script.SetChromosome(chromosome);
 		crt_script.setEnergy(energy);
 		CreatureSpawned(crt_script);
-	}
-
-	/**
-	 * TODO: generate chromosome (with phenotype graph) from generator in settings.
-	 */
-	private Chromosome generateRandomChromosome()
-	{
-		Chromosome chromosome = new Chromosome();
-
-		// random colours
-		Color col = Utility.RandomColor();
-		chromosome.setBodyColour(col);
-		chromosome.setLimbColour(col);
-
-		Vector3 bodyScale = settings.getRandomBodyScale();
-		chromosome.setBodyScale(bodyScale);
-
-		// random initial limbs
-		int bs = Random.Range(1, settings.branch_limit + 1);
-		chromosome.setNumBranches(bs);
-		ArrayList branches = new ArrayList();
-
-		for (int j = 0; j < bs; j++)
-		{
-			ArrayList limbs = new ArrayList();
-
-			int recurrences = Random.Range(0, settings.recurrence_limit);
-			chromosome.num_recurrences[j] = recurrences;
-			for (int k = 0; k <= recurrences; k++)
-			{
-				Vector3 position = Utility.RandomPointOnCubeSurface(bodyScale);
-				ArrayList limb = new ArrayList();
-				limb.Add(position);
-				limb.Add(settings.getRandomLimbScale());
-				limbs.Add(limb);
-			}
-			branches.Add(limbs);
-		}
-
-		chromosome.setBaseFequency(Random.Range(3, 20));
-		chromosome.setBaseAmplitude(Random.Range(3, 6));
-		chromosome.setBasePhase(Random.Range(0, 360));
-		chromosome.setBranches(branches);
-		return chromosome;
 	}
 
 }

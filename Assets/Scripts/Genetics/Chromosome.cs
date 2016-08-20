@@ -3,8 +3,11 @@ using LitJson;
 using System.Collections;
 
 /**
+ * The chormosome is the phenotype for the creature. 
+ * It corresponds directly to the creatures physical characteristics.
+ * This is what will be saved/restored and mutated as the creatures evolve.
  * Author: Craig Lomax
- * Author: Barry Beckeer
+ * Author: Barry Becker
  */
 public class Chromosome
 {
