@@ -14,12 +14,12 @@ public class CreatureList : MonoBehaviour
 	// I did not think that this was needed, but wiuthout it there is a SavedCreature npe.
 	void OnEnable ()
 	{
-		SaveCreature.CreatureSaved += OnUpdate;
+		SveCreature.CreatureSved += OnUpdate;
 	}
 
 	void OnDisable ()
 	{
-		SaveCreature.CreatureSaved -= OnUpdate;
+		SveCreature.CreatureSved -= OnUpdate;
 	}*/
 	
 	public void PopulateMenu (SortedList<string, Chromosome> creatures)

@@ -29,7 +29,6 @@ public class CreaturePane : MonoBehaviour
 
 	void Start()
 	{
-
 		ui_element = GetComponent<UIElement>();
 		buttons = GetComponentsInChildren<Button>();
 	}

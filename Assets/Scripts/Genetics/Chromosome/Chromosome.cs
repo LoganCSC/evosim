@@ -11,6 +11,7 @@ using System.Collections;
  */
 public class Chromosome
 {
+	public string name;
 	public Color body_colour;
 	public Color limb_colour;
 	public Vector3 body_scale;
