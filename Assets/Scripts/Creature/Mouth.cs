@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 /**
- *		Author: 	Craig Lomax
+ *	Author: Craig Lomax
  */
 public class Mouth : MonoBehaviour {
 
@@ -18,7 +18,8 @@ public class Mouth : MonoBehaviour {
 	int fb_detect_range = 40;
 	
 
-	void Start () {
+	void Start ()
+	{
 		_t = transform;
 		crt = (Creature)_t.parent.parent.gameObject.GetComponent("Creature");
 		eye = crt.eye.GetComponent<Eye>();
@@ -30,7 +31,8 @@ public class Mouth : MonoBehaviour {
 		lr.GetComponent<Renderer>().enabled = true;
 	}
 
-	void Update () {
+	void Update ()
+	{
 		GameObject cf = eye.targetFbit;
 		if(cf && crt.state == Creature.State.persuing_food) {
 			drawLineFromMouthToFood(cf);
@@ -63,5 +65,4 @@ public class Mouth : MonoBehaviour {
 	float getDetectRadius() {
 		return fb_detect_range;
 	}
-
 }

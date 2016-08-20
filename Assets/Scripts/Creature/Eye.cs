@@ -41,62 +41,6 @@ public class Eye : MonoBehaviour
 				break;
 		}
 	}
-	
-	/*
-	// Entirely based on color. This can go away.
-	void most_similar_creature()
-	{
-		targetCrt 				= null;	// reference to the script of the closest creature
-		GameObject target 		= null;
-		GameObject c 			= null; // current collider being looked at
-		float similarity		= Mathf.Infinity;
-		float curr_similarity;
-		cs = Physics.OverlapSphere(_t.position, (float)crt.line_of_sight);
-
-		if (cs.Length == 0)
-		{
-			target = null;
-			return;
-		}
-
-		foreach (Collider col in cs)
-		{
-			c = (GameObject) col.transform.gameObject;
-			if (c && c.gameObject.name == "body" && c != crt.body.gameObject)
-			{
-				other_crt = c.transform.parent.GetComponent<Creature>();
-				curr_similarity = similar_colour(crt.chromosome, other_crt.chromosome);
-
-				if (curr_similarity < similarity)
-				{
-					target = c.transform.parent.gameObject;
-					similarity = curr_similarity;
-				}
-
-				Vector3 diff = c.transform.position - _t.position;
-				if (diff.magnitude < (float) settings.crt_mate_range)
-				{
-					//DoMating(c);
-					similarity = curr_similarity;
-				}
-			}
-
-			UpdateDistanceToGoal(target);
-		}
-	}*/
-
-		/*
-	private void UpdateDistanceToGoal(GameObject target)
-	{
-		distance_to_goal = 0F;
-		goal = null;
-		if (target)
-		{
-			targetCrt = target.GetComponent<Creature>();
-			goal = targetCrt.body;
-			distance_to_goal = distanceToGoal(goal);
-		}
-	}*/
 
 	private float similar_colour(Chromosome c1, Chromosome c2)
 	{

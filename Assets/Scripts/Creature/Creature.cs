@@ -3,9 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-
 /**
- * Creatures swim around, mate and eat. 
+ * Creatures swim around and eat food.
  * The ones that survive the longest, reproduce and pass on their genes.
  *	Author: Craig Lomax
  *	Author: Barry Becker
@@ -51,7 +50,7 @@ public class Creature : MonoBehaviour
 	public delegate void CreatureState(Creature c);
 	public static event CreatureState CreatureDead;
 
-	// TODO: Fix this "state machine"
+	// Possible creature states.
 	public enum State {
 		persuing_food,
 		eating,
@@ -152,7 +151,7 @@ public class Creature : MonoBehaviour
 	/**
 	 * Physics update
 	 * // TODO: Find a better way of controlling the joints with wave functions
-	 *				the current way needs some sort of magic scalar
+	 *				the current way needs some sort of magic scalar.
 	 * The physics should really be purely dynamic, instead of this kinematic stuff.
 	 * The creature movement should be a result of water resistance when paddling. 
 	 */
@@ -256,9 +255,7 @@ public class Creature : MonoBehaviour
 	 */
 	void updateState() {
 		if (chromosome == null)
-		{
 			throw new System.InvalidOperationException("Chromosome is null");
-		}
 
 		State proposedNewState = (eye_script.targetFbit != null) ? State.persuing_food : State.searching_for_food;
 		if (proposedNewState != state) {
@@ -328,8 +325,11 @@ public class Creature : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	// TODO: Limbs should be made into a better tree structure, not this
-	// 	list of lists rubbish. Also, add symmetry
+	/**
+	 * The creature's limbs are created from the chromosome.
+	 * TODO: Limbs should be made into a better tree structure, not this
+	 * list of lists rubbish. Also, add symmetry.
+	 */
 	private void setupLimbs () {
 		int num_branches = chromosome.getBranchCount();
 		//chromosome.setNumBranches(num_branches); seems unnecessary
@@ -339,7 +339,7 @@ public class Creature : MonoBehaviour
 			limbs = chromosome.getLimbs(i);
 			List<GameObject> actual_limbs = new List<GameObject>();
 
-			for (int j=0; j<limbs.Count; j++) {
+			for (int j=0; j < limbs.Count; j++) {
 				GameObject limb = GameObject.CreatePrimitive(PrimitiveType.Cube);
 				limb.layer = LayerMask.NameToLayer("Creature");
 				limb.name = "limb_" + i + "_" + j;

@@ -9,7 +9,6 @@ public class Limb : MonoBehaviour {
 		tag = "Creature";
 	}
 
-
 	public void setPosition(Vector3 p)
 	{
 		transform.localPosition = p;
@@ -33,5 +32,4 @@ public class Limb : MonoBehaviour {
 		gameObject.GetComponent<MeshRenderer>().material.shader = Shader.Find("Legacy Shaders/Diffuse");
 		gameObject.GetComponent<MeshRenderer>().material.color = c;
 	}
-	
 }

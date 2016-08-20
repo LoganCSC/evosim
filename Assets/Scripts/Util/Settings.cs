@@ -177,20 +177,8 @@ public class Settings : MonoBehaviour {
 		{
 			GenotypeFamilyNode node = gfg_generator.CreateGenotypeFamilyGraph();
 			print("Family graph = " + node.ToString());
+			//print("Genotype graph = " + node.);
 		}
-		/*
-		print("skewed random numbers:");
-		int[] counts = new int[11];
-		for (int i = 0; i < 10000; i++)
-		{
-			counts[Utility.GetSkewedRandom(1, 10)] += 1;
-		}
-		int j = 0;
-		foreach (int ct in counts)
-		{
-			print(j++ + " " + ct);
-		}
-		*/
 	}
 }
 
