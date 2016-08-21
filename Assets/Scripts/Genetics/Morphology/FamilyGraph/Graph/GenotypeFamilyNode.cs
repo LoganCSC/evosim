@@ -30,7 +30,7 @@ public class GenotypeFamilyNode : GenotypeFamilyComponent
 	// TODO - define how input should be translated into join actuator 
 	// public Neuron[] neurons; 
 
-	List<GenotypeFamilyConnection> connections;
+	public List<GenotypeFamilyConnection> connections;
 
 	public GenotypeFamilyNode()
 	{

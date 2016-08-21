@@ -34,16 +34,26 @@ public class Utility
 	{
 		return new Vector3 ( Random.Range(0.0F, 360.0F),
 							 Random.Range(0.0F, 360.0F),
-							 Random.Range(0.0F, 360.0F)
-							);
+							 Random.Range(0.0F, 360.0F));
 	}
-	
+
+	public static Vector3 RandomVector3(Vector3 vec)
+	{
+		return Utility.RandomVector3(new Vector3(0, 0, 0), vec);
+	}
+
+	public static Vector3 RandomVector3(Vector3 min, Vector3 max)
+	{
+		return new Vector3( Random.Range(min[0], max[0]),
+							Random.Range(min[1], max[1]),
+							Random.Range(min[2], max[2]));
+	}
+
 	public static Color RandomColor()
 	{
 		return new Color((float)Random.Range(0.0F, 1.0F),
 						(float)Random.Range(0.0F, 1.0F),
-						(float)Random.Range(0.0F, 1.0F)
-					);
+						(float)Random.Range(0.0F, 1.0F));
 	}
 
 	// return a random point on the surface of a given cube's scale
