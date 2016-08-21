@@ -15,33 +15,33 @@ public class Utility
 		return Random.Range(n-r, n+r);
 	}
 	
-	//return a random vector within a given range
+	// return a random vector within a given range
 	public static Vector3 RandomVec(float x, float y, float z)
 {
 		return new Vector3( Random.Range(-x, x),
 							Random.Range(-y, y),
-							Random.Range(-z, z)
-							);
+							Random.Range(-z, z));
 	}
 	
-	//return a random rotation on the y axis
+	// return a random rotation on the y axis
 	public static Vector3 RandomRotVec()
 	{
 		return new Vector3(0.0F,Random.Range(0.0F, 360.0F), 0.0F);
 	}
 	
+	// return a random vector with random eulerian angles in the range 0 - 360
 	public static Vector3 RandomVector3()
 	{
-		return new Vector3 ( Random.Range(0.0F, 360.0F),
-							 Random.Range(0.0F, 360.0F),
-							 Random.Range(0.0F, 360.0F));
+		return Utility.RandomVector3(new Vector3(360.0F, 360.0F, 360.0F));
 	}
 
+	// return a random vector with max values defined by vec.
 	public static Vector3 RandomVector3(Vector3 vec)
 	{
 		return Utility.RandomVector3(new Vector3(0, 0, 0), vec);
 	}
 
+	// rturn a random vector within the bounds of the 2 specified vectors.
 	public static Vector3 RandomVector3(Vector3 min, Vector3 max)
 	{
 		return new Vector3( Random.Range(min[0], max[0]),

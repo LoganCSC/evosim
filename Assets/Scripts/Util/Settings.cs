@@ -150,7 +150,7 @@ public class Settings : MonoBehaviour {
 		{
 			Debug.Log("sentence = " + gen.CreateSentence());
 		}
-		gfg_generator = new GenotypeFamilyGraphGenerator(grammar);
+		
 		crossover_rate = (double)genetics["crossover_rate"];
 		mutation_rate = (double)genetics["mutation_rate"];
 		mutation_factor = float.Parse(genetics["mutation_factor"].ToString());
@@ -172,12 +172,18 @@ public class Settings : MonoBehaviour {
 		camera_sensitivity = float.Parse(contents["config"]["camera"]["sensitivity"].ToString());
 		camera_invert = float.Parse(contents["config"]["camera"]["invert"].ToString());
 
+		gfg_generator = new GenotypeFamilyGraphGenerator(grammar);
 		// for testing only
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 7; i++)
 		{
 			GenotypeFamilyNode node = gfg_generator.CreateGenotypeFamilyGraph();
 			print("Family graph = " + node.ToString());
 			//print("Genotype graph = " + node.);
+		}
+		GenotypeFamilySentenceGenerator sentGen = new GenotypeFamilySentenceGenerator(grammar);
+		for (int i = 0; i < 12; i++)
+		{
+			print("Family graph sentence = " + sentGen.CreateSentence());
 		}
 	}
 }

@@ -8,16 +8,8 @@ using UnityEngine;
  * Connects two GenotypeFamilyNodes
  * @author Barry Becker
  */
-public class GenotypeFamilyConnection : GenotypeFamilyComponent
+public class GenotypeFamilyConnection : GenotypeFamilyComponent, IComparable<GenotypeFamilyConnection>
 {
-	/* not sure if I prefer enums to separate booleans
-	public enum ConnectionType
-	{
-		first,
-		normal,
-		terminal
-	};*/
-
 	// if true, then this connection will be applied before others
 	public bool isFirst;
 
@@ -43,6 +35,25 @@ public class GenotypeFamilyConnection : GenotypeFamilyComponent
 	public GenotypeFamilyNode GetChild()
 	{
 		return childNode;
+	}
+
+	/**
+	 * We want connections sorted so that isFirst nodes are processed first (in no particular order), 
+	 * followed by all nonfirst and nonTerminal nodes (sorted decreasing by symmetry), followed by 
+	 * all terminal nodes (in no particular order).
+	 * @return -1, 0, or 1 depending on if this is less, equal, or greater than other 
+	 */
+	public int CompareTo(GenotypeFamilyConnection other)
+	{
+		if (this.isFirst != other.isFirst)
+		{
+			return this.isFirst.CompareTo(other.isFirst);
+		}
+		else if(this.terminalOnly != other.terminalOnly)
+		{
+			return other.terminalOnly.CompareTo(this.terminalOnly);
+		}
+		return other.symmetry.CompareTo(this.symmetry);
 	}
 
 	public override string ToString()

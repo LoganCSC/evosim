@@ -7,7 +7,7 @@ using System.IO;
 /**
  * Read in the chromosome state as json.
  */
-public class ChromosomeLoader: MonoBehaviour
+public class ChromosomeLoader
 {
 	StreamReader sr;
 	string raw_contents;

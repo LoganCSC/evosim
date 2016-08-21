@@ -28,11 +28,21 @@ public class GenotypeFamilyGraphTraverser
 		GenotypeNode node = new GenotypeNode();
 		node.dimensions = Utility.RandomVector3(root.minDimension, root.maxDimension);
 		node.translateFromParent = Utility.RandomVector3(root.translateFromParent);
+		node.rotateFromParent = Utility.RandomVector3();
 		root.connections.Sort();
 
 		return new GenotypeNode();
 	}
 
+	public string writeAsJson(GenotypeNode root, string indent)
+	{
+		return "";
+	}
+	
+	public GenotypeNode readFromJson(string json)
+	{
+		return new GenotypeNode();
+	}
 
 	/*
 	public void traverseFamilyGraph(GenotypeNode parent, GenotypeFamilyNode node)
