@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 /**
  * The genotype graph is the genetic representation of the creature's phenotype (actual morphology).
@@ -13,8 +14,9 @@ using System.Text;
 public class GenotypeNode
 {
 	// Things like dimensions, color, position, rotation, joint defintion to parent stored here
-	//
-	//
+	public Vector3 dimensions;
+	public Vector3 translateFromParent;
+	public Vector3 rotateFromParent;  // eulerAngles
 
 	public List<GenotypeNode> children = new List<GenotypeNode>();
 }
