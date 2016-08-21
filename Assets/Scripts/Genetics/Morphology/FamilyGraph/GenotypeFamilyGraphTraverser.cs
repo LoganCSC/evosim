@@ -63,7 +63,7 @@ public class GenotypeFamilyGraphTraverser
 
 		Vector3[] rotation = Utility.GetSymmetricalRotations(child.rotateFromParent, conn.symmetry);
 		Vector3[] translate = Utility.GetSymmetricalTranslations(child.translateFromParent, conn.symmetry);
-		for (int j = 0; j <= conn.symmetry; j++)
+		for (int j = 0; j < conn.symmetry; j++)
 		{
 			GenotypeNode newChild = child.Copy();
 			child.rotateFromParent = rotation[j];
@@ -80,21 +80,4 @@ public class GenotypeFamilyGraphTraverser
 		node.rotateFromParent = Utility.RandomVector3();
 		return node;
 	}
-
-	public string writeAsJson(GenotypeNode root, string indent)
-	{
-		return "";
-	}
-	
-	public GenotypeNode readFromJson(string json)
-	{
-		return new GenotypeNode();
-	}
-
-	/*
-	public void traverseFamilyGraph(GenotypeNode parent, GenotypeFamilyNode node)
-	{
-		root.connections.Sort();
-		return new GenotypeNode();
-	}*/
 }
