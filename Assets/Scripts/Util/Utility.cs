@@ -56,6 +56,33 @@ public class Utility
 						(float)Random.Range(0.0F, 1.0F));
 	}
 
+	public static Vector3[] GetSymmetricalRotations(Vector3 rotate, int symmetry)
+	{
+		Vector3[] vectors = new Vector3[symmetry];
+		float inc = 360F / symmetry;
+		float angle = 0;
+		for (int i = 0; i < symmetry; i++) {
+			vectors[i] = new Vector3(rotate[0], angle, rotate[2]);
+			angle += inc;
+		}
+		return vectors;
+	}
+
+	public static Vector3[] GetSymmetricalTranslations(Vector3 translate, int symmetry)
+	{
+		Vector3[] vectors = new Vector3[symmetry];
+		for (int i = 0; i < symmetry; i++)
+		{
+			vectors[i] = RandomVector3(-translate, translate);
+		}
+		return vectors;
+	}
+
+	public static Vector3 Copy(Vector3 vec)
+	{
+		return new Vector3(vec[0], vec[1], vec[2]);
+	}
+
 	// return a random point on the surface of a given cube's scale
 	public static Vector3 RandomPointOnCubeSurface(Vector3 bounds)
 	{

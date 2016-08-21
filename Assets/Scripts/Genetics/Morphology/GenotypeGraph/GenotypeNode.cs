@@ -19,4 +19,13 @@ public class GenotypeNode
 	public Vector3 rotateFromParent;  // eulerAngles
 
 	public List<GenotypeNode> children = new List<GenotypeNode>();
+
+	public GenotypeNode Copy()
+	{
+		GenotypeNode newNode = new GenotypeNode();
+		newNode.dimensions = Utility.Copy(this.dimensions);
+		newNode.translateFromParent = Utility.Copy(this.translateFromParent);
+		newNode.rotateFromParent = Utility.Copy(this.rotateFromParent);
+		return newNode;
+	}
 }
