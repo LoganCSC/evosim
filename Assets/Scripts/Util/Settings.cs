@@ -187,8 +187,13 @@ public class Settings : MonoBehaviour {
 			//print("Family graph sentence = " + sentGen.CreateSentence());
 			GenotypeFamilyNode familyGraph = gfg_generator.CreateGenotypeFamilyGraph();
 			GenotypeNode graph = new GenotypeFamilyGraphTraverser().TraverseFamilyGraph(familyGraph);
-			string output = new GenotypeGraphSerializer().writeAsJson(graph, "  ");
+			GenotypeGraphSerializer serializer = new GenotypeGraphSerializer();
+			string output = serializer.writeAsJson(graph, "  ");
 			print("Graph:: " + output);
+
+			// now read it in with deserializer and writ it out again
+			GenotypeNode graph2 = new GenotypeGraphDeserializer().readFromJson("{" + output + "}");
+			print("Graph2:: " + serializer.writeAsJson(graph2, "    "));
 		}
 		
 	}

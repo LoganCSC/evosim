@@ -17,7 +17,6 @@ public class GenotypeGraphSerializer
 		indent + @"""genotype_graph"" : ";
 
 		graph_json += writeAsJsonAux(root, indent);
-
 		return graph_json;
 	}
 
@@ -26,11 +25,9 @@ public class GenotypeGraphSerializer
 	 */
 	private string writeAsJsonAux(GenotypeNode root, string indent)
 	{
-		string node_json =
-		@"" + indent + "{";  // open node
+		string node_json = @"" + indent + "{";  // open node
 
-		string node_string =
-		@"
+		string node_string = @"
 {9}""dimensions"" : {{ ""x"": {0}, ""y"": {1}, ""z"": {2}}},
 {9}""rotateFromParent"" : {{ ""x"": {3}, ""y"": {4}, ""z"": {5}}},
 {9}""translateFromParent"" : {{ ""x"": {6}, ""y"": {7}, ""z"": {8}}}";
