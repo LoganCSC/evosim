@@ -48,7 +48,7 @@ public class ChromosomePersister
 	}"; // close attributes
 		json_creature +=
 @"
-}";  // close creature root
+}"; // close creature root
 
 		using (var sw = new StreamWriter(filename))
 		{

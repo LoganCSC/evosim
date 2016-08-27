@@ -66,9 +66,9 @@ public class GenotypeFamilyGraphTraverser
 		for (int j = 0; j < conn.symmetry; j++)
 		{
 			GenotypeNode newChild = child.Copy();
-			child.rotateFromParent = rotation[j];
-			child.translateFromParent = translate[j];
-			node.children.Add(child);
+			newChild.rotateFromParent = rotation[j];
+			newChild.translateFromParent = translate[j];
+			node.children.Add(newChild);
 		}
 	}
 

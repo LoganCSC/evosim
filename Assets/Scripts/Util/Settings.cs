@@ -182,14 +182,15 @@ public class Settings : MonoBehaviour {
 			//print("Genotype graph = " + node.);
 		}*/
 		GenotypeFamilySentenceGenerator sentGen = new GenotypeFamilySentenceGenerator(grammar);
-		for (int i = 0; i < 12; i++)
+		for (int i = 0; i < 3; i++)
 		{
-			print("Family graph sentence = " + sentGen.CreateSentence());
+			//print("Family graph sentence = " + sentGen.CreateSentence());
+			GenotypeFamilyNode familyGraph = gfg_generator.CreateGenotypeFamilyGraph();
+			GenotypeNode graph = new GenotypeFamilyGraphTraverser().TraverseFamilyGraph(familyGraph);
+			string output = new GenotypeGraphSerializer().writeAsJson(graph, "  ");
+			print("Graph:: " + output);
 		}
-		GenotypeFamilyNode familyGraph = gfg_generator.CreateGenotypeFamilyGraph();
-		GenotypeNode graph = new GenotypeFamilyGraphTraverser().TraverseFamilyGraph(familyGraph);
-		string output = new GenotypeGraphSerializer().writeAsJson(graph, "  ");
-		print("Graph:: " + output);
+		
 	}
 }
 
