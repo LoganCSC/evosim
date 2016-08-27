@@ -181,7 +181,7 @@ public class Settings : MonoBehaviour {
 			print("Family graph = " + node.ToString());
 			//print("Genotype graph = " + node.);
 		}*/
-		GenotypeFamilySentenceGenerator sentGen = new GenotypeFamilySentenceGenerator(grammar);
+		//GenotypeFamilySentenceGenerator sentGen = new GenotypeFamilySentenceGenerator(grammar);
 		for (int i = 0; i < 3; i++)
 		{
 			//print("Family graph sentence = " + sentGen.CreateSentence());

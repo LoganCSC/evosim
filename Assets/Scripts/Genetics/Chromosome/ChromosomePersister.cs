@@ -4,6 +4,7 @@ using System.IO;
 
 /**
  * Write out the chromosome state as json.
+ * See https://msdn.microsoft.com/en-us/library/bb299886.aspx#intro%5Fto%5Fjson%5Ftopic5
  */
 public class ChromosomePersister
 {
@@ -66,7 +67,7 @@ public class ChromosomePersister
 		for (int i = 0; i < chromosome.num_recurrences.Length; ++i)
 		{
 			string r_pattern = @"{0}";
-			if (!(i == chromosome.num_recurrences.Length - 1))
+			if (i != chromosome.num_recurrences.Length - 1)
 			{
 				r_pattern += @", ";
 			}
