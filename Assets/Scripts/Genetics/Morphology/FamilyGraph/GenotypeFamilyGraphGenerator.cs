@@ -37,8 +37,6 @@ public class GenotypeFamilyGraphGenerator
 	 */
 	public GenotypeFamilyNode CreateGenotypeFamilyGraph()
 	{
-		// start with "creature" and make the sentence by applying production rules.
-		//return e.g. "torso:2,Connect:2,limb:2,First,head";
 		return GetGraphForNonTerminal(grammar.initialNonTerminal);
 	}
 

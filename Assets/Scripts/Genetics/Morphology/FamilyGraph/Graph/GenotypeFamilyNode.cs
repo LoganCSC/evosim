@@ -64,7 +64,7 @@ public class GenotypeFamilyNode : GenotypeFamilyComponent
 					s += ",\n";
 				}
 			}
-			s += indent + "\n  ]\n";
+			s += "\n" + indent + indent + "]\n";
 		}
 		s += indent + "}\n";
 

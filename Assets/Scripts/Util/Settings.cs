@@ -171,13 +171,6 @@ public class Settings : MonoBehaviour {
 
 	private void run_tests(GenotypeFamilyGrammar grammar)
 	{
-		/*
-		GenotypeFamilySentenceGenerator gen = new GenotypeFamilySentenceGenerator(grammar);
-		for (int i = 0; i < 6; i++)
-		{
-			Debug.Log("sentence = " + gen.CreateSentence());
-		}*/
-
 		// for testing only
 		/*
 		for (int i = 0; i < 7; i++)
@@ -186,21 +179,23 @@ public class Settings : MonoBehaviour {
 			print("Family graph = " + node.ToString());
 			//print("Genotype graph = " + node.);
 		}*/
-		/*
-		//GenotypeFamilySentenceGenerator sentGen = new GenotypeFamilySentenceGenerator(grammar);
+		
+		GenotypeFamilySentenceGenerator sentGen = new GenotypeFamilySentenceGenerator(grammar);
 		for (int i = 0; i < 3; i++)
 		{
-			//print("Family graph sentence = " + sentGen.CreateSentence());
+			print("Family graph sentence = " + sentGen.CreateSentence());
 			GenotypeFamilyNode familyGraph = gfg_generator.CreateGenotypeFamilyGraph();
+
+			print("Family Graph: \n" + familyGraph.ToString("  "));
 			GenotypeNode graph = new GenotypeFamilyGraphTraverser().TraverseFamilyGraph(familyGraph);
 			GenotypeGraphSerializer serializer = new GenotypeGraphSerializer();
-			string output = serializer.writeAsJson(graph, "  ");
-			print("Graph:: " + output);
+			string output = serializer.writeAsJsonProperty("genotype_graph", graph, "  ");
+			print("Graph: \n" + output);
 
 			// now read it in with deserializer and writ it out again
-			GenotypeNode graph2 = new GenotypeGraphDeserializer().readFromJson("{" + output + "}");
-			print("Graph2:: " + serializer.writeAsJson(graph2, "    "));
-		}*/
+			//GenotypeNode graph2 = new GenotypeGraphDeserializer().readFromJson("{" + output + "}");
+			//print("Graph2:: " + serializer.writeAsJsonProperty("graph2", graph2, "    "));
+		}
 	}
 }
 

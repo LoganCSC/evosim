@@ -10,9 +10,7 @@ using UnityEngine;
  */
 public class GenotypeFamilyGraphTraverser
 {
-	/** 
-	 * Constructor 
-	 */
+	/**  Constructor  */
 	public GenotypeFamilyGraphTraverser()
 	{
 	}
@@ -38,7 +36,6 @@ public class GenotypeFamilyGraphTraverser
 			addChildrenFromConnection(node, conn);
 		}
 		// apply selfRecursion (does nothing if selfRecusion is 0)
-		//GenotypeNode previousNode = node;
 		GenotypeNode currentNode = node;
 		for (int i = 0; i < root.selfRecursion; i++)
 		{
@@ -47,11 +44,11 @@ public class GenotypeFamilyGraphTraverser
 			{
 				addChildrenFromConnection(currentNode, conn);
 			}
-			//previousNode = currentNode;
+			node.children.Add(currentNode);
 		}
 		foreach (GenotypeFamilyConnection conn in root.connections.FindAll(c => c.terminalOnly))
 		{
-			// process terminaOnly nodes on the lastNode
+			// process terminalOnly nodes on the lastNode
 			addChildrenFromConnection(currentNode, conn);
 		}
 		return node;

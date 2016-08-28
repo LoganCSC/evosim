@@ -67,7 +67,7 @@ public class GenotypeFamilyConnection : GenotypeFamilyComponent, IComparable<Gen
 		s += indent + "  isFirst: " + isFirst + ",\n";
 		s += indent + "  terminalOnly: " + terminalOnly + ",\n";
 		s += indent + "  symmetry: " + symmetry + "\n";
-		s += indent + "  child: " + childNode.ToString(indent + "  ");
+		s += indent + "  child: \n" + childNode.ToString(indent + "  ");
 		s += indent + "}";
 
 		return s;
