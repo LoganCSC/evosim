@@ -21,7 +21,7 @@ public class GenotypeGraphDeserializer
 		return readNode(contents);
 	}
 
-	private GenotypeNode readNode(JsonData contents)
+	public GenotypeNode readNode(JsonData contents)
 	{
 		GenotypeNode node = new GenotypeNode();
 
