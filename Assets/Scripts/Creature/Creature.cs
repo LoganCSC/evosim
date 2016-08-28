@@ -38,8 +38,8 @@ public class Creature : MonoBehaviour
 	public int num_offspring;
 	public int food_eaten;
 
-	private ArrayList limbs;
-	private ArrayList all_limbs;
+	//private ArrayList limbs;
+	//private ArrayList all_limbs;
 
 	// These should be part of each joint
 	private float joint_frequency;
@@ -91,8 +91,8 @@ public class Creature : MonoBehaviour
 		line_of_sight = settings.line_of_sight;
 		metabolic_rate = settings.metabolic_rate;
 
-		all_limbs = new ArrayList();
-		setupLimbs();
+		//all_limbs = new ArrayList();
+		//setupLimbs();
 
 		age = 0.0;
 		ChangeState(State.searching_for_food);
@@ -108,11 +108,13 @@ public class Creature : MonoBehaviour
 
 	GameObject CreateBody()
 	{
-		GameObject body = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		GameObject body = CreateMorphology(chromosome.getGraph());
+
 		body.name = "body";
 		body.transform.parent = _t;
 		body.transform.position = _t.position;
 		body.transform.eulerAngles = _t.eulerAngles;
+
 		body.AddComponent<Rigidbody>();
 		body_script = body.AddComponent<Body>();
 		body_script.setColour(chromosome.getBodyColour());
@@ -121,9 +123,18 @@ public class Creature : MonoBehaviour
 		body.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
 		// If drag is too high, creatures go nowhere; too low, and they fly off
 		body.GetComponent<Rigidbody>().drag = settings.drag;
-		// Are creatures made of lead (40) or styrophoam (0.4)
+		// Are creatures made of lead (40) or styrophoam (0.4)?
 		body.GetComponent<Rigidbody>().SetDensity(4F);
 		return body;
+	}
+
+	/**
+	 * traverse the graph and create the morphology 
+	 * TODO
+	 */
+	GameObject CreateMorphology(GenotypeNode graph)
+	{
+		return GameObject.CreatePrimitive(PrimitiveType.Cube);
 	}
 
 	GameObject CreateEye()
@@ -181,8 +192,8 @@ public class Creature : MonoBehaviour
 			direction = body.transform.forward;
 		}
 
-		// toally fake. Needs fixing.
-		body.GetComponent<Rigidbody>().AddForce(Mathf.Abs(force_scalar) * direction * pos_sine * chromosome.getBranchCount());
+		// totally fake. Needs fixing.
+		body.GetComponent<Rigidbody>().AddForce(Mathf.Abs(force_scalar) * direction * pos_sine * 2 /*chromosome.getBranchCount()*/);
 	}
 
 	/**
@@ -329,10 +340,9 @@ public class Creature : MonoBehaviour
 	 * The creature's limbs are created from the chromosome.
 	 * TODO: Limbs should be made into a better tree structure, not this
 	 * list of lists rubbish. Also, add symmetry.
-	 */
+	 *
 	private void setupLimbs () {
 		int num_branches = chromosome.getBranchCount();
-		//chromosome.setNumBranches(num_branches); seems unnecessary
 
 		for (int i=0; i<num_branches; i++)
 		{
@@ -400,7 +410,7 @@ public class Creature : MonoBehaviour
 				all_limbs.Add(limb_script);
 			}
 		}
-	}
+	}*/
 
 	float d_col = 0.01F;
 	private IEnumerator Darken()
@@ -437,8 +447,8 @@ public class Creature : MonoBehaviour
 	private void Lighten()
 	{
 		body.GetComponent<MeshRenderer>().material.color = body_script.original_colour;
-		foreach (Limb l in all_limbs)
-			l.GetComponent<MeshRenderer>().material.color = l.original_colour;
+		//foreach (Limb l in all_limbs)
+		//	l.GetComponent<MeshRenderer>().material.color = l.original_colour;
 	}
 
 	private void ResetSpeed()

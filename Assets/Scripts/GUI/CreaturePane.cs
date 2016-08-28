@@ -7,7 +7,7 @@ using System.Text;
 /**
  * UI to show info about the creature when it is clicked on.
  * It took me forever to realize that Body_Col and Limb_COl are associated with images 
- * in the Unity IDE under CreatureInfoPanel in hierarhcy tab.
+ * in the Unity IDE under CreatureInfoPanel in hierarchy tab.
  */
 public class CreaturePane : MonoBehaviour
 {
@@ -94,8 +94,8 @@ public class CreaturePane : MonoBehaviour
 			state = char.ToUpper(state[0]) + state.Substring(1);
 			State.text = state;
 
-			Body_Col.color = c.chromosome.body_colour;
-			Limb_Col.color = c.chromosome.limb_colour;
+			Body_Col.color = c.chromosome.getBodyColour();
+			Limb_Col.color = c.chromosome.getLimbColour();
 
 			ui_element.make_visible();
 		}

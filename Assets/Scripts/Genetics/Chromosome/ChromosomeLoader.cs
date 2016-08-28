@@ -12,6 +12,7 @@ public class ChromosomeLoader
 	StreamReader sr;
 	string raw_contents;
 	public JsonData contents;
+	private GenotypeGraphDeserializer graphDeserializer;
 
 
 	public Chromosome load(string filePath)
@@ -37,15 +38,20 @@ public class ChromosomeLoader
 		limb_col.b = float.Parse(contents["attributes"]["limb_colour"]["b"].ToString());
 		limb_col.a = 1;
 
+		/*
 		Vector3 body_scale = new Vector3();
 		body_scale.x = float.Parse(contents["attributes"]["body_scale"]["x"].ToString());
 		body_scale.y = float.Parse(contents["attributes"]["body_scale"]["y"].ToString());
 		body_scale.z = float.Parse(contents["attributes"]["body_scale"]["z"].ToString());
+		*/
 
 		float bjf = float.Parse(contents["attributes"]["base_joint_frequency"].ToString());
 		float bja = float.Parse(contents["attributes"]["base_joint_amplitude"].ToString());
 		float bjp = float.Parse(contents["attributes"]["base_joint_phase"].ToString());
 
+		GenotypeNode graph = graphDeserializer.readNode(contents["genotype_graph"]);
+
+		/*
 		ArrayList branches = new ArrayList();
 		int num_branches = (int)contents["attributes"]["branches"];
 		chromosome.num_recurrences = new int[num_branches];
@@ -72,15 +78,15 @@ public class ChromosomeLoader
 				limbs.Add(limb);
 			}
 			branches.Add(limbs);
-		}
+		}*/
 
-		chromosome.body_colour = body_col;
-		chromosome.limb_colour = limb_col;
-		chromosome.setBodyScale(body_scale);
+		chromosome.setBodyColour(body_col);
+		chromosome.setLimbColour(limb_col);
+		//chromosome.setBodyScale(body_scale);
 		chromosome.setBaseFequency(bjf);
 		chromosome.setBaseAmplitude(bja);
 		chromosome.setBasePhase(bjp);
-		chromosome.setBranches(branches);
+		//chromosome.setBranches(branches);
 
 		return chromosome;
 	}

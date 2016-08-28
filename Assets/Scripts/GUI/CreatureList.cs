@@ -43,8 +43,8 @@ public class CreatureList : MonoBehaviour
 			t.text = name;
 
 			Image[] colours = GameObject.FindObjectsOfType<Image>();
-			colours[0].color = chromosome.body_colour;
-			colours[1].color = chromosome.limb_colour;
+			colours[0].color = chromosome.getBodyColour();
+			colours[1].color = chromosome.getLimbColour();
 
 			button.AddComponent<Image>();
 

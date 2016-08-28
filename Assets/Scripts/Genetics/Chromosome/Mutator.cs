@@ -32,7 +32,9 @@ public class Mutator
 	{
 		mutateColor(newChromo, rate, factor);
 		mutateBodyScale(newChromo, rate, factor);
-		mutateLimbs(newChromo, rate, factor);
+		////mutateLimbs(newChromo, rate, factor);
+		//mutateGenotypeGraph(newChromo, rate, factor);
+		newChromo.setGraph(chromo.getGraph()); // do nothing for now
 		mutateSine(newChromo, rate, factor);
 		
 		return newChromo;
@@ -76,6 +78,7 @@ public class Mutator
 		}
 	}
 
+	/*
 	private void mutateLimbs(Chromosome newChromo, double rate, float factor)
 	{
 		Color cc = newChromo.getLimbColour();
@@ -108,7 +111,7 @@ public class Mutator
 			}
 		}
 		newChromo.setBranches(branches);
-	}
+	}*/
 
 	private void mutateSine(Chromosome newChromo, double rate, float factor)
 	{
@@ -142,12 +145,13 @@ public class Mutator
 		newChromo.setBodyColour(getMutatedColor(chromo.getBodyColour(), c2.getBodyColour()));
 		newChromo.setLimbColour(getMutatedColor(chromo.getLimbColour(), c2.getLimbColour()));
 
-		crossoverLimbs(c2, newChromo, rate);
+		////crossoverLimbs(c2, newChromo, rate);  crossoverGenotypeGraph(c2, newChromo, rate);
 		crossoverSine(c2, newChromo);
 
 		return (newChromo);
 	}
 
+	/*
 	private void crossoverLimbs(Chromosome c2, Chromosome newChromo, double rate)
 	{
 		ArrayList c1_branches = chromo.branches;
@@ -229,7 +233,7 @@ public class Mutator
 			newChromo.num_branches = c_branches.Count;
 		}
 		newChromo.setBranches(c_branches);
-	}
+	}*/
 
 	private void crossoverSine(Chromosome c2, Chromosome newChromo)
 	{

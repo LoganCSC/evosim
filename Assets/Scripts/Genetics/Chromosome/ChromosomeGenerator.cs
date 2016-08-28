@@ -8,9 +8,11 @@ using System.Collections;
  */
 public class ChromosomeGenerator
 {
+	private GenotypeFamilyGraphTraverser traverser = new GenotypeFamilyGraphTraverser();
 
 	/**
-	 * TODO: generate chromosome (with phenotype graph) from generator in settings.
+	 * Generate a random chromosome.
+	 * The genotype graph is responsible for creating the phonotype (creature morphology).
 	 */
 	public Chromosome GenerateRandomChromosome()
 	{
@@ -25,32 +27,16 @@ public class ChromosomeGenerator
 		Vector3 bodyScale = settings.getRandomBodyScale();
 		chromosome.setBodyScale(bodyScale);
 
-		// random initial limbs
-		int bs = Random.Range(1, settings.branch_limit + 1);
-		chromosome.setNumBranches(bs);
-		ArrayList branches = new ArrayList();
+		// create phenotype graph based on the genotype family graph generator
+		GenotypeFamilyNode familyGraph = settings.gfg_generator.CreateGenotypeFamilyGraph();
 
-		for (int j = 0; j < bs; j++)
-		{
-			ArrayList limbs = new ArrayList();
-
-			int recurrences = Random.Range(0, settings.recurrence_limit);
-			chromosome.num_recurrences[j] = recurrences;
-			for (int k = 0; k <= recurrences; k++)
-			{
-				Vector3 position = Utility.RandomPointOnCubeSurface(bodyScale);
-				ArrayList limb = new ArrayList();
-				limb.Add(position);
-				limb.Add(settings.getRandomLimbScale());
-				limbs.Add(limb);
-			}
-			branches.Add(limbs);
-		}
+		GenotypeNode graph = traverser.TraverseFamilyGraph(familyGraph);
+		chromosome.setGraph(graph);
 
 		chromosome.setBaseFequency(Random.Range(3, 20));
 		chromosome.setBaseAmplitude(Random.Range(3, 6));
 		chromosome.setBasePhase(Random.Range(0, 360));
-		chromosome.setBranches(branches);
+	
 		return chromosome;
 	}
 }

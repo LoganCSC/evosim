@@ -11,10 +11,9 @@ public class GenotypeGraphSerializer
 {
 	private static string INDENT = "   ";
 
-	public string writeAsJson(GenotypeNode root, string indent)
+	public string writeAsJsonProperty(string propertyName, GenotypeNode root, string indent)
 	{
-		string graph_json =
-		indent + @"""genotype_graph"" : ";
+		string graph_json = indent + "\"" + propertyName  + "\" : ";
 
 		graph_json += writeAsJsonAux(root, indent);
 		return graph_json;
