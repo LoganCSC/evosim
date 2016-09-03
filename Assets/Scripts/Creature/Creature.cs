@@ -10,8 +10,6 @@ using System.Collections.Generic;
  */
 public class Creature : MonoBehaviour
 {
-	Transform _t;
-
 	Settings settings;
 	Ether eth;
 
@@ -70,7 +68,6 @@ public class Creature : MonoBehaviour
 
 	void Start()
 	{
-		_t = transform;
 		name = "creature" + gameObject.GetInstanceID();
 
 		eth = Ether.getInstance();
@@ -104,9 +101,9 @@ public class Creature : MonoBehaviour
 		GameObject torso = CreateMorphology(chromosome.getGraph(), null, 0, 0);
 
 		torso.name = "torso";
-		torso.transform.parent = _t;
-		torso.transform.position = _t.position;
-		torso.transform.eulerAngles = _t.eulerAngles;
+		torso.transform.parent = transform;
+		torso.transform.position = transform.position;
+		torso.transform.eulerAngles = transform.eulerAngles;
 
 		//torso.AddComponent<Rigidbody>();
 		torso_script = torso.AddComponent<Torso>();
@@ -129,7 +126,7 @@ public class Creature : MonoBehaviour
 		GameObject segment =  GameObject.CreatePrimitive(PrimitiveType.Cube);
 		segment.layer = LayerMask.NameToLayer("Creature");
 		segment.name = "part_" + depth + "_" + childIndex;
-		segment.transform.parent = _t;  // incorporate transformFromParent
+		segment.transform.parent = transform;  // incorporate transformFromParent
 
 		Limb segment_script = segment.AddComponent<Limb>();
 		segment_script.setScale((Vector3) node.dimensions);

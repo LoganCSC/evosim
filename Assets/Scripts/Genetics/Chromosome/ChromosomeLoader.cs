@@ -21,7 +21,6 @@ public class ChromosomeLoader
 
 		sr = new StreamReader(filePath);
 		raw_contents = sr.ReadToEnd();
-		Debug.Log("raw_contents= " + raw_contents);
 		contents = JsonMapper.ToObject(raw_contents);
 		sr.Close();
 
