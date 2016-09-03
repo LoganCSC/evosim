@@ -22,7 +22,7 @@ public class Mouth : MonoBehaviour {
 	{
 		_t = transform;
 		crt = (Creature)_t.parent.parent.gameObject.GetComponent("Creature");
-		eye = crt.eye.GetComponent<Eye>();
+		eye = crt.getEye();
 		lr = (LineRenderer)gameObject.AddComponent<LineRenderer>();
 		lr.material.shader = Shader.Find("Unlit/Color");
 		lr.material.color = Color.green;

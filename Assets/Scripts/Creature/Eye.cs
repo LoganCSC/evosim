@@ -80,7 +80,7 @@ public class Eye : MonoBehaviour
 
 			// This mating heuristic is not very good
 			// instead, just have a timer that periodically checks the number of creatures and if < threshold, mates until back to desired number.
-			if (c && c.gameObject.name == "torso" && c != crt.torso.gameObject)
+			if (c && c.gameObject.name == "torso" && c != crt.getTorsoObject().gameObject)
 			{
 				other_crt = c.transform.parent.GetComponent<Creature>();
 				Vector3 distDiff = c.transform.position - _t.position;
