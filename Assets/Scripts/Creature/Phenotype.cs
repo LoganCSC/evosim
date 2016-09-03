@@ -10,17 +10,18 @@ using System.Collections.Generic;
  */
 public class Phenotype
 {
-	Settings settings;
-	Chromosome chromosome;
+	private Settings settings;
+	private Chromosome chromosome;
 
 	public GameObject torso;
-	public Torso torso_script;
 	public GameObject eye;
-	public Eye eye_script;
-	public GameObject mouth;
-	public List<ConfigurableJoint> joints = new List<ConfigurableJoint>();
-	Transform transform;
-	Vector3 target_direction;
+
+	private Torso torso_script;
+	private Eye eye_script;
+	private GameObject mouth;
+	private List<ConfigurableJoint> joints = new List<ConfigurableJoint>();
+	private Transform transform;
+	private Vector3 target_direction;
 	private Vector3 direction;
 	// Directional movement should be emergent rather than explicit
 	private Quaternion lookRotation;
@@ -53,14 +54,14 @@ public class Phenotype
 
 	private GameObject CreateTorso()
 	{
-		GameObject torso = CreateMorphology(chromosome.getGraph(), null, 0, 0);
+		GameObject torso = GameObject.CreatePrimitive(PrimitiveType.Cube);
 
 		torso.name = "torso";
 		torso.transform.parent = transform;
 		torso.transform.position = transform.position;
 		torso.transform.eulerAngles = transform.eulerAngles;
 
-		//torso.AddComponent<Rigidbody>();
+		torso.AddComponent<Rigidbody>();
 		torso_script = torso.AddComponent<Torso>();
 		torso_script.setColour(chromosome.getBodyColour());
 		torso_script.setScale(chromosome.getBodyScale());
@@ -71,6 +72,9 @@ public class Phenotype
 		torso.GetComponent<Rigidbody>().drag = settings.drag;
 		// Are creatures made of lead (40) or styrophoam (0.4)?
 		torso.GetComponent<Rigidbody>().SetDensity(4F);
+
+		CreateMorphology(chromosome.getGraph(), torso, 0, 0);
+
 		return torso;
 	}
 
@@ -99,28 +103,21 @@ public class Phenotype
 	/**
 	 * Traverse the graph and create the morphology.
 	 */
-	private GameObject CreateMorphology(GenotypeNode node, GameObject parent, int depth, int childIndex)
+	private void CreateMorphology(GenotypeNode node, GameObject parent, int depth, int childIndex)
 	{
-		GameObject segment =  GameObject.CreatePrimitive(PrimitiveType.Cube);
+		GameObject segment = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		segment.layer = LayerMask.NameToLayer("Creature");
 		segment.name = "part_" + depth + "_" + childIndex;
-		segment.transform.parent = transform;  // incorporate transformFromParent
+		segment.transform.parent = parent.transform;  // incorporate transformFromParent
 
 		Limb segment_script = segment.AddComponent<Limb>();
 		segment_script.setScale((Vector3) node.dimensions);
 		segment_script.setColour((Color) chromosome.getLimbColour());
 
-		if (parent)
-		{
-			segment.transform.LookAt(parent.transform);
-			segment_script.setPosition(parent.transform.localPosition);
-			segment.transform.Translate(0, 0, -parent.transform.localPosition.z);
-		}
-		else
-		{
-			segment_script.setPosition((Vector3)node.translateFromParent); // ?
-		}
-	
+		segment.transform.LookAt(parent.transform);
+		segment_script.setPosition(parent.transform.localPosition);
+		segment.transform.Translate(0, 0, -parent.transform.localPosition.z);
+		
 		int idx = 0;
 		foreach (GenotypeNode child in node.children)
 		{
@@ -132,45 +129,33 @@ public class Phenotype
 		segment.AddComponent<BoxCollider>();
 		segment.GetComponent<Collider>().material = (PhysicMaterial)Resources.Load("Physics Materials/Creature");
 
-		
-		if (parent)
-		{
-			ConfigurableJoint joint = segment.AddComponent<ConfigurableJoint>();
-			joint.axis = new Vector3(0.5F, 0F, 0F);
-			joint.anchor = new Vector3(0F, 0F, 0.5F);
-			joint.breakForce = 1000.0f;  // lower this to make limbs break off; joint.breakTorque = 10.0f;
+		ConfigurableJoint joint = segment.AddComponent<ConfigurableJoint>();
+		joint.axis = new Vector3(0.5F, 0F, 0F);
+		joint.anchor = new Vector3(0F, 0F, 0.5F);
+		joint.breakForce = 1000.0f;  // lower this to make limbs break off; joint.breakTorque = 10.0f;
 
-			joint.connectedBody = parent.GetComponent<Rigidbody>();
+		joint.connectedBody = parent.GetComponent<Rigidbody>();
+		joints.Add(joint);
 
-			joints.Add(joint);
+		joint.xMotion = ConfigurableJointMotion.Locked;
+		joint.yMotion = ConfigurableJointMotion.Locked;
+		joint.zMotion = ConfigurableJointMotion.Locked;
 
-			joint.xMotion = ConfigurableJointMotion.Locked;
-			joint.yMotion = ConfigurableJointMotion.Locked;
-			joint.zMotion = ConfigurableJointMotion.Locked;
+		joint.angularXMotion = ConfigurableJointMotion.Free;
+		joint.angularYMotion = ConfigurableJointMotion.Free;
+		joint.angularZMotion = ConfigurableJointMotion.Free;
 
-			joint.angularXMotion = ConfigurableJointMotion.Free;
-			joint.angularYMotion = ConfigurableJointMotion.Free;
-			joint.angularZMotion = ConfigurableJointMotion.Free;
+		JointDrive angXDrive = new JointDrive();
+		//angXDrive.mode = JointDriveMode.Position;
+		angXDrive.positionSpring = 7F;
+		// If this gets down around 0.001, they look sleepy. Two high and population declines.
+		angXDrive.maximumForce = 10.0F;
 
-			JointDrive angXDrive = new JointDrive();
-			//angXDrive.mode = JointDriveMode.Position;
-			angXDrive.positionSpring = 7F;
-			// If this gets down around 0.001, they look sleepy. Two high and population declines.
-			angXDrive.maximumForce = 10.0F;
+		joint.angularXDrive = angXDrive;
+		joint.angularYZDrive = angXDrive;
 
-			joint.angularXDrive = angXDrive;
-			joint.angularYZDrive = angXDrive;
-		}
-		else
-		{
-			//joint.connectedBody = segment.GetComponent<Rigidbody>();
-		}
 		segment.GetComponent<Rigidbody>().drag = 1F;
-
-
 		segment.GetComponent<Rigidbody>().SetDensity(1F);
-
-		return segment;
 	}
 
 	/**

@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
 /**
  * Creatures swim around and eat food. The ones that survive the longest, reproduce and pass on their genes.
@@ -46,9 +45,8 @@ public class Creature : MonoBehaviour
 		dead
 	};
 	public State state;
-	private bool state_lock = false;
 
-	private bool low_energy_lock = false;
+	private bool shutting_down = false;
 	private MeshRenderer[] ms;
 	private float metabolise_timer = 1F;
 
@@ -75,7 +73,7 @@ public class Creature : MonoBehaviour
 		low_energy_threshold = settings.low_energy_threshold;
 
 		// timers
-		InvokeRepeating("updateState", 0, 0.1f);
+		InvokeRepeating("updateState", 0, 0.2f);
 
 		ms = GetComponentsInChildren<MeshRenderer>();
 	}
@@ -108,7 +106,7 @@ public class Creature : MonoBehaviour
 			metabolise_timer = 1F;
 		}
 
-		if (energy <= low_energy_threshold && !low_energy_lock)
+		if (energy <= low_energy_threshold && !shutting_down)
 			StartShuttingDown();
 
 		if (energy > low_energy_threshold)
@@ -133,15 +131,14 @@ public class Creature : MonoBehaviour
 
 	private void StartShuttingDown()
 	{
-		low_energy_lock = true;
+		shutting_down = true;
 		StartCoroutine(SlowDown());
 		StartCoroutine(Darken());
 	}
 
 	private void AbortShutDown()
 	{
-		state_lock = false;
-		low_energy_lock = false;
+		shutting_down = false;
 		StopCoroutine(SlowDown());
 		StopCoroutine(Darken());
 		phenotype.Lighten();
@@ -181,7 +178,7 @@ public class Creature : MonoBehaviour
 
 	public void ChangeState(State s)
 	{
-		if (!state_lock)
+		if (state != State.dead)
 			state = s;
 	}
 
@@ -193,9 +190,8 @@ public class Creature : MonoBehaviour
 	}
 
 	/*
-	 * Remove a specified amount of energy from the creature,
-	 * kill it if the creature's energy reaches zero.
-	 *
+	 * Remove a specified amount of energy from the creature.
+	 * Kill it if the creature's energy reaches zero.
 	 * Return: true if energy is now below zero
 	 */
 	public bool subtractEnergy(float n)
@@ -209,7 +205,6 @@ public class Creature : MonoBehaviour
 			energy = 0;
 			equal_or_below_zero = true;
 			state = State.dead;
-			state_lock = true;
 		}
 		else
 		{
