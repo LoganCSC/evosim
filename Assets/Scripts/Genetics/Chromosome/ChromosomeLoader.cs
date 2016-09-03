@@ -12,7 +12,7 @@ public class ChromosomeLoader
 	StreamReader sr;
 	string raw_contents;
 	public JsonData contents;
-	private GenotypeGraphDeserializer graphDeserializer;
+	private GenotypeGraphDeserializer graphDeserializer = new GenotypeGraphDeserializer();
 
 
 	public Chromosome load(string filePath)
@@ -21,6 +21,7 @@ public class ChromosomeLoader
 
 		sr = new StreamReader(filePath);
 		raw_contents = sr.ReadToEnd();
+		Debug.Log("raw_contents= " + raw_contents);
 		contents = JsonMapper.ToObject(raw_contents);
 		sr.Close();
 
@@ -49,7 +50,7 @@ public class ChromosomeLoader
 		float bja = float.Parse(contents["attributes"]["base_joint_amplitude"].ToString());
 		float bjp = float.Parse(contents["attributes"]["base_joint_phase"].ToString());
 
-		GenotypeNode graph = graphDeserializer.readNode(contents["genotype_graph"]);
+		chromosome.setGraph(graphDeserializer.readNode(contents["genotype_graph"]));
 
 		/*
 		ArrayList branches = new ArrayList();

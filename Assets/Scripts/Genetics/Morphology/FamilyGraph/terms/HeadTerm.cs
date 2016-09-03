@@ -19,8 +19,8 @@ public class HeadTerm : GenotypeNodeTerm
 	{
 		GenotypeFamilyNode headNode = new GenotypeFamilyNode();
 		headNode.name = "head";
-		headNode.minDimension = new Vector3(3, 4, 4);
-		headNode.maxDimension = new Vector3(6, 8, 8);
+		headNode.minDimension = new Vector3(0.2f, 0.4f, 0.4f);
+		headNode.maxDimension = new Vector3(0.5f, 1.0f, 0.6f);
 
 		headNode.rotateFromParent = new Vector3(1, 1, 1);
 		headNode.translateFromParent = new Vector3(1, 1, 1);

@@ -24,11 +24,11 @@ public class ChromosomePersister
 	""attributes"" : {{
 		""colour"" : {{""r"": {1}, ""g"": {2}, ""b"": {3}}},
 		""limb_colour"" : {{""r"": {4}, ""g"": {5}, ""b"": {6}}},
-		}},
 		""base_joint_frequency"": {7},
 		""base_joint_amplitude"": {8},
-		""base_joint_phase"": {9},
-		";
+		""base_joint_phase"": {9}
+	}},
+";
 
 		Color bodyColor = chromosome.getBodyColour();
 		Color limbColor = chromosome.getLimbColour();
@@ -44,11 +44,8 @@ public class ChromosomePersister
 
 		//json_creature += getRecurrencesJson(chromosome);
 		//json_creature += getLimbsJson(chromosome);
-		json_creature += graphSerializer.writeAsJsonProperty("genotype_graph", chromosome.getGraph(), "   ");
+		json_creature += graphSerializer.writeAsJsonProperty("genotype_graph", chromosome.getGraph(), "");
 
-		json_creature +=
-	@"
-	}"; // close attributes
 		json_creature +=
 @"
 }"; // close creature root

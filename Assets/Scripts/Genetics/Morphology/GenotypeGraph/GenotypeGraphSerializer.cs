@@ -15,7 +15,7 @@ public class GenotypeGraphSerializer
 	{
 		string graph_json = indent + "\"" + propertyName  + "\" : ";
 
-		graph_json += writeAsJsonAux(root, indent);
+		graph_json += writeAsJsonAux(root, INDENT + indent);
 		return graph_json;
 	}
 
@@ -27,9 +27,9 @@ public class GenotypeGraphSerializer
 		string node_json = @"" + indent + "{";  // open node
 
 		string node_string = @"
-{9}""dimensions"" : {{ ""x"": {0}, ""y"": {1}, ""z"": {2}}},
-{9}""rotateFromParent"" : {{ ""x"": {3}, ""y"": {4}, ""z"": {5}}},
-{9}""translateFromParent"" : {{ ""x"": {6}, ""y"": {7}, ""z"": {8}}}";
+{9}""dimensions"" : {{ ""x"": {0}, ""y"": {1}, ""z"": {2} }},
+{9}""rotateFromParent"" : {{ ""x"": {3}, ""y"": {4}, ""z"": {5} }},
+{9}""translateFromParent"" : {{ ""x"": {6}, ""y"": {7}, ""z"": {8} }}";
 
 		string[] l_args = {
 			root.dimensions.x.ToString(), root.dimensions.y.ToString(), root.dimensions.z.ToString(),

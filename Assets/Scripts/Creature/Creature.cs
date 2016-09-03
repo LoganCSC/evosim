@@ -4,8 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 /**
- * Creatures swim around and eat food.
- * The ones that survive the longest, reproduce and pass on their genes.
+ * Creatures swim around and eat food. The ones that survive the longest, reproduce and pass on their genes.
  *	Author: Craig Lomax
  *	Author: Barry Becker
  */
@@ -16,8 +15,8 @@ public class Creature : MonoBehaviour
 	Settings settings;
 	Ether eth;
 
-	public GameObject body;
-	public Body body_script;
+	public GameObject torso;
+	public Torso torso_script;
 
 	public GameObject eye;
 	public GameObject mouth;
@@ -37,9 +36,6 @@ public class Creature : MonoBehaviour
 
 	public int num_offspring;
 	public int food_eaten;
-
-	//private ArrayList limbs;
-	//private ArrayList all_limbs;
 
 	// These should be part of each joint
 	private float joint_frequency;
@@ -84,15 +80,12 @@ public class Creature : MonoBehaviour
 		joint_amplitude = chromosome.base_joint_amplitude;
 		joint_phase = chromosome.base_joint_phase;
 
-		body = CreateBody();
+		torso = CreateTorso();
 		eye = CreateEye();
 		mouth = CreateMouth();
 
 		line_of_sight = settings.line_of_sight;
 		metabolic_rate = settings.metabolic_rate;
-
-		//all_limbs = new ArrayList();
-		//setupLimbs();
 
 		age = 0.0;
 		ChangeState(State.searching_for_food);
@@ -106,44 +99,112 @@ public class Creature : MonoBehaviour
 		ms = GetComponentsInChildren<MeshRenderer>();
 	}
 
-	GameObject CreateBody()
+	GameObject CreateTorso()
 	{
-		GameObject body = CreateMorphology(chromosome.getGraph());
+		GameObject torso = CreateMorphology(chromosome.getGraph(), null, 0, 0);
 
-		body.name = "body";
-		body.transform.parent = _t;
-		body.transform.position = _t.position;
-		body.transform.eulerAngles = _t.eulerAngles;
+		torso.name = "torso";
+		torso.transform.parent = _t;
+		torso.transform.position = _t.position;
+		torso.transform.eulerAngles = _t.eulerAngles;
 
-		body.AddComponent<Rigidbody>();
-		body_script = body.AddComponent<Body>();
-		body_script.setColour(chromosome.getBodyColour());
-		body_script.setScale(chromosome.getBodyScale());
-		//body.rigidbody.mass = 15F;
-		body.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
+		//torso.AddComponent<Rigidbody>();
+		torso_script = torso.AddComponent<Torso>();
+		torso_script.setColour(chromosome.getBodyColour());
+		torso_script.setScale(chromosome.getBodyScale());
+		//torso.rigidbody.mass = 15F;
+		torso.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
 		// If drag is too high, creatures go nowhere; too low, and they fly off
-		body.GetComponent<Rigidbody>().drag = settings.drag;
+		torso.GetComponent<Rigidbody>().drag = settings.drag;
 		// Are creatures made of lead (40) or styrophoam (0.4)?
-		body.GetComponent<Rigidbody>().SetDensity(4F);
-		return body;
+		torso.GetComponent<Rigidbody>().SetDensity(4F);
+		return torso;
 	}
 
 	/**
-	 * traverse the graph and create the morphology 
-	 * TODO
+	 * Traverse the graph and create the morphology.
 	 */
-	GameObject CreateMorphology(GenotypeNode graph)
+	GameObject CreateMorphology(GenotypeNode node, GameObject parent, int depth, int childIndex)
 	{
-		return GameObject.CreatePrimitive(PrimitiveType.Cube);
+		GameObject segment =  GameObject.CreatePrimitive(PrimitiveType.Cube);
+		segment.layer = LayerMask.NameToLayer("Creature");
+		segment.name = "part_" + depth + "_" + childIndex;
+		segment.transform.parent = _t;  // incorporate transformFromParent
+
+		Limb segment_script = segment.AddComponent<Limb>();
+		segment_script.setScale((Vector3) node.dimensions);
+		segment_script.setColour((Color) chromosome.getLimbColour());
+
+		if (parent)
+		{
+			segment.transform.LookAt(parent.transform);
+			segment_script.setPosition(parent.transform.localPosition);
+			segment.transform.Translate(0, 0, -parent.transform.localPosition.z);
+		}
+		else
+		{
+			segment_script.setPosition((Vector3)node.translateFromParent); // ?
+		}
+	
+		int idx = 0;
+		foreach (GenotypeNode child in node.children)
+		{
+			//GameObject childSegment = 
+			CreateMorphology(child, segment, depth + 1, idx++);
+		}
+
+		segment.AddComponent<Rigidbody>();
+		segment.AddComponent<BoxCollider>();
+		segment.GetComponent<Collider>().material = (PhysicMaterial)Resources.Load("Physics Materials/Creature");
+
+		
+		if (parent)
+		{
+			ConfigurableJoint joint = segment.AddComponent<ConfigurableJoint>();
+			joint.axis = new Vector3(0.5F, 0F, 0F);
+			joint.anchor = new Vector3(0F, 0F, 0.5F);
+			joint.breakForce = 1000.0f;  // lower this to make limbs break off; joint.breakTorque = 10.0f;
+
+			joint.connectedBody = parent.GetComponent<Rigidbody>();
+
+			joints.Add(joint);
+
+			joint.xMotion = ConfigurableJointMotion.Locked;
+			joint.yMotion = ConfigurableJointMotion.Locked;
+			joint.zMotion = ConfigurableJointMotion.Locked;
+
+			joint.angularXMotion = ConfigurableJointMotion.Free;
+			joint.angularYMotion = ConfigurableJointMotion.Free;
+			joint.angularZMotion = ConfigurableJointMotion.Free;
+
+			JointDrive angXDrive = new JointDrive();
+			//angXDrive.mode = JointDriveMode.Position;
+			angXDrive.positionSpring = 7F;
+			// If this gets down around 0.001, they look sleepy. Two high and population declines.
+			angXDrive.maximumForce = 10.0F;
+
+			joint.angularXDrive = angXDrive;
+			joint.angularYZDrive = angXDrive;
+		}
+		else
+		{
+			//joint.connectedBody = segment.GetComponent<Rigidbody>();
+		}
+		segment.GetComponent<Rigidbody>().drag = 1F;
+
+
+		segment.GetComponent<Rigidbody>().SetDensity(1F);
+
+		return segment;
 	}
 
 	GameObject CreateEye()
 	{
 		GameObject eye = new GameObject();
 		eye.name = "Eye";
-		eye.transform.parent = body.transform;
-		eye.transform.eulerAngles = body.transform.eulerAngles;
-		eye.transform.position = body.transform.position;
+		eye.transform.parent = torso.transform;
+		eye.transform.eulerAngles = torso.transform.eulerAngles;
+		eye.transform.position = torso.transform.position;
 		eye_script = eye.AddComponent<Eye>();
 		return eye;
 	}
@@ -152,8 +213,8 @@ public class Creature : MonoBehaviour
 	{
 		GameObject mouth = new GameObject();
 		mouth.name = "Mouth";
-		mouth.transform.parent = body.transform;
-		mouth.transform.eulerAngles = body.transform.eulerAngles;
+		mouth.transform.parent = torso.transform;
+		mouth.transform.eulerAngles = torso.transform.eulerAngles;
 		mouth.transform.localPosition = new Vector3(0, 0, .5F);
 		mouth.AddComponent<Mouth>();
 		return mouth;
@@ -175,7 +236,7 @@ public class Creature : MonoBehaviour
 
 		if (eye_script.goal) {
 			// The unit vector toward the object in sight should only be used as input to neural network.
-			target_direction = (eye_script.goal.transform.position - body.transform.position).normalized;
+			target_direction = (eye_script.goal.transform.position - torso.transform.position).normalized;
 		}
 
 		if (target_direction != Vector3.zero) {
@@ -186,14 +247,14 @@ public class Creature : MonoBehaviour
 		float abs_sine = Mathf.Abs(sine);
 		float pos_sine = System.Math.Max(sine,0);
 		// interpolates toward where it is looking
-		body.transform.rotation = Quaternion.Slerp(body.transform.rotation, lookRotation, Time.deltaTime * abs_sine * 3F);
+		torso.transform.rotation = Quaternion.Slerp(torso.transform.rotation, lookRotation, Time.deltaTime * abs_sine * 3F);
 
 		if (pos_sine == 0) {
-			direction = body.transform.forward;
+			direction = torso.transform.forward;
 		}
 
 		// totally fake. Needs fixing.
-		body.GetComponent<Rigidbody>().AddForce(Mathf.Abs(force_scalar) * direction * pos_sine * 2 /*chromosome.getBranchCount()*/);
+		torso.GetComponent<Rigidbody>().AddForce(Mathf.Abs(force_scalar) * direction * pos_sine * 2 /*chromosome.getBranchCount()*/);
 	}
 
 	/**
@@ -336,82 +397,6 @@ public class Creature : MonoBehaviour
 		Destroy(gameObject);
 	}
 
-	/**
-	 * The creature's limbs are created from the chromosome.
-	 * TODO: Limbs should be made into a better tree structure, not this
-	 * list of lists rubbish. Also, add symmetry.
-	 *
-	private void setupLimbs () {
-		int num_branches = chromosome.getBranchCount();
-
-		for (int i=0; i<num_branches; i++)
-		{
-			limbs = chromosome.getLimbs(i);
-			List<GameObject> actual_limbs = new List<GameObject>();
-
-			for (int j=0; j < limbs.Count; j++) {
-				GameObject limb = GameObject.CreatePrimitive(PrimitiveType.Cube);
-				limb.layer = LayerMask.NameToLayer("Creature");
-				limb.name = "limb_" + i + "_" + j;
-				limb.transform.parent = _t;
-				actual_limbs.Add(limb);
-				Limb limb_script = limb.AddComponent<Limb>();
-
-				ArrayList attributes = (ArrayList) limbs[j];
-				limb_script.setScale( (Vector3) attributes[1] );
-				limb_script.setColour( (Color) chromosome.getLimbColour());
-
-				if (j == 0) {
-					limb_script.setPosition( (Vector3) attributes[0] );
-					limb.transform.LookAt(body.transform);
-				} else {
-					limb_script.setPosition( actual_limbs[j-1].transform.localPosition );
-					limb.transform.LookAt(body.transform);
-					limb.transform.Translate(0,0,-actual_limbs[j-1].transform.localScale.z);
-				}
-
-				limb.AddComponent<Rigidbody>();
-				limb.AddComponent<BoxCollider>();
-				limb.GetComponent<Collider>().material = (PhysicMaterial)Resources.Load("Physics Materials/Creature");
-
-				ConfigurableJoint joint = limb.AddComponent<ConfigurableJoint>();
-				joint.axis = new Vector3(0.5F, 0F, 0F);
-				joint.anchor = new Vector3(0F, 0F, 0.5F);
-				joint.breakForce = 1000.0f;  // lower this to make limbs break off
-				//joint.breakTorque = 10.0f;
-				if (j == 0) {
-					joint.connectedBody = body.GetComponent<Rigidbody>();
-				} else {
-					joint.connectedBody = actual_limbs[j-1].GetComponent<Rigidbody>();
-				}
-				limb.GetComponent<Rigidbody>().drag = 1F;
-
-				joints.Add(joint);
-
-				joint.xMotion = ConfigurableJointMotion.Locked;
-				joint.yMotion = ConfigurableJointMotion.Locked;
-				joint.zMotion = ConfigurableJointMotion.Locked;
-
-				joint.angularXMotion = ConfigurableJointMotion.Free;
-				joint.angularYMotion = ConfigurableJointMotion.Free;
-				joint.angularZMotion = ConfigurableJointMotion.Free;
-
-				JointDrive angXDrive = new JointDrive();
-				//angXDrive.mode = JointDriveMode.Position;
-				angXDrive.positionSpring = 7F;
-				// If this gets down around 0.001, they look sleepy. Two high and population declines.
-				angXDrive.maximumForce = 10.0F;
-
-				joint.angularXDrive = angXDrive;
-				joint.angularYZDrive = angXDrive;
-
-				limb.GetComponent<Rigidbody>().SetDensity(1F);
-
-				all_limbs.Add(limb_script);
-			}
-		}
-	}*/
-
 	float d_col = 0.01F;
 	private IEnumerator Darken()
 	{
@@ -446,7 +431,7 @@ public class Creature : MonoBehaviour
 
 	private void Lighten()
 	{
-		body.GetComponent<MeshRenderer>().material.color = body_script.original_colour;
+		torso.GetComponent<MeshRenderer>().material.color = torso_script.original_colour;
 		//foreach (Limb l in all_limbs)
 		//	l.GetComponent<MeshRenderer>().material.color = l.original_colour;
 	}

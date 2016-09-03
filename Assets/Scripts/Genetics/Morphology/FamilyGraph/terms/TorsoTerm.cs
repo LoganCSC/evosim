@@ -28,8 +28,8 @@ public class TorsoTerm : GenotypeNodeTerm
 	{
 		GenotypeFamilyNode torsoNode = new GenotypeFamilyNode();
 		torsoNode.name = "torso";
-		torsoNode.minDimension = new Vector3(3, 4, 4);
-		torsoNode.maxDimension = new Vector3(6, 8, 8);
+		torsoNode.minDimension = new Vector3(0.6f, 1, 0.6f);
+		torsoNode.maxDimension = new Vector3(1.2f, 2, 1.4f);
 
 		torsoNode.rotateFromParent = new Vector3(1, 1, 1);
 		torsoNode.translateFromParent = new Vector3(1, 1, 1);

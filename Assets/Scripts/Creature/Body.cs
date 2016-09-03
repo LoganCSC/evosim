@@ -7,7 +7,7 @@ using System.Collections;
  * The body is the root element of the creature. Limbs, mouth, eyes are attached to the body.
  * In the future, mouth and eyes might be on limbs.
  */
-public class Body : MonoBehaviour {
+public class Torso : MonoBehaviour {
 	
 	Transform _t;
 	public Creature crt;

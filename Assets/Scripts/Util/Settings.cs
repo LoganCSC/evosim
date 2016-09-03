@@ -166,7 +166,7 @@ public class Settings : MonoBehaviour {
 		camera_sensitivity = float.Parse(contents["config"]["camera"]["sensitivity"].ToString());
 		camera_invert = float.Parse(contents["config"]["camera"]["invert"].ToString());
 
-		run_tests(grammar);
+		//run_tests(grammar);
 	}
 
 	private void run_tests(GenotypeFamilyGrammar grammar)
@@ -193,8 +193,8 @@ public class Settings : MonoBehaviour {
 			print("Graph: \n" + output);
 
 			// now read it in with deserializer and writ it out again
-			//GenotypeNode graph2 = new GenotypeGraphDeserializer().readFromJson("{" + output + "}");
-			//print("Graph2:: " + serializer.writeAsJsonProperty("graph2", graph2, "    "));
+			GenotypeNode graph2 = new GenotypeGraphDeserializer().readFromJson("{" + output + "}");
+			print("Graph2:: " + serializer.writeAsJsonProperty("graph2", graph2, "  "));
 		}
 	}
 }

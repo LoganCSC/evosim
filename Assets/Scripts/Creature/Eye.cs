@@ -16,7 +16,7 @@ public class Eye : MonoBehaviour
 	Creature other_crt;
 	public GameObject goal = null;
 	public float distance_to_goal = 0F;
-	Transform body;
+	Transform torso;
 	
 	void Start ()
 	{
@@ -25,7 +25,7 @@ public class Eye : MonoBehaviour
 		crt = _t.parent.parent.gameObject.GetComponent<Creature>();
 		observer = CollisionObserver.getInstance();
 		settings = Settings.getInstance();
-		body = _t.parent;
+		torso = _t.parent;
 
 		InvokeRepeating("refreshVision", 0, settings.eye_refresh_rate);
 	}
@@ -80,7 +80,7 @@ public class Eye : MonoBehaviour
 
 			// This mating heuristic is not very good
 			// instead, just have a timer that periodically checks the number of creatures and if < threshold, mates until back to desired number.
-			if (c && c.gameObject.name == "body" && c != crt.body.gameObject)
+			if (c && c.gameObject.name == "torso" && c != crt.torso.gameObject)
 			{
 				other_crt = c.transform.parent.GetComponent<Creature>();
 				Vector3 distDiff = c.transform.position - _t.position;
@@ -111,7 +111,7 @@ public class Eye : MonoBehaviour
 	public float distanceToGoal (GameObject goal)
 	{
 		if (goal)
-			return Vector3.Distance(body.position, goal.transform.position);
+			return Vector3.Distance(torso.position, goal.transform.position);
 		else
 			return 0F;
 	}
