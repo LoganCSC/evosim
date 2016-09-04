@@ -11,7 +11,6 @@ public class Eye : MonoBehaviour
 	CollisionObserver observer;
 	public float curr_dist = 0f;
 	public Collider[] cs;
-	Transform _t;
 	Settings settings;
 	Creature other_crt;
 	public GameObject goal = null;
@@ -20,12 +19,10 @@ public class Eye : MonoBehaviour
 	
 	void Start ()
 	{
-		_t = transform;
-		
-		crt = _t.parent.parent.gameObject.GetComponent<Creature>();
+		crt = transform.parent.parent.gameObject.GetComponent<Creature>();
 		observer = CollisionObserver.getInstance();
 		settings = Settings.getInstance();
-		torso = _t.parent;
+		torso = transform.parent;
 
 		InvokeRepeating("refreshVision", 0, settings.eye_refresh_rate);
 	}
@@ -56,13 +53,13 @@ public class Eye : MonoBehaviour
 		targetFbit = null; // reference to the script of the closest foodbit
 		GameObject closest 	= null;
 		float dist = Mathf.Infinity;
-		cs = Physics.OverlapSphere(_t.position, (float)crt.line_of_sight);
+		cs = Physics.OverlapSphere(transform.position, (float)crt.line_of_sight);
 
 		foreach (Collider c in cs) {
 			GameObject f = (GameObject) c.gameObject;
 			if (f && f.name == "Foodbit")
 			{
-				Vector3 diff = f.transform.position - _t.position;
+				Vector3 diff = f.transform.position - transform.position;
 				float curr_dist = diff.magnitude;
 				if (curr_dist < dist)
 				{
@@ -83,7 +80,7 @@ public class Eye : MonoBehaviour
 			if (c && c.gameObject.name == "torso" && c != crt.getTorsoObject().gameObject)
 			{
 				other_crt = c.transform.parent.GetComponent<Creature>();
-				Vector3 distDiff = c.transform.position - _t.position;
+				Vector3 distDiff = c.transform.position - transform.position;
 				float similarityDiff = similar_colour(crt.chromosome, other_crt.chromosome); // avoid mating with relatives
 				if (distDiff.magnitude < (float)settings.crt_mate_range && similarityDiff > 0.5 && RND.NextDouble() < 0.5)
 				{

@@ -39,7 +39,6 @@ public class Phenotype
 		mouth = CreateMouth(torso);
 	}
 
-
 	public void Lighten()
 	{
 		torso.GetComponent<MeshRenderer>().material.color = torso_script.original_colour;
@@ -52,6 +51,7 @@ public class Phenotype
 		return eye_script.targetFbit != null;
 	}
 
+	/** @return refernce to torso object with all limbs connected to it */
 	private GameObject CreateTorso()
 	{
 		GameObject torso = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -114,8 +114,8 @@ public class Phenotype
 		segment_script.setScale((Vector3) node.dimensions);
 		segment_script.setColour((Color) chromosome.getLimbColour());
 
-		segment.transform.LookAt(parent.transform);
 		segment_script.setPosition(parent.transform.localPosition);
+		segment.transform.LookAt(parent.transform); // torso or parent?
 		segment.transform.Translate(0, 0, -parent.transform.localPosition.z);
 		
 		int idx = 0;

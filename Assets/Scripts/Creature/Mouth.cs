@@ -8,8 +8,6 @@ public class Mouth : MonoBehaviour {
 
 	Creature crt;
 	Eye eye;
-	
-	Transform _t;
 	LineRenderer lr;
 	
 	float line_length 	= 0.05F;
@@ -20,8 +18,7 @@ public class Mouth : MonoBehaviour {
 
 	void Start ()
 	{
-		_t = transform;
-		crt = (Creature)_t.parent.parent.gameObject.GetComponent("Creature");
+		crt = (Creature)transform.parent.parent.gameObject.GetComponent("Creature");
 		eye = crt.getEye();
 		lr = (LineRenderer)gameObject.AddComponent<LineRenderer>();
 		lr.material.shader = Shader.Find("Unlit/Color");
@@ -58,7 +55,7 @@ public class Mouth : MonoBehaviour {
 	}
 	
 	void resetStart () {
-		Vector3 line_start = new Vector3(_t.position.x,_t.position.y,_t.position.z);
+		Vector3 line_start = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 		lr.SetPosition(0, line_start);
 	}
 	

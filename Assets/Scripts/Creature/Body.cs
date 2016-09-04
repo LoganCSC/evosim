@@ -9,16 +9,14 @@ using System.Collections;
  */
 public class Torso : MonoBehaviour {
 	
-	Transform _t;
 	public Creature crt;
 	public MeshRenderer mr;
 	public Material mt;
 	public Color original_colour;
 	
 	void Start () {
-		_t = transform;
 		mr = gameObject.GetComponent<MeshRenderer>();
-		crt = _t.parent.gameObject.GetComponent<Creature>();
+		crt = transform.parent.gameObject.GetComponent<Creature>();
 		tag = "Creature";
 	}
 
