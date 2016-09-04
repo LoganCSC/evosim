@@ -121,7 +121,6 @@ public class Phenotype
 		int idx = 0;
 		foreach (GenotypeNode child in node.children)
 		{
-			//GameObject childSegment = 
 			CreateMorphology(child, segment, depth + 1, idx++);
 		}
 
@@ -130,8 +129,8 @@ public class Phenotype
 		segment.GetComponent<Collider>().material = (PhysicMaterial)Resources.Load("Physics Materials/Creature");
 
 		ConfigurableJoint joint = segment.AddComponent<ConfigurableJoint>();
-		joint.axis = new Vector3(0.5F, 0F, 0F);
-		joint.anchor = new Vector3(0F, 0F, 0.5F);
+		joint.axis = new Vector3(0.05F, 0F, 0F);
+		joint.anchor = new Vector3(0F, 0F, 0.05F);
 		joint.breakForce = 1000.0f;  // lower this to make limbs break off; joint.breakTorque = 10.0f;
 
 		joint.connectedBody = parent.GetComponent<Rigidbody>();

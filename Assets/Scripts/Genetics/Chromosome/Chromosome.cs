@@ -43,8 +43,8 @@ public class Chromosome
 	public Vector3 getBodyScale() {
 		return body_scale;
 	}
-	public void setBodyScale(Vector3 rs) {
-		body_scale = rs;
+	public void setBodyScale(Vector3 bs) {
+		body_scale = bs;
 	}
 
 	public void setBaseFequency(float freq) {

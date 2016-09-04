@@ -44,7 +44,7 @@ public class ChromosomePersister
 
 		//json_creature += getRecurrencesJson(chromosome);
 		//json_creature += getLimbsJson(chromosome);
-		json_creature += graphSerializer.writeAsJsonProperty("genotype_graph", chromosome.getGraph(), "");
+		json_creature += graphSerializer.writeAsJsonProperty("genotype_graph", chromosome.getGraph(), "\t");
 
 		json_creature +=
 @"

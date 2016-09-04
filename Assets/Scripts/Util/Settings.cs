@@ -19,9 +19,6 @@ public class Settings : MonoBehaviour {
 	public Vector3 max_body_scale;
 	public Vector3 min_body_scale;
 
-	public Vector3 max_limb_scale;
-	public Vector3 min_limb_scale;
-
 	public float creature_init_energy;
 	public int branch_limit;
 	public int recurrence_limit;
@@ -85,11 +82,6 @@ public class Settings : MonoBehaviour {
 		return getRandomScale(min_body_scale, max_body_scale);
 	}
 
-	public Vector3 getRandomLimbScale()
-	{
-		return getRandomScale(min_limb_scale, max_limb_scale);
-	}
-
 	public Vector3 getRandomScale(Vector3 minVec, Vector3 maxVec)
 	{
 		return new Vector3((float)Random.Range(minVec.x, maxVec.x),
@@ -113,16 +105,6 @@ public class Settings : MonoBehaviour {
 		min_body_scale.x = float.Parse(creature["body"]["min_body_scale"]["x"].ToString());
 		min_body_scale.y = float.Parse(creature["body"]["min_body_scale"]["y"].ToString());
 		min_body_scale.z = float.Parse(creature["body"]["min_body_scale"]["z"].ToString());
-
-		max_limb_scale = new Vector3();
-		max_limb_scale.x = float.Parse(creature["limb"]["max_limb_scale"]["x"].ToString());
-		max_limb_scale.y = float.Parse(creature["limb"]["max_limb_scale"]["y"].ToString());
-		max_limb_scale.z = float.Parse(creature["limb"]["max_limb_scale"]["z"].ToString());
-
-		min_limb_scale = new Vector3();
-		min_limb_scale.x = float.Parse(creature["limb"]["min_limb_scale"]["x"].ToString());
-		min_limb_scale.y = float.Parse(creature["limb"]["min_limb_scale"]["y"].ToString());
-		min_limb_scale.z = float.Parse(creature["limb"]["min_limb_scale"]["z"].ToString());
 
 		creature_init_energy = float.Parse(creature["init_energy"].ToString());
 		branch_limit = (int)creature["branch_limit"];

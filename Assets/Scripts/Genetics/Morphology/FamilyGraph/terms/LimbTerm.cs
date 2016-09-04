@@ -28,8 +28,8 @@ public class LimbTerm : GenotypeNodeTerm
 	{
 		GenotypeFamilyNode limbNode = new GenotypeFamilyNode();
 		limbNode.name = "limb";
-		limbNode.minDimension = new Vector3(0.1f, 3, 0.1f);
-		limbNode.maxDimension = new Vector3(0.5f, 6, 0.6f);
+		limbNode.minDimension = new Vector3(0.05f, 0.05f, 0.6f);
+		limbNode.maxDimension = new Vector3(0.3f, 0.3f, 1.0f);
 
 		limbNode.rotateFromParent = new Vector3(1, 1, 1);
 		limbNode.translateFromParent = new Vector3(1, 1, 1);
