@@ -35,7 +35,7 @@ public class CreatureList : MonoBehaviour
 			LayoutElement le = button.AddComponent<LayoutElement>();
 			le.minHeight = 30;
 
-			LoadChromosome lc = button.GetComponent<LoadChromosome>();
+			LoadChromosomeButton lc = button.GetComponent<LoadChromosomeButton>();
 			lc.parent = GetComponentInParent<UIElement>();
 			lc.c = chromosome;
 
