@@ -54,7 +54,7 @@ public class Phenotype
 	/** @return refernce to torso object with all limbs connected to it */
 	private GameObject CreateTorso()
 	{
-		GameObject torso = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		GameObject torso = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 
 		torso.name = "torso";
 		torso.transform.parent = transform;
@@ -64,7 +64,10 @@ public class Phenotype
 		torso.AddComponent<Rigidbody>();
 		torso_script = torso.AddComponent<Torso>();
 		torso_script.setColour(chromosome.getBodyColour());
-		torso_script.setScale(chromosome.getBodyScale());
+		//torso_script.setScale(chromosome.getBodyScale());
+		//if (chromosome.getBodyScale().x == 0)
+		//   Debug.Log("torso scale = " + chromosome.getBodyScale());
+
 
 		//torso.rigidbody.mass = 15F;
 		torso.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
@@ -73,7 +76,7 @@ public class Phenotype
 		// Are creatures made of lead (40) or styrophoam (0.4)?
 		torso.GetComponent<Rigidbody>().SetDensity(4F);
 
-		CreateMorphology(chromosome.getGraph(), torso, 0, 0);
+		CreateMorphology(chromosome.getGraph(), torso, null, 0, 0);
 
 		return torso;
 	}
@@ -103,38 +106,51 @@ public class Phenotype
 	/**
 	 * Traverse the graph and create the morphology.
 	 */
-	private void CreateMorphology(GenotypeNode node, GameObject parent, int depth, int childIndex)
+	private void CreateMorphology(GenotypeNode node, GameObject segment, GameObject parent, int depth, int childIndex)
 	{
-		GameObject segment = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		segment.layer = LayerMask.NameToLayer("Creature");
 		segment.name = "part_" + depth + "_" + childIndex;
-		segment.transform.parent = parent.transform;  // incorporate transformFromParent
+		segment.transform.parent = (parent != null) ? parent.transform : transform;  // incorporate transformFromParent
 
 		Limb segment_script = segment.AddComponent<Limb>();
 		segment_script.setScale((Vector3) node.dimensions);
 		segment_script.setColour((Color) chromosome.getLimbColour());
 
-		segment_script.setPosition(parent.transform.localPosition);
-		segment.transform.LookAt(parent.transform); // torso or parent?
-		segment.transform.Translate(0, 0, -parent.transform.localPosition.z);
+		if (parent != null)
+		{
+			segment_script.setPosition(parent.transform.localPosition);
+			segment.transform.LookAt(parent.transform); // torso or parent?
+			segment.transform.Translate(0, 0, -parent.transform.localPosition.z);
+		}
 		
 		int idx = 0;
 		foreach (GenotypeNode child in node.children)
 		{
-			CreateMorphology(child, segment, depth + 1, idx++);
+			GameObject childSegment = GameObject.CreatePrimitive(PrimitiveType.Cube);
+			CreateMorphology(child, childSegment, segment, depth + 1, idx++);
 		}
 
 		segment.AddComponent<Rigidbody>();
 		segment.AddComponent<BoxCollider>();
 		segment.GetComponent<Collider>().material = (PhysicMaterial)Resources.Load("Physics Materials/Creature");
 
+		if (parent != null)
+		{
+			joints.Add(CreateJoint(segment, parent));
+		}
+
+		segment.GetComponent<Rigidbody>().drag = 1F;
+		segment.GetComponent<Rigidbody>().SetDensity(1F);
+	}
+
+	private ConfigurableJoint CreateJoint(GameObject segment, GameObject parent)
+	{
 		ConfigurableJoint joint = segment.AddComponent<ConfigurableJoint>();
 		joint.axis = new Vector3(0.05F, 0F, 0F);
 		joint.anchor = new Vector3(0F, 0F, 0.05F);
 		joint.breakForce = 1000.0f;  // lower this to make limbs break off; joint.breakTorque = 10.0f;
 
 		joint.connectedBody = parent.GetComponent<Rigidbody>();
-		joints.Add(joint);
 
 		joint.xMotion = ConfigurableJointMotion.Locked;
 		joint.yMotion = ConfigurableJointMotion.Locked;
@@ -152,9 +168,7 @@ public class Phenotype
 
 		joint.angularXDrive = angXDrive;
 		joint.angularYZDrive = angXDrive;
-
-		segment.GetComponent<Rigidbody>().drag = 1F;
-		segment.GetComponent<Rigidbody>().SetDensity(1F);
+		return joint;
 	}
 
 	/**

@@ -20,14 +20,14 @@ public class Torso : MonoBehaviour {
 		tag = "Creature";
 	}
 
-	public void setColour (Color c) {
+	public void setColour(Color c) {
 		original_colour = c;
 		mr = gameObject.GetComponent<MeshRenderer>();
 		mr.material.shader = Shader.Find("Legacy Shaders/Diffuse");
 		mr.material.color = c;
 	}
 	
-	public void setScale (Vector3 scale) {
+	public void setScale(Vector3 scale) {
 		transform.localScale = scale;	
 	}
 	
