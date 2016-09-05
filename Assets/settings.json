@@ -43,25 +43,11 @@
 		"drag"						: 2.0,
 		// everything below this should come from the genotype graph
 		"branch_limit"				: 4,
-		"recurrence_limit"			: 3,
-
-		"body": {
-			"max_body_scale" : {
-				"x"					: 1.0,
-				"y"					: 1.0,
-				"z"					: 1.0
-			},
-
-			"min_body_scale": {
-				"x"					: 0.3,
-				"y"					: 0.3,
-				"z"					: 0.3
-			}
-		}
+		"recurrence_limit"			: 3
 	},
 	"genetics": {
 		//"genotype-family-grammar"	: "creature=>body,First,head;body=>torso:1:8|torso:0:5,Connect:1:2,limbs|torso:1:4,Connect:2:4,limbs;limbs=>limb:0:3",
-		"genotype-family-grammar"	: "creature=>body,First,head;body=>torso:0:0,Connect:2:2,limbs;limbs=>limb:1:1",
+		"genotype-family-grammar"	: "creature=>body,First,head;body=>torso:0:0,Connect:2:2,limbs;limbs=>limb:2:2",
 		"crossover_rate"			: 0.5,
 		"mutation_rate"				: 0.1,
 		"mutation_factor"			: 0.3

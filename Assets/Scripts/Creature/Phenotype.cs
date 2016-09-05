@@ -113,14 +113,15 @@ public class Phenotype
 		segment.transform.parent = (parent != null) ? parent.transform : transform;  // incorporate transformFromParent
 
 		Limb segment_script = segment.AddComponent<Limb>();
-		segment_script.setScale((Vector3) node.dimensions);
-		segment_script.setColour((Color) chromosome.getLimbColour());
+		segment_script.setScale(node.dimensions);
+		segment_script.transform.eulerAngles = node.rotateFromParent; // allows symmetry to work
+		segment_script.setColour(chromosome.getLimbColour());
 
 		if (parent != null)
 		{
 			segment_script.setPosition(parent.transform.localPosition);
-			segment.transform.LookAt(parent.transform); // torso or parent?
-			segment.transform.Translate(0, 0, -parent.transform.localPosition.z);
+			segment.transform.LookAt(parent.transform);
+			segment.transform.Translate(0, 0, -parent.transform.localScale.z);
 		}
 		
 		int idx = 0;
@@ -146,8 +147,8 @@ public class Phenotype
 	private ConfigurableJoint CreateJoint(GameObject segment, GameObject parent)
 	{
 		ConfigurableJoint joint = segment.AddComponent<ConfigurableJoint>();
-		joint.axis = new Vector3(0.05F, 0F, 0F);
-		joint.anchor = new Vector3(0F, 0F, 0.05F);
+		joint.axis = new Vector3(1000.0F, 0F, 0); //new Vector3(0.5F, 0F, 0F);
+		joint.anchor = new Vector3(0.0F, 0F, segment.transform.localScale.z); // new Vector3(0F, 0F, 0.5F);
 		joint.breakForce = 1000.0f;  // lower this to make limbs break off; joint.breakTorque = 10.0f;
 
 		joint.connectedBody = parent.GetComponent<Rigidbody>();

@@ -16,9 +16,6 @@ public class Settings : MonoBehaviour {
 	public int starting_creatures;
 	public float creature_spread;
 
-	public Vector3 max_body_scale;
-	public Vector3 min_body_scale;
-
 	public float creature_init_energy;
 	public int branch_limit;
 	public int recurrence_limit;
