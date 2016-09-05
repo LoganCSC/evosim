@@ -30,7 +30,7 @@ public class ChromosomeGenerator
 		// create phenotype graph based on the genotype family graph generator
 		GenotypeFamilyNode familyGraph = settings.gfg_generator.CreateGenotypeFamilyGraph();
 
-		GenotypeNode graph = traverser.TraverseFamilyGraph(familyGraph);
+		GenotypeNode graph = traverser.TraverseFamilyGraph(familyGraph, familyGraph.selfRecursion);
 		chromosome.setGraph(graph);
 
 		chromosome.setBaseFequency(Random.Range(3, 20));

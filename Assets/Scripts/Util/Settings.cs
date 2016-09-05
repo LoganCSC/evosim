@@ -167,7 +167,7 @@ public class Settings : MonoBehaviour {
 			GenotypeFamilyNode familyGraph = gfg_generator.CreateGenotypeFamilyGraph();
 
 			print("Family Graph: \n" + familyGraph.ToString("  "));
-			GenotypeNode graph = new GenotypeFamilyGraphTraverser().TraverseFamilyGraph(familyGraph);
+			GenotypeNode graph = new GenotypeFamilyGraphTraverser().TraverseFamilyGraph(familyGraph, familyGraph.selfRecursion);
 			GenotypeGraphSerializer serializer = new GenotypeGraphSerializer();
 			string output = serializer.writeAsJsonProperty("genotype_graph", graph, "  ");
 			print("Graph: \n" + output);

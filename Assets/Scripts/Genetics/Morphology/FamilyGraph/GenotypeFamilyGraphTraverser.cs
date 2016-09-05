@@ -12,14 +12,12 @@ public class GenotypeFamilyGraphTraverser
 
 	/** 
 	 * @param root the root of a family graph
-	 * @return a family graph defined by the grammar.
-	 * This graph will produce the genotype-graph. The genotypy-graph is what will be persisted and mutated,
-	 * and is what produces the phenotype (actual physical morphology).
+	 * @return a genotype graph defined by the grammar.
+	 * The genotypy-graph is what will be persisted and mutated, and is what produces the phenotype (actual physical morphology).
 	 */
-	public GenotypeNode TraverseFamilyGraph(GenotypeFamilyNode root)
+	public GenotypeNode TraverseFamilyGraph(GenotypeFamilyNode root, int recurse)
 	{
 		GenotypeNode node = CreateSingleNode(root);
-		//root.connections.Sort();
 
 		foreach (GenotypeFamilyConnection conn in root.connections.FindAll(c => c.isFirst)) {
 			// process isFirst nodes, adding them to the first node
@@ -30,28 +28,22 @@ public class GenotypeFamilyGraphTraverser
 		{
 			addChildrenFromConnection(node, conn);
 		}
-		// apply selfRecursion (does nothing if selfRecusion is 0)
-		GenotypeNode currentNode = node;
-		for (int i = 0; i < root.selfRecursion; i++)
+		if (recurse > 0)
 		{
-			currentNode = CreateSingleNode(root);
-			foreach (GenotypeFamilyConnection conn in root.connections.FindAll(c => !c.isFirst && !c.terminalOnly))
-			{
-				addChildrenFromConnection(currentNode, conn);
-			}
-			node.children.Add(currentNode);
+			node.children.Add(TraverseFamilyGraph(root, recurse - 1));
 		}
 		foreach (GenotypeFamilyConnection conn in root.connections.FindAll(c => c.terminalOnly))
 		{
 			// process terminalOnly nodes on the lastNode
-			addChildrenFromConnection(currentNode, conn);
+			addChildrenFromConnection(node, conn);
 		}
 		return node;
 	}
 
 	private void addChildrenFromConnection(GenotypeNode node, GenotypeFamilyConnection conn)
 	{
-		GenotypeNode child = TraverseFamilyGraph(conn.GetChild());
+		GenotypeFamilyNode familyNode = conn.GetChild();
+		GenotypeNode child = TraverseFamilyGraph(familyNode, familyNode.selfRecursion);
 
 		Vector3[] rotation = Utility.GetSymmetricalRotations(child.rotateFromParent, conn.symmetry);
 		Vector3[] translate = Utility.GetSymmetricalTranslations(child.translateFromParent, conn.symmetry);

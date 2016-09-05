@@ -18,7 +18,7 @@ public class GenotypeFamilyConnection : GenotypeFamilyComponent, IComparable<Gen
 
 	// If greater than 1, then it represents a set of "symmetry"" symmetrical connections to child appendages.
 	// For example, 2 means bilateral symmetry.
-	public int symmetry = 0;
+	public int symmetry = 1;
 
 	// transform from parent (position, orientation, scale)
 	public Vector3 translateFromParent;
