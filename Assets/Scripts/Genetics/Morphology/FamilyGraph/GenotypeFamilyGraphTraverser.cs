@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 /**
@@ -11,9 +8,7 @@ using UnityEngine;
 public class GenotypeFamilyGraphTraverser
 {
 	/**  Constructor  */
-	public GenotypeFamilyGraphTraverser()
-	{
-	}
+	public GenotypeFamilyGraphTraverser() {}
 
 	/** 
 	 * @param root the root of a family graph
@@ -72,6 +67,7 @@ public class GenotypeFamilyGraphTraverser
 	private GenotypeNode CreateSingleNode(GenotypeFamilyNode fNode)
 	{
 		GenotypeNode node = new GenotypeNode();
+		node.type = fNode.name;
 		node.dimensions = Utility.RandomVector3(fNode.minDimension, fNode.maxDimension);
 		node.translateFromParent = Utility.RandomVector3(fNode.translateFromParent);
 		node.rotateFromParent = Utility.RandomVector3();

@@ -17,6 +17,8 @@ public class GenotypeNode
 	public Vector3 dimensions;
 	public Vector3 translateFromParent;
 	public Vector3 rotateFromParent;  // eulerAngles
+	// the node type is based on the family node name
+	public string type;
 
 	public List<GenotypeNode> children = new List<GenotypeNode>();
 
@@ -26,6 +28,11 @@ public class GenotypeNode
 		newNode.dimensions = Utility.Copy(this.dimensions);
 		newNode.translateFromParent = Utility.Copy(this.translateFromParent);
 		newNode.rotateFromParent = Utility.Copy(this.rotateFromParent);
+
+		foreach (GenotypeNode child in this.children)
+		{
+			newNode.children.Add(child.Copy());
+		}
 		return newNode;
 	}
 }

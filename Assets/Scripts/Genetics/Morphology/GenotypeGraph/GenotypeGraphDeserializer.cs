@@ -25,6 +25,7 @@ public class GenotypeGraphDeserializer
 	{
 		GenotypeNode node = new GenotypeNode();
 
+		node.type = (contents["type"] != null) ? contents["type"].ToString() : "---";
 		node.dimensions = new Vector3(
 			float.Parse(contents["dimensions"]["x"].ToString()),
 			float.Parse(contents["dimensions"]["y"].ToString()),

@@ -61,8 +61,6 @@ public class Phenotype
 		torso.transform.position = transform.position;
 		torso.transform.eulerAngles = transform.eulerAngles;
 
-		torso.AddComponent<Rigidbody>();
-
 		CreateMorphology(chromosome.getGraph(), torso, null, 0, 0);
 
 		torso_script = torso.AddComponent<Torso>();

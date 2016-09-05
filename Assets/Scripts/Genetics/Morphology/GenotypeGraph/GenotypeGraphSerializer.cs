@@ -27,11 +27,13 @@ public class GenotypeGraphSerializer
 		string node_json = @"" + indent + "{";  // open node
 
 		string node_string = @"
-{9}""dimensions"" : {{ ""x"": {0}, ""y"": {1}, ""z"": {2} }},
-{9}""rotateFromParent"" : {{ ""x"": {3}, ""y"": {4}, ""z"": {5} }},
-{9}""translateFromParent"" : {{ ""x"": {6}, ""y"": {7}, ""z"": {8} }}";
+{10}""type"" : {0},
+{10}""dimensions"" : {{ ""x"": {1}, ""y"": {2}, ""z"": {3} }},
+{10}""rotateFromParent"" : {{ ""x"": {4}, ""y"": {5}, ""z"": {6} }},
+{10}""translateFromParent"" : {{ ""x"": {7}, ""y"": {8}, ""z"": {9} }}";
 
 		string[] l_args = {
+			'"' + root.type + '"',
 			root.dimensions.x.ToString(), root.dimensions.y.ToString(), root.dimensions.z.ToString(),
 			root.rotateFromParent.x.ToString(), root.rotateFromParent.y.ToString(), root.rotateFromParent.z.ToString(),
 			root.translateFromParent.x.ToString(), root.translateFromParent.y.ToString(), root.translateFromParent.z.ToString(), indent + INDENT
