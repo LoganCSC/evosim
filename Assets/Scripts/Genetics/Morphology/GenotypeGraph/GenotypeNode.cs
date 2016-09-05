@@ -25,6 +25,7 @@ public class GenotypeNode
 	public GenotypeNode Copy()
 	{
 		GenotypeNode newNode = new GenotypeNode();
+		newNode.type = this.type;
 		newNode.dimensions = Utility.Copy(this.dimensions);
 		newNode.translateFromParent = Utility.Copy(this.translateFromParent);
 		newNode.rotateFromParent = Utility.Copy(this.rotateFromParent);
