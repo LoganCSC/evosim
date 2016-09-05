@@ -77,10 +77,10 @@ public class Settings : MonoBehaviour {
 		return instance;
 	}
 
-	public Vector3 getRandomBodyScale()
-	{
-		return getRandomScale(min_body_scale, max_body_scale);
-	}
+	//public Vector3 getRandomBodyScale()
+	//{
+	//	return getRandomScale(min_body_scale, max_body_scale);
+	//}
 
 	public Vector3 getRandomScale(Vector3 minVec, Vector3 maxVec)
 	{
@@ -95,7 +95,7 @@ public class Settings : MonoBehaviour {
 		JsonData ether = contents["ether"];
 		JsonData foodbit = contents["foodbit"];
 		JsonData genetics = contents["genetics"];
-
+		/*
 		max_body_scale = new Vector3();
 		max_body_scale.x = float.Parse(creature["body"]["max_body_scale"]["x"].ToString());
 		max_body_scale.y = float.Parse(creature["body"]["max_body_scale"]["y"].ToString());
@@ -105,6 +105,7 @@ public class Settings : MonoBehaviour {
 		min_body_scale.x = float.Parse(creature["body"]["min_body_scale"]["x"].ToString());
 		min_body_scale.y = float.Parse(creature["body"]["min_body_scale"]["y"].ToString());
 		min_body_scale.z = float.Parse(creature["body"]["min_body_scale"]["z"].ToString());
+		*/
 
 		creature_init_energy = float.Parse(creature["init_energy"].ToString());
 		branch_limit = (int)creature["branch_limit"];

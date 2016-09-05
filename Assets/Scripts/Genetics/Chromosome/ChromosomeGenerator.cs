@@ -24,8 +24,8 @@ public class ChromosomeGenerator
 		chromosome.setBodyColour(col);
 		chromosome.setLimbColour(col);
 
-		Vector3 bodyScale = settings.getRandomBodyScale();
-		chromosome.setBodyScale(bodyScale);
+		//Vector3 bodyScale = settings.getRandomBodyScale();
+		//chromosome.setBodyScale(bodyScale);
 
 		// create phenotype graph based on the genotype family graph generator
 		GenotypeFamilyNode familyGraph = settings.gfg_generator.CreateGenotypeFamilyGraph();

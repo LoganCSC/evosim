@@ -31,7 +31,7 @@ public class Mutator
 	private Chromosome mutate(Chromosome newChromo, double rate, float factor)
 	{
 		mutateColor(newChromo, rate, factor);
-		mutateBodyScale(newChromo, rate, factor);
+		//mutateBodyScale(newChromo, rate, factor);
 		////mutateLimbs(newChromo, rate, factor);
 		//mutateGenotypeGraph(newChromo, rate, factor);
 		newChromo.setGraph(chromo.getGraph()); // do nothing for now
@@ -56,7 +56,7 @@ public class Mutator
 		}
 		newChromo.setBodyColour(new Color(cs[0], cs[1], cs[2]));
 	}
-
+	/*
 	private void mutateBodyScale(Chromosome newChromo, double rate, float factor)
 	{
 		Vector3 rc = newChromo.getBodyScale();
@@ -76,7 +76,7 @@ public class Mutator
 			Vector3 bodyScale = new Vector3(rs[0], rs[1], rs[2]);
 			newChromo.setBodyScale(bodyScale);
 		}
-	}
+	}*/
 
 	/*
 	private void mutateLimbs(Chromosome newChromo, double rate, float factor)

@@ -39,13 +39,13 @@ public class Chromosome
 	{
 		limb_colour = c;
 	}
-
+	/*
 	public Vector3 getBodyScale() {
 		return body_scale;
 	}
 	public void setBodyScale(Vector3 bs) {
 		body_scale = bs;
-	}
+	}*/
 
 	public void setBaseFequency(float freq) {
 		base_joint_frequency = freq;

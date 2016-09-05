@@ -62,12 +62,12 @@ public class Phenotype
 		torso.transform.eulerAngles = transform.eulerAngles;
 
 		torso.AddComponent<Rigidbody>();
+
+		CreateMorphology(chromosome.getGraph(), torso, null, 0, 0);
+
 		torso_script = torso.AddComponent<Torso>();
 		torso_script.setColour(chromosome.getBodyColour());
 		//torso_script.setScale(chromosome.getBodyScale());
-		//if (chromosome.getBodyScale().x == 0)
-		//   Debug.Log("torso scale = " + chromosome.getBodyScale());
-
 
 		//torso.rigidbody.mass = 15F;
 		torso.GetComponent<Rigidbody>().angularDrag = settings.angular_drag;
@@ -76,7 +76,7 @@ public class Phenotype
 		// Are creatures made of lead (40) or styrophoam (0.4)?
 		torso.GetComponent<Rigidbody>().SetDensity(4F);
 
-		CreateMorphology(chromosome.getGraph(), torso, null, 0, 0);
+		
 
 		return torso;
 	}
