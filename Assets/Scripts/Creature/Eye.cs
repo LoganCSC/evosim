@@ -38,15 +38,6 @@ public class Eye : MonoBehaviour
 				break;
 		}
 	}
-
-	private float similar_colour(Chromosome c1, Chromosome c2)
-	{
-		Color colour1 = c1.getBodyColour();
-		Color colour2 = c2.getBodyColour();
-
-		//return Mathf.Abs((colour1.r * colour2.r) - (colour1.g * colour2.g) - (colour1.b * colour2.b)); // this seems wrong
-		return Mathf.Abs(Mathf.Abs(colour1.r - colour2.r) + Mathf.Abs(colour1.g - colour2.g) + Mathf.Abs(colour1.b - colour2.b));
-	}
 	
 	void closestFoodbit ()
 	{
@@ -81,8 +72,7 @@ public class Eye : MonoBehaviour
 			{
 				other_crt = c.transform.parent.GetComponent<Creature>();
 				Vector3 distDiff = c.transform.position - transform.position;
-				float similarityDiff = similar_colour(crt.chromosome, other_crt.chromosome); // avoid mating with relatives
-				if (distDiff.magnitude < (float)settings.crt_mate_range && similarityDiff > 0.5 && RND.NextDouble() < 0.5)
+				if (distDiff.magnitude < (float)settings.crt_mate_range  && RND.NextDouble() < 0.4)
 				{
 					//Debug.Log("crt1: " + crt + " other crt: " + other_crt + " diff.magnitude=" + distDiff.magnitude + " similarityDiff =" + similarityDiff);
 					//observer.DoMating(crt, other_crt);

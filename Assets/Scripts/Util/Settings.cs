@@ -173,8 +173,8 @@ public class Settings : MonoBehaviour {
 			print("Graph: \n" + output);
 
 			// now read it in with deserializer and writ it out again
-			GenotypeNode graph2 = new GenotypeGraphDeserializer().readFromJson("{" + output + "}");
-			print("Graph2:: " + serializer.writeAsJsonProperty("graph2", graph2, "  "));
+			//GenotypeNode graph2 = new GenotypeGraphDeserializer().readFromJson("{" + output + "}");
+			//print("Graph2:: " + serializer.writeAsJsonProperty("graph2", graph2, "  "));
 		}
 	}
 }

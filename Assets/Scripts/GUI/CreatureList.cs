@@ -11,7 +11,7 @@ public class CreatureList : MonoBehaviour
 	void Start () {}
 	
 	/*
-	// I did not think that this was needed, but wiuthout it there is a SavedCreature npe.
+	// I did not think that this was needed, but without it there is a SavedCreature npe.
 	void OnEnable ()
 	{
 		SveCreature.CreatureSved += OnUpdate;
